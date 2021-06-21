@@ -3,7 +3,7 @@ name: KTP 회고 양식
 about: KTP 회고 양식
 title: "[KPT] __주차 __요일"
 labels: ''
-assignees: solheee, chanyang721, hihello1123, pmg7522
+assignees: chanyang721, hihello1123, pmg7522, solheee
 
 ---
 

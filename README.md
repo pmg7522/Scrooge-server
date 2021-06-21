@@ -1,1 +1,2 @@
-# im28project06-server
+# Scrooge-server
+

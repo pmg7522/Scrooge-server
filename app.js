@@ -28,8 +28,8 @@ app.post("/login", controllers.login);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);
 app.get("/initialize", controllers.initialize);
-app.get("/kakaologin", controllers.kakaologin);
-app.get("/googlelogin", controllers.googlelogin);
+app.post("/kakaologin", controllers.kakaologin);
+app.post("/googlelogin", controllers.googlelogin);
 
 // settings
 app.post("/darkmode", controllers.darkmode);

@@ -60,22 +60,22 @@ app.get("/", (req, res) => {
 // // year
 // app.get("/getyearlydata", controllers.getyearlydata);
 
-// let server;
-
-// server = app.listen(port, () => {
-//     console.log(`서버가 ${port}번에서 작동중입니다.`)
-// })
 let server;
-if(fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")){
 
-  const privateKey = fs.readFileSync(__dirname + "/key.pem", "utf8");
-  const certificate = fs.readFileSync(__dirname + "/cert.pem", "utf8");
-  const credentials = { key: privateKey, cert: certificate };
+server = app.listen(port, () => {
+    console.log(`서버가 ${port}번에서 작동중입니다.`)
+})
+// let server;
+// if(fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")){
 
-  server = https.createServer(credentials, app);
-  server.listen(port, () => console.log("server runnning"));
+//   const privateKey = fs.readFileSync(__dirname + "/key.pem", "utf8");
+//   const certificate = fs.readFileSync(__dirname + "/cert.pem", "utf8");
+//   const credentials = { key: privateKey, cert: certificate };
 
-} else {
-  server = app.listen(port)
-}
+//   server = https.createServer(credentials, app);
+//   server.listen(port, () => console.log("server runnning"));
+
+// } else {
+//   server = app.listen(port)
+// }
 module.exports = server;

@@ -2,12 +2,17 @@ require("dotenv").config();
 const cors = require("cors");
 const controllers = require("./controllers");
 const cookieParser = require("cookie-parser");
+const models = require("./models");
 const express = require("express")
+
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: true,
     methods: ["GET", "POST", "OPTIONS", "DELETE"],
     credentials: true
 }));
@@ -17,9 +22,9 @@ app.use(cookieParser());
 const port = 3000; // 배포환경 http: 80 // https: 443
 
 // users
-app.post("/signup", controllers.signup);
+app.post("/signup", upload.single('photo'), controllers.signup);
+app.post("/fixuserinfo", upload.single('photo'), controllers.fixuserinfo);
 app.post("/login", controllers.login);
-app.post("/fixuserinfo", controllers.fixuserinfo);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);
 app.get("/initialize", controllers.initialize);

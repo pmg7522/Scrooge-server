@@ -2,7 +2,6 @@ const axios = require("axios");
 const { user } = require("../../models");
 
 module.exports = (req, res) => {
-    console.log(req)
     const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
     const KAKAO_CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET;
     const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
@@ -23,7 +22,6 @@ module.exports = (req, res) => {
         }
       )
       .then((response) => {
-        console.log(response)
         const { access_token, token_type, refresh_token } = response.data;
         const KAKAO_USERINFO_URL = `https://kapi.kakao.com/v2/user/me`;
         return axios
@@ -35,18 +33,16 @@ module.exports = (req, res) => {
           },
         })
         .then(async (response) => {
-          console.log(response.data)
           if (response.data.kakao_account) {
             kakaoUserInfo.email = response.data.kakao_account.email;
-            kakaoUserInfo.nickname = response.data.kakao_account.profile.username;
+            kakaoUserInfo.username = response.data.kakao_account.profile.nickname;
           }
-          
           return res.
           status(200)
           .cookie("refreshToken", refresh_token, {
             httpOnly: true
           })
-          .send({ user: kakaoUserInfo, accessToken: access_token })
+          .send({ user: kakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
         })
     })
     .catch((e) => console.log(e));

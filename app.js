@@ -25,11 +25,11 @@ const port = 3000; // 배포환경 http: 80 // https: 443
 app.post("/signup", upload.single('photo'), controllers.signup);
 app.post("/fixuserinfo", upload.single('photo'), controllers.fixuserinfo);
 app.post("/login", controllers.login);
+app.post("/kakaologin", controllers.kakaologin);
+app.post("/googlelogin", controllers.googlelogin);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);
 app.get("/initialize", controllers.initialize);
-app.post("/kakaologin", controllers.kakaologin);
-app.post("/googlelogin", controllers.googlelogin);
 
 // settings
 app.post("/darkmode", controllers.darkmode);

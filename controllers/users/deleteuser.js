@@ -12,17 +12,7 @@ module.exports = async (req, res) => {
     const token = authorization.split(' ')[1];
     const data = jwt.verify(token, process.env.ACCESS_SECRET);
 
-    const joinId = await tag_store.findAll({ where: { storeId: data.storeId }})
-    const joinInfo = joinId.map(el => el.dataValues.tagId)
-
-    for(let el of joinInfo){
-        await tag.destroy({ where: { id: el }})
-    }
-
     await user.destroy({ where: { id: data.id }})
-    await store.destroy({ where: { id: data.storeId }})
-    await item.destroy({ where: { storeId: data.storeId }})
-    await tag_store.destroy({ where: { storeId: data.storeId }})
 
     return res.status(205).send({ "message": '회원탈퇴 완료' })
 }

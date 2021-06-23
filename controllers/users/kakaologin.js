@@ -40,6 +40,8 @@ module.exports = (req, res) => {
           return res.
           status(200)
           .cookie("refreshToken", refresh_token, {
+            sameSite: "none",
+            secure: true,
             httpOnly: true
           })
           .send({ user: kakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })

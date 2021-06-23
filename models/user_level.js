@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.user_level.belongsTo(models.user, { foreignKey: "userId" })
-      models.user_level.belongsTo(models.level, { foreignKey: "levelId" })
+      models.user_level.belongsTo(models.user, { foreignKey: "userId", onDelete: 'CASCADE' })
+      models.user_level.belongsTo(models.level, { foreignKey: "levelId", onDelete: 'CASCADE' })
     }
   };
   user_level.init({

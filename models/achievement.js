@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.achievement.belongsTo(models.user, { foreignKey: "userId" })
+      models.achievement.belongsTo(models.user, { foreignKey: "userId", onDelete: 'CASCADE' })
     }
   };
   achievement.init({

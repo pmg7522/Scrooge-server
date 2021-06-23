@@ -2,7 +2,7 @@ require("dotenv").config();
 const cors = require("cors");
 const controllers = require("./controllers");
 const cookieParser = require("cookie-parser");
-const models = require("./models");
+const express = require("express")
 const app = express();
 
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(cors({
 
 app.use(cookieParser());
 
-const port = 3000;
+const port = 3000; // 배포환경 http: 80 // https: 443
 
 // users
 app.post("signup", controllers.signup);

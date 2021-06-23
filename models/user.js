@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     photo: DataTypes.STRING,
     dark: DataTypes.BOOLEAN,
     redirect: DataTypes.STRING,
-    exp: DataTypes.INTEGER
+    experience: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'user',

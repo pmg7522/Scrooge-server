@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: "/"
       },
-      exp: {
+      experience: {
         type: Sequelize.INTEGER,
         defaultValue: 0
       },

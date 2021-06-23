@@ -6,9 +6,7 @@ dotenv.config();
 
 module.exports = async (req, res) => {
     const { email, password } = req.body
-    const userInfo = await user.findOne({
-        where: { email }
-    })
+    const userInfo = await user.findOne({ where: { email } })
 
     if (!userInfo) {
         return res.status(404).send({ message: "찾을 수 없는 유저입니다." });

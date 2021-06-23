@@ -21,13 +21,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       dark: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       redirect: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "/"
       },
       exp: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,

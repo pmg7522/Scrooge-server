@@ -16,14 +16,14 @@ module.exports = async (req, res) => {
     
     const token = authorization.split(" ")[1];
     const data = jwt.verify(token, process.env.ACCESS_SECRET);
-    console.log(data.id)
     // findAll -> include: [ model: money, attributes: ["id", "cost", "memo", "date"]]
     // data.id 와 같은 money 테이블, 카테고리 테이블의 정보를 모두 가져온다. 
-    const test = await money.findAll({
-        include: [{ model: category, attributes: ["id", "categoryname"] }],
+    const categoryId = await category.findAll({ where: { userId: data.id }, raw: true })
+
+    const categoryInfo = await category.findAll({
+        // group: "categoryId",
+        include: [{ model: money, attributes: ["memo", "cost"], raw: true }]
     })
-    const test1 = await money.findAll({ where: { userId: data.id } })
-    console.log(test)
-    console.log(test1)
-    
+    res.send(categoryInfo[1].money)
+    // const test1 = await money.findAll({ where: { categoryId: id } })
 }

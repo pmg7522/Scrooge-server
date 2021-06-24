@@ -14,6 +14,23 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+     await queryInterface.bulkInsert('money', [{
+        cost: "1",
+        memo: "피자",
+        date: "2021-06-20",
+        userId: "1",
+        categoryId: "1",
+        createdAt,
+        updatedAt,
+     },{
+      cost: "10",
+      memo: "치킨",
+      date: "2021-06-20",
+      userId: "1",
+      categoryId: "1",
+      createdAt,
+      updatedAt,
+     }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -23,5 +40,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+     await queryInterface.bulkDelete('money', null, {});
   }
 };

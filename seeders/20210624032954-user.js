@@ -16,20 +16,9 @@ module.exports = {
     */
      await queryInterface.bulkInsert('users', [
       {
-      username: 'John Doe',
-      email: false,
-      password: "1234",
-      photo: "11",
-      darkmode: false,
-      redirect: "/",
-      experience: 0,
-      createdAt,
-      updatedAt,
-      },
-      {
         username: 'chanyang',
-        email: false,
-        password: "1234",
+        email: "1",
+        password: "1",
         photo: "11111",
         darkmode: false,
         redirect: "/",
@@ -47,6 +36,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     await queryInterface.bulkDelete('user', null, {});
+     await queryInterface.bulkDelete('users', null, {});
   }
 };

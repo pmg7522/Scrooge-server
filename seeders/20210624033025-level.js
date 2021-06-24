@@ -14,7 +14,13 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-
+     await queryInterface.bulkInsert('levels', [{
+      level: "1",
+      theme: false,
+      dataexplore: false,
+      createdAt,
+      updatedAt,
+   }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -24,6 +30,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-
+     await queryInterface.bulkDelete('levels', null, {});
   }
 };

@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { user } = require("../../models");
 
 module.exports = (req, res) => {
     const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
@@ -32,7 +31,7 @@ module.exports = (req, res) => {
             accept: "application/json",
           },
         })
-        .then(async (response) => {
+        .then((response) => {
           if (response.data.kakao_account) {
             kakaoUserInfo.email = response.data.kakao_account.email;
             kakaoUserInfo.username = response.data.kakao_account.profile.nickname;

@@ -1,8 +1,6 @@
-const { user } = require('../../models');
-const jwt = require('jsonwebtoken');
-const dotenv = require("dotenv");
-const crypto = require('crypto');
-dotenv.config();
+const { user } = require("../../models");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 module.exports = async (req, res) => {
     const { email, password } = req.body
@@ -14,19 +12,19 @@ module.exports = async (req, res) => {
         return res.status(404).send({ message: "찾을 수 없는 유저입니다." });
     }
 
-    const hash = crypto.createHmac('sha256', process.env.SALT).update(password).digest('hex');
+    const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
 
     if (hash !== userInfo.dataValues.password) {
-      return res.status(404).send({ message: '정확한 정보를 입력해 주십시오.' })
+      return res.status(404).send({ message: "정확한 정보를 입력해 주십시오." })
     }
 
     else {
       delete userInfo.dataValues.password
       const accessToken = jwt.sign(userInfo.dataValues, process.env.ACCESS_SECRET, {
-        expiresIn: '1h'
+        expiresIn: "1h"
       });
       const refreshToken = jwt.sign(userInfo.dataValues, process.env.REFRESH_SECRET, {
-        expiresIn: '2h'
+        expiresIn: "2h"
       });
 
     return res

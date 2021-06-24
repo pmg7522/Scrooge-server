@@ -74,7 +74,7 @@ server = app.listen(port, () => {
 //   const credentials = { key: privateKey, cert: certificate };
 
 //   server = https.createServer(credentials, app);
-//   server.listen(port, () => console.log("server runnning"));
+//   server.listen(port, () => console.log(`https 서버가 ${port}번에서 작동중입니다.`));
 
 // } else {
 //   server = app.listen(port)

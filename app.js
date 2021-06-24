@@ -23,43 +23,43 @@ app.use(cors({
 app.use(cookieParser());
 const port = 3000; // 배포환경 http: 80 // https: 443
 
-app.get("/", (req, res) => {
-    console.log("Hello World")
-    res.status(200).send("Hello World")
-})
+// app.get("/", (req, res) => {
+//     console.log("Hello World")
+//     res.status(200).send("Hello World")
+// })
 
-// // users
-// app.post("/signup", upload.single('photo'), controllers.signup);
-// app.post("/fixuserinfo", upload.single('photo'), controllers.fixuserinfo);
-// app.post("/login", controllers.login);
-// app.post("/kakaologin", controllers.kakaologin);
-// app.post("/googlelogin", controllers.googlelogin);
-// app.get("/signout", controllers.signout);
-// app.get("/deleteuser", controllers.deleteuser);
-// app.get("/initialize", controllers.initialize);
+// users
+app.post("/signup", upload.single('photo'), controllers.signup);
+app.post("/fixuserinfo", upload.single('photo'), controllers.fixuserinfo);
+app.post("/login", controllers.login);
+app.post("/kakaologin", controllers.kakaologin);
+app.post("/googlelogin", controllers.googlelogin);
+app.get("/signout", controllers.signout);
+app.get("/deleteuser", controllers.deleteuser);
+app.get("/initialize", controllers.initialize);
 
-// // settings
-// app.post("/darkmode", controllers.darkmode);
-// app.post("/changemainpage", controllers.changemainpage);
-// app.get("/deletedata", controllers.deletedata);
+// settings
+app.post("/darkmode", controllers.darkmode);
+app.post("/changemainpage", controllers.changemainpage);
+app.get("/deletedata", controllers.deletedata);
 
-// // category
-// app.post("/fixcategoryinfo", controllers.fixcategoryinfo);
-// app.get("/budget", controllers.budget);
-// app.get("/deletecategory", controllers.deletecategory);
-// app.get("/getcategoryinfo", controllers.getcategoryinfo);
+// category
+app.post("/fixcategoryinfo", controllers.fixcategoryinfo);
+app.get("/budget", controllers.budget);
+app.get("/deletecategory", controllers.deletecategory);
+app.get("/getcategoryinfo", controllers.getcategoryinfo);
 
-// // day
-// app.post("/editspendmoney", controllers.editspendmoney);
-// app.post("/createspendmoney", controllers.createspendmoney);
-// app.post("/deletespendmoney", controllers.deletespendmoney);
-// app.get("/daypage", controllers.daypage);
+// day
+app.post("/editspendmoney", controllers.editspendmoney);
+app.post("/createspendmoney", controllers.createspendmoney);
+app.post("/deletespendmoney", controllers.deletespendmoney);
+app.get("/daypage", controllers.daypage);
 
-// // month
-// app.get("/getmonthlydata", controllers.getmonthlydata);
+// month
+app.get("/getmonthlydata", controllers.getmonthlydata);
 
-// // year
-// app.get("/getyearlydata", controllers.getyearlydata);
+// year
+app.get("/getyearlydata", controllers.getyearlydata);
 
 let server;
 

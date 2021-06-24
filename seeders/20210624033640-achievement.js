@@ -1,5 +1,8 @@
 'use strict';
 
+const createdAt = new Date();
+const updatedAt = new Date();
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     /**
@@ -11,6 +14,12 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+     await queryInterface.bulkInsert('achievements', [{
+      scrooge: "25",
+      userId: "1",
+      createdAt,
+      updatedAt,
+   }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -20,5 +29,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+     await queryInterface.bulkDelete('achievements', null, {});
   }
 };

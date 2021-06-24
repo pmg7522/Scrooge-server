@@ -15,6 +15,8 @@ module.exports = {
 
     googlelogin: require("./users/googlelogin"),
 
+    checkemail: require("./users/checkemail"), 
+
     darkmode: require("./settings/darkmode"),
 
     changemainpage: require("./settings/changemainpage"),

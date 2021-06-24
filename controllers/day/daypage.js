@@ -19,11 +19,6 @@ module.exports = async (req, res) => {
     console.log(data.id)
     // findAll -> include: [ model: money, attributes: ["id", "cost", "memo", "date"]]
     // data.id 와 같은 money 테이블, 카테고리 테이블의 정보를 모두 가져온다. 
-    const test = await money.findAll({
-        include: [{ model: category, attributes: ["id", "categoryname"] }],
-    })
-    const test1 = await money.findAll({ where: { userId: data.id } })
-    console.log(test)
-    console.log(test1)
+    
     
 }

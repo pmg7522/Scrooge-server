@@ -21,7 +21,7 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
-const port = 3001; // 배포환경 http: 80 // https: 443
+const port = 3000; // 배포환경 http: 80 // https: 443
 
 app.get("/", (req, res) => {
     console.log("Hello World")
@@ -34,6 +34,7 @@ app.post("/fixuserinfo", upload.single('photo'), controllers.fixuserinfo);
 app.post("/login", controllers.login);
 app.post("/kakaologin", controllers.kakaologin);
 app.post("/googlelogin", controllers.googlelogin);
+app.post("/checkemail", controllers.checkemail);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);
 app.get("/initialize", controllers.initialize);

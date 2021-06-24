@@ -20,7 +20,7 @@ module.exports = {
       photo: {
         type: Sequelize.STRING
       },
-      dark: {
+      darkmode: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },

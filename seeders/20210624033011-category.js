@@ -20,7 +20,31 @@ module.exports = {
         userId: "1",
         createdAt,
         updatedAt,
-     }], {});
+     }, {
+      categoryname: 'life',
+      budget: "10",
+      userId: "1",
+      createdAt,
+      updatedAt,
+   }, {
+    categoryname: 'clothes',
+    budget: "10",
+    userId: "1",
+    createdAt,
+    updatedAt,
+ }, {
+  categoryname: 'foods',
+  budget: "10",
+  userId: "2",
+  createdAt,
+  updatedAt,
+ }, {
+  categoryname: 'play',
+  budget: "100",
+  userId: "2",
+  createdAt,
+  updatedAt,
+}], {});
     
   },
 

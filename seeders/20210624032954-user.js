@@ -25,6 +25,17 @@ module.exports = {
         experience: 0,
         createdAt,
         updatedAt,
+      },
+      {
+        username: 'mingyu',
+        email: "2",
+        password: "2",
+        photo: "11111",
+        darkmode: false,
+        redirect: "/",
+        experience: 0,
+        createdAt,
+        updatedAt,
       }
   ], {});
   },

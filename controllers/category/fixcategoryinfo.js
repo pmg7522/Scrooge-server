@@ -1,9 +1,8 @@
-const { user, money, achievement, category, level } = require('../../models');
-const jwt = require("jsonwebtoken");
+const { category } = require('../../models');
 const dotenv = require("dotenv");
 dotenv.config();
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     const{ categoryId, categoryname, budget } = req.body;
 
     const authorization = req.headers["authorization"];

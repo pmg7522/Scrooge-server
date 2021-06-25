@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     const{ categoryname, budget } = req.body;
 
     const authorization = req.headers["authorization"];

@@ -5,5 +5,5 @@ module.exports = (req, res) => {
         return res.status(401).send({ "message": 'invalid access token'})
     }
 
-    res.status(200).cookie('refreshToken', '').send({ message: "로그아웃 완료" });
+    return res.status(200).cookie('refreshToken', '').send({ message: "로그아웃 완료" });
 }

@@ -15,6 +15,6 @@ module.exports = async (req, res) => {
 
   const { username, email, photo, experience, darkmode } = await user.findOne({ where: { id: data.id }, raw: true})
 
-  res.status(200).send({ data: 
+  return res.status(200).send({ data: 
     { userInfo: { username, email, photo, experience }}, userset: { darkmode }})
 }

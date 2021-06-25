@@ -3,7 +3,7 @@ const {
     generateAccessToken,
     resendAccessToken,
   } = require('../tokenFunctions');
-const { user, store, item, tag, tag_store } = require('../../models');
+const { user } = require('../../models');
 
 module.exports = (req, res) => {
 console.log(req.cookies)

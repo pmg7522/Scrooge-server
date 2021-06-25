@@ -1,6 +1,11 @@
 const axios = require("axios");
 
 module.exports = (req, res) => {
+
+    if (!req.body.authorizationCode) {
+      return res.status({ message: "Unauthorized" })
+    }
+
     const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
     const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
     const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
@@ -43,7 +48,7 @@ module.exports = (req, res) => {
             secure: true,
             httpOnly: true
           })
-          .send({ user: googleUserInfo, accessToken: access_token, refreshToken: refresh_token })
+          .send({ data: googleUserInfo, accessToken: access_token, refreshToken: refresh_token })
         })
     })
     .catch((e) => console.log(e));

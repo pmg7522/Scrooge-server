@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 
     const { categoryname } = req.body
 
-    await category.destroy({ where: { categoryname }})
+    await category.destroy({ where: { categoryname } })
     
     return res.status(205).send({ "message": '카테고리 삭제 완료' })
 }

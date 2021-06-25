@@ -44,14 +44,18 @@ module.exports = async (req, res) => {
     }
     ////////////////////////////////////////// Bottom //////////////////////////////////////////
 
-    const bottom = await money.findAll({ 
-        attributes: ["id", "memo","cost","date"],
-        include: [{ model: category, attributes: ["id", "categoryname"], where: { userId: data.id }}]
-        })
+    const bottom = await category.findAll({ 
+        include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
+        where: { userId: data.id }, raw: true })
+
+    const categoryList = await category.findAll({
+        attributes: ["id", "categoryname"],
+        where: { userId: data.id }})
 
     return res.status(200).send({ 
         data: { 
             top: { monthlyBudget, monthlyUsed, exMonthlyUsed }, 
-            bottom
+            bottom,
+            categoryList
         }})
 }

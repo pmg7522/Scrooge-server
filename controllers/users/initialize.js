@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
     const { username, email, photo, experience, darkmode } = await user.findOne({ where: { id: data.id }, raw: true})
   
     return res.status(200).send({ data: 
-      { userInfo: { username, email, photo, experience }}, userset: { darkmode }})
+      { userInfo: { username, email, photo, level: 1, experience }}, userset: { darkmode }})
   }
   return res.status(500).send({ message: "Internal Server Error" })
 }

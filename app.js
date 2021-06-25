@@ -34,6 +34,7 @@ app.post("/login", controllers.login);
 app.post("/kakaologin", controllers.kakaologin);
 app.post("/googlelogin", controllers.googlelogin);
 app.post("/checkemail", controllers.checkemail);
+app.get("/refreshTokenRequest", controllers.refreshTokenRequest);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);
 app.get("/initialize", controllers.initialize);

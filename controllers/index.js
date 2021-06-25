@@ -17,6 +17,8 @@ module.exports = {
 
     checkemail: require("./users/checkemail"), 
 
+    refreshTokenRequest: require("./users/refreshTokenRequest"),
+
     darkmode: require("./settings/darkmode"),
 
     changemainpage: require("./settings/changemainpage"),

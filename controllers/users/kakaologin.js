@@ -1,6 +1,10 @@
 const axios = require("axios");
 
 module.exports = (req, res) => {
+    if (!req.body.authorizationCode) {
+      return res.status(401).send({ message: "Unauthorized" })
+    }
+
     const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
     const KAKAO_CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET;
     const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
@@ -43,7 +47,7 @@ module.exports = (req, res) => {
             secure: true,
             httpOnly: true
           })
-          .send({ user: kakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
+          .send({ data: kakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
         })
     })
     .catch((e) => console.log(e));

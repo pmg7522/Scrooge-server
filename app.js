@@ -24,7 +24,6 @@ app.use(cookieParser());
 const port = 3000; // 배포환경 http: 80 // https: 443
 
 app.get("/", (req, res) => {
-    console.log("Hello World")
     res.status(200).json("Hello World")
 })
 

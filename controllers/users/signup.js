@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
         await user.create({ email, password: hash, username, photo: "/uploads/" + req.file.filename })
         return res.status(201).send({ "message": "회원가입 완료" })
-        })
+    })
     .catch(err => {
         console.log(err)
         res.status(500).send({ message: "Internal Server Error" })

@@ -21,7 +21,7 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
-const port = 3000; // 배포환경 http: 80 // https: 443
+const port = 3000; // 배포환경: 80
 
 app.get("/", (req, res) => {
     res.status(200).json("Hello World")
@@ -46,9 +46,9 @@ app.get("/deletedata", controllers.deletedata);
 
 // category
 app.post("/fixcategoryinfo", controllers.fixcategoryinfo);
+app.post("/getcategoryinfo", controllers.getcategoryinfo);
 app.get("/budget", controllers.budget);
 app.get("/deletecategory", controllers.deletecategory);
-app.get("/getcategoryinfo", controllers.getcategoryinfo);
 
 // day
 app.post("/editspendmoney", controllers.editspendmoney);

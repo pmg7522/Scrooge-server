@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = async (req, res) => {
-    const { cost, memo, categoryId } = req.body
+    const { moneyId, cost, memo, categoryId } = req.body
   
     const authorization = req.headers["authorization"];
     
@@ -16,13 +16,13 @@ module.exports = async (req, res) => {
     const data = jwt.verify(token, process.env.ACCESS_SECRET);
     
     if (data) {
+    await money.update({ cost, memo }, { where: { id: moneyId }})
+
     const categoryInfo = await category.findOne({ where: { id: categoryId }, raw: true})
-    const categoryInfoId = categoryInfo.id
     const categoryName = categoryInfo.categoryname
-    
-    await money.update({ cost, memo }, { where: { categoryId: categoryInfoId } })
-  
-    const newMoneyInfo = await money.findOne({ where: { categoryId: categoryInfoId, userId: data.id }, raw: true })
+
+
+    const newMoneyInfo = await money.findOne({ where: { id: moneyId, categoryId , userId: data.id }, raw: true })
     const newMoneyCost = newMoneyInfo.cost
     const newMoneyMemo = newMoneyInfo.memo
     const newMoneyDate = newMoneyInfo.date

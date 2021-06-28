@@ -1,7 +1,7 @@
 const { user } = require('../../models');
 const { isAuthorized } = require("../functions")
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     const { redirect } = req.body;
     const data = isAuthorized(req);
 

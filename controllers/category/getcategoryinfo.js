@@ -1,21 +1,20 @@
 const { category } = require('../../models');
-const jwt = require("jsonwebtoken");
+const { isAuthorized } = require("../functions");
 const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = async (req, res) => {
-    const{ categoryname, budget } = req.body;
-
-    const authorization = req.headers["authorization"];
+  const data = isAuthorized(req);
   
-    if (!authorization) { 
-      return res.status(401).send({ "message": "Unauthorized" })
+  if(data){
+      const{ categoryname, budget } = req.body;
+
+      await category.create({ categoryname, budget, userId: data.id });
+      
+      return res.status(201).send({ "message": "생성 완료" });
     }
-    
-    const token = authorization.split(" ")[1];
-    const data = jwt.verify(token, process.env.ACCESS_SECRET);
-
-    await category.create({ categoryname, budget, userId: data.id })
-
-    return res.status(201).send({ "message": "생성 완료" })
+    else{
+      console.log(err);
+      return res.status(500).send({ message: "We Don't Know" });
+    }
 }

@@ -1,7 +1,5 @@
 const { user } = require('../../models');
 const { isAuthorized } = require("../functions")
-const dotenv = require("dotenv");
-dotenv.config();
 
 module.exports = (req, res) => {
     const { redirect } = req.body;

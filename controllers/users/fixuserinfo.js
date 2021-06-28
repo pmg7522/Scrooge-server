@@ -5,7 +5,7 @@ const crypto = require("crypto");
 module.exports = async (req, res) => {
   const { username, password } = req.body;
 
-  const data = isAuthorized(req, res);
+  const data = isAuthorized(req);
 
   if (data) {
     // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");

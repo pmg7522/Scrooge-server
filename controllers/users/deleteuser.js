@@ -1,20 +1,18 @@
-const { user } = require("../../models");
-const jwt = require("jsonwebtoken");
+const { user, money } = require("../../models");
+const { isAuthorized } = require("../functions")
 
 module.exports = async (req, res) => {
-    const authorization = req.headers["authorization"];
+    const data = isAuthorized(req);
 
-    if (!authorization) { 
-        return res.status(401).send({ "message": 'invalid access token'})
-    }
-    else {
-        const token = authorization.split(" ")[1];
-        const data = jwt.verify(token, process.env.ACCESS_SECRET);
+    if(data){
+        await money.destroy({ where: { userId: data.id } })
     
         await user.destroy({ where: { id: data.id }})
     
         return res.status(205).send({ "message": '회원탈퇴 완료' })
     }
-
-    return res.status(500).send({ message: "Internal Server Error" })
+    else{
+        console.log(err)
+        return res.status(500).send({ message: "Internal Server Error" })
+    }
 }

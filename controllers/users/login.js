@@ -1,5 +1,5 @@
+const { generateAccessToken, generateRefreshToken, sendToken } = require('../functions');
 const { user } = require("../../models");
-const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 module.exports = async (req, res) => {
@@ -17,23 +17,9 @@ module.exports = async (req, res) => {
 
     else {
       delete userInfo.dataValues.password
-      const accessToken = jwt.sign(userInfo.dataValues, process.env.ACCESS_SECRET, {
-        expiresIn: "1h"
-      });
-      const refreshToken = jwt.sign(userInfo.dataValues, process.env.REFRESH_SECRET, {
-        expiresIn: "2h"
-      });
+      const accessToken = generateAccessToken(userInfo.dataValues);
+      const refreshToken = generateRefreshToken(userInfo.dataValues);
 
-    return res
-      .status(200)
-      .cookie("refreshToken", refreshToken, {
-        sameSite: "none",
-        secure: true,
-        httpOnly: true
-      })
-      .send({ 
-        message: "로그인 완료",
-        data: { accessToken, refreshToken }
-      })
+      sendToken(res, accessToken, refreshToken);
     }
   }

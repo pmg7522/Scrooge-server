@@ -1,18 +1,12 @@
-const {
-    checkRefeshToken,
-    generateAccessToken,
-    resendAccessToken,
-  } = require('../functions');
+const { checkRefeshToken, generateAccessToken, resendAccessToken } = require('../functions');
 const { user } = require('../../models');
 
 module.exports = (req, res) => {
-console.log(req.cookies)
 const refreshToken = req.cookies.refreshToken;
 
 if (!refreshToken) {
     return res.status(403).send({ message: 'refreshToken이 없습니다.' });
 }
-
 const refreshTokenData = checkRefeshToken(refreshToken);
 console.log(refreshTokenData)
   if (!refreshTokenData) {

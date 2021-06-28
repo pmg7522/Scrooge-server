@@ -1,12 +1,9 @@
-module.exports = (req, res) => {
-    const authorization = req.headers["authorization"];
+const { isAuthorized } = require('../functions');
 
-    if (!authorization) { 
-        return res.status(401).send({ "message": 'invalid access token'})
-    }
-    else {
-        return res.status(200).cookie('refreshToken', '').send({ message: "로그아웃 완료" });
-    }
+module.exports = (req, res) => {
+    const data = isAuthorized(req)
+    
+    if(data) res.status(200).cookie('refreshToken', '').send({ message: "로그아웃 완료" });
 
     return res.status(500).send({ message: "Internal Server Error" })
 }

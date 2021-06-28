@@ -1,10 +1,11 @@
+const { user } = require("../../models");
 const axios = require("axios");
 
 module.exports = (req, res) => {
     if (!req.body.authorizationCode) {
       return res.status(401).send({ message: "Unauthorized" })
     }
-
+    
     const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
     const KAKAO_CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET;
     const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
@@ -25,7 +26,7 @@ module.exports = (req, res) => {
         }
       )
       .then((response) => {
-        const { access_token, token_type, refresh_token } = response.data;
+        const { access_token, refresh_token } = response.data;
         const KAKAO_USERINFO_URL = `https://kapi.kakao.com/v2/user/me`;
         return axios
         .get(KAKAO_USERINFO_URL, {
@@ -35,20 +36,30 @@ module.exports = (req, res) => {
             accept: "application/json",
           },
         })
-        .then((response) => {
-          if (response.data.kakao_account) {
-            kakaoUserInfo.email = response.data.kakao_account.email;
-            kakaoUserInfo.username = response.data.kakao_account.profile.nickname;
+      .then(async (response) => {
+        if (response.data.kakao_account){
+          kakaoUserInfo.email = response.data.kakao_account.email;
+
+          const realKakaoUserInfo = await user.findOne({ where: { email: kakaoUserInfo.email } })
+
+          if (realKakaoUserInfo){              
+            return res.
+            status(200)
+            .cookie("refreshToken", refresh_token, {
+              sameSite: "none",
+              secure: true,
+              httpOnly: true
+            })
+            .send({ data: realKakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
           }
-          return res.
-          status(200)
-          .cookie("refreshToken", refresh_token, {
-            sameSite: "none",
-            secure: true,
-            httpOnly: true
-          })
-          .send({ data: kakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
-        })
+          else{
+            return res.status(200).send({ data: kakaoUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." })
+          }
+        }
+        else{
+          return res.status(500).send({ message: "카카오톡 유저정보 없음" })
+        }
+      })
     })
-    .catch((e) => console.log(e));
+  .catch((e) => console.log(e));
 };

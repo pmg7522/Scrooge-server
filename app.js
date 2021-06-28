@@ -44,7 +44,7 @@ app.get("/deletedata", controllers.deletedata);
 // category
 app.post("/fixcategoryinfo", controllers.fixcategoryinfo);
 app.post("/getcategoryinfo", controllers.getcategoryinfo);
-app.poat("/deletecategory", controllers.deletecategory);
+app.post("/deletecategory", controllers.deletecategory);
 app.get("/budget", controllers.budget);
 
 // day

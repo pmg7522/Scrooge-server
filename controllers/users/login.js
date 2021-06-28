@@ -17,6 +17,7 @@ module.exports = async (req, res) => {
 
     else {
       delete userInfo.dataValues.password
+      
       const accessToken = jwt.sign(userInfo.dataValues, process.env.ACCESS_SECRET, {
         expiresIn: "1h"
       });

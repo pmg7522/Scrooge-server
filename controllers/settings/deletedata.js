@@ -1,8 +1,18 @@
-const { user, money, achievement, category, level } = require('../../models');
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-dotenv.config();
+const { money, achievement, category } = require('../../models');
+const { isAuthorized } = require("../functions")
 
-module.exports = (req, res) => {
-    
+module.exports = async (req, res) => {
+    const data = isAuthorized(req);
+
+    if(data){
+        await category.destroy({ where: { userId: data.id } });
+        await money.destroy({ where: { userId: data.id } });
+        await achievement.destroy({ where: { userId: data.id } });
+
+        return res.status(205).send({ message: "데이터 삭제 완료" });
+    }
+    else{
+        console.log(err);
+        return res.status(500).send({ message: "We Don't Know" });
+    }
 }

@@ -6,10 +6,10 @@ dotenv.config();
 module.exports = async (req, res) => {
     const data = isAuthorized(req);
 
-    const moneyData = await money.findOne({ where: { userId: data.id } });
-    if(!moneyData){
-        return res.status(404).send({ message: "카테고리 정보나 지출 정보가 없습니다." });
-    }
+    // const moneyData = await money.findOne({ where: { userId: data.id } });
+    // if(!moneyData){
+    //     return res.status(409).send({ message: "카테고리 정보나 지출 정보가 없습니다." });
+    // }
 
     if(data){
         let month = new Date().getMonth()

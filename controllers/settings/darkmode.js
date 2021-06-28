@@ -1,8 +1,17 @@
-const { user, money, achievement, category, level } = require('../../models');
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-dotenv.config();
+const { user } = require('../../models');
+const { isAuthorized } = require("../functions")
 
-module.exports = (req, res) => {
-    
+module.exports = async (req, res) => {
+    const { darkmode } = req.body;
+    const data = isAuthorized(req);
+
+    if(data){
+        await user.update( { darkmode }, { where: { id: data.id } });
+
+        return res.status(200).send({ message: "다크모드 설정 변경 완료" });
+    }
+    else{
+        console.log(err);
+        return res.status(500).send({ message: "We Don't Know" });
+    }
 }

@@ -3,7 +3,7 @@ const axios = require("axios");
 
 module.exports = (req, res) => {
   if (!req.body.authorizationCode) {
-    return res.status({ message: "Unauthorized" })
+    return res.status({ message: "Unauthorized" });
   }
 
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -40,7 +40,7 @@ module.exports = (req, res) => {
         if (response.data) {
           googleUserInfo.email = response.data.email;
 
-          const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } })
+          const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } });
 
           if(realGoogleUser){
             return res.
@@ -50,14 +50,14 @@ module.exports = (req, res) => {
               secure: true,
               httpOnly: true
             })
-            .send({ data: realGoogleUser, accessToken: access_token, refreshToken: refresh_token })
+            .send({ data: realGoogleUser, accessToken: access_token, refreshToken: refresh_token });
           }
           else{
-            return res.status(200).send({ data: googleUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." })
+            return res.status(200).send({ data: googleUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." });
           }
         }
         else{
-          return res.status(500).send({ message: "구글 유저정보 없음" })
+          return res.status(500).send({ message: "구글 유저정보 없음" });
         }
       })
   })

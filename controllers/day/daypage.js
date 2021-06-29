@@ -8,9 +8,9 @@ module.exports = async (req, res) => {
         let month = new Date().getMonth()
         const categoryInfos = await category.findAll({
             attributes: ["budget", "createdAt"],
-            include: [{ model: money, attributes: ["cost"], raw: true }],
-            where: { userId: data.id }
-        })
+            include: [{ model: money, attributes: ["cost"] }],
+            where: { userId: data.id} , raw: true });
+        console.log(categoryInfos)
     
         let monthlyUsed = 0;
         let exMonthlyUsed = 0;
@@ -25,20 +25,21 @@ module.exports = async (req, res) => {
                 }});
         }
         else{
-            const categorymonth = categoryInfos.filter(el => el.dataValues.createdAt.getMonth() === month);
-            const categoryexmonth = categoryInfos.filter(el => el.dataValues.createdAt.getMonth() === month - 1);
+            const categorymonth = categoryInfos.filter(el => el.createdAt.getMonth() === month);
+            const categoryexmonth = categoryInfos.filter(el => el.createdAt.getMonth() === month - 1);
 
             if(categorymonth.length !== 0){
-                if(categorymonth[0].dataValues.money.length === 0){
+                if(categorymonth[0]["money.cost"] === undefined){
                     monthlyUsed = 0;
+                    monthlyBudget = 0;
                 }
                 else{
-                    const costs = categorymonth.map(el => el.dataValues.money[0].cost)
+                    const costs = categorymonth.map(el => el["money.cost"])
                     for(let i = 0; i < costs.length; i++){
                         monthlyUsed = monthlyUsed + costs[i]
                     }
 
-                    const budgets = categorymonth.map(el => el.dataValues.budget)
+                    const budgets = categorymonth.map(el => el.budget)
                     for(let i = 0; i < budgets.length; i++){
                         monthlyBudget = monthlyBudget + budgets[i]
                     }
@@ -46,11 +47,11 @@ module.exports = async (req, res) => {
             }
 
             if(categoryexmonth.length !== 0){
-                if(categoryexmonth[0].dataValues.money.length === 0){
+                if(categoryexmonth[0]["money.cost"] === undefined){
                     exMonthlyUsed = 0;
                 }
                 else{
-                    const exCosts = categoryexmonth.map(el => el.dataValues.money[0].cost)
+                    const exCosts = categoryexmonth.map(el => el["money.cost"])
                     for(let i = 0; i < exCosts.length; i++){
                         exMonthlyUsed = exMonthlyUsed + exCosts[i]
                     }
@@ -58,28 +59,30 @@ module.exports = async (req, res) => {
             }
 
             if(categorymonth.length !== 0 && categoryexmonth.length !== 0){
-                if(categorymonth[0].dataValues.money.length === 0 && categoryexmonth[0].dataValues.money.length === 0){
+                if(categorymonth[0].money.length === 0 && categoryexmonth[0].money.length === 0){
+                    monthlyBudget = 0;
                     monthlyUsed = 0;
                     exMonthlyUsed = 0;
                 }
                 else{
-                    const costs = categorymonth.map(el => el.dataValues.money[0].cost)
+                    const costs = categorymonth.map(el => el["money.cost"])
                     for(let i = 0; i < costs.length; i++){
                         monthlyUsed = monthlyUsed + costs[i]
                     }
 
-                    const budgets = categorymonth.map(el => el.dataValues.budget)
+                    const budgets = categorymonth.map(el => el.budget)
                     for(let i = 0; i < budgets.length; i++){
                         monthlyBudget = monthlyBudget + budgets[i]
                     }
                     
-                    const exCosts = categoryexmonth.map(el => el.dataValues.money[0].cost)
+                    const exCosts = categoryexmonth.map(el => el["money.cost"])
                     for(let i = 0; i < exCosts.length; i++){
                         exMonthlyUsed = exMonthlyUsed + exCosts[i]
                     }
                 }
             }
         }
+        
         const bottom = await category.findAll({ 
             include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
             where: { userId: data.id }, raw: true });

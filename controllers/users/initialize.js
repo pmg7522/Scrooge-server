@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       let realphoto = imageDataUri.encode(result, "jpg");
     
       return res.status(200).send({ data: 
-        { userInfo: { username, email, photo: realphoto, level: 1, experience }}, userset: { darkmode }});
+        { userInfo: { username, email, photo: realphoto, level: 1, experience }, userset: { darkmode }}});
     })
     .catch(err => {
       console.log(err)

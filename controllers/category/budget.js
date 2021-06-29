@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
         const categoryMoney = await money.findAll({ 
             attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
             include: [{model: category, attributes: ["id","categoryname","budget"]}],
-            group:["category.id"],
+            group: "category.id" ,
             where: { userId: data.id }})
             
             let categories = [];

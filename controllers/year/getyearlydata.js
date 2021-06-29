@@ -1,4 +1,4 @@
-const { category, money } = require("../../models");
+const { category, money, achievement } = require("../../models");
 const { isAuthorized } = require("../functions");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
@@ -9,6 +9,24 @@ module.exports = async (req, res) => {
     const thisYear = String(new Date().getFullYear())
 
     if(data){
+        const noMoney = await money.findAll({ where: { userId: data.id } })
+        if(noMoney.length === 0){
+            return res.status(200).send({ data: {
+                top: [],
+                bottom: {
+                    best: [],
+                    topthree: [],
+                    achievement: [
+                        {
+                            scrooge: null,
+                            leastspend: null
+                        }
+                    ]
+                }
+            }
+        })
+        }
+
         //매일 지출 횟수
         const moneyDates = await money.findAll({
             attributes: ["date"],
@@ -67,24 +85,40 @@ module.exports = async (req, res) => {
             raw: true
         })
         //업적
-        let achievement = [];
+        let achieve = [];
 
         const allMoneyDate = await money.findAll({
             attributes: ["date"],
             order: [[sequelize.col("date"), "DESC"]],
             where: { userId: data.id }
         })
+        console.log(allMoneyDate)
+        let now = new Date();
 
         let longest = allMoneyDate[0].dataValues.date
         let longestDate = longest.split("-")
-        let shortest = allMoneyDate[allMoneyDate.length - 1].dataValues.date
-        let shortestDate = shortest.split("-")
+        let year = now.getFullYear()
+        let month = now.getMonth()+1
+        let day = now.getDate();
 
         let longDate = new Date(longestDate[0], longestDate[1], longestDate[2])
-        let shortDate = new Date(shortestDate[0], shortestDate[1], shortestDate[2])
+        let shortDate = new Date(year, month, day)
 
-        let difference = longDate.getTime() - shortDate.getTime()
+        let difference = shortDate.getTime() - longDate.getTime()
         let differenceDay = difference / (1000*60*60*24) + 1
+
+        const scroogeDay = await achievement.findOne({ 
+            attributes: ["scrooge"],
+            where: { userId: data.id } ,
+            raw: true
+        })
+
+        if(scroogeDay.scrooge >= differenceDay){
+            differenceDay = scroogeDay.scrooge;
+        }
+        else{
+            await achievement.update({ scrooge: differenceDay }, { where: { userId: data.id } })
+        }
 
         const leastspend = await money.findAll({
             attributes: ["cost"],
@@ -94,14 +128,14 @@ module.exports = async (req, res) => {
             raw: true
         })
 
-        achievement.push({ scrooge: differenceDay, leastspend: leastspend[0].cost })
+        achieve.push({ scrooge: differenceDay, leastspend: leastspend[0].cost })
 
-        return res.send({ data: {
+        return res.status(200).send({ data: {
             top,
             bottom: {
                 best,
                 topthree,
-                achievement
+                achieve
             }
         }
     })

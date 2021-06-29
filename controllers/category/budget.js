@@ -1,8 +1,6 @@
 const { money, category } = require('../../models');
 const { isAuthorized } = require("../functions");
 const sequelize = require("sequelize");
-const dotenv = require("dotenv");
-dotenv.config();
 
 module.exports = async (req, res) => {
     const data = isAuthorized(req);
@@ -11,9 +9,8 @@ module.exports = async (req, res) => {
         const categoryMoney = await money.findAll({ 
             attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
             include: [{model: category, attributes: ["id","categoryname","budget"]}],
-            group:["category.id"],
-            where: { userId: data.id }
-        })
+            group: "category.id" ,
+            where: { userId: data.id }})
             
             let categories = [];
             for(let i = 0; i < categoryMoney.length; i++){

@@ -7,11 +7,18 @@ module.exports = async (req, res) => {
     if(data){
         let month = new Date().getMonth()
         const categoryInfos = await category.findAll({
-            attributes: ["budget", "createdAt"],
-            include: [{ model: money, attributes: ["cost"] }],
-            where: { userId: data.id} , raw: true });
-        console.log(categoryInfos)
-    
+            attributes: ["budget"],
+            include: [{ model: money, attributes: ["cost", "createdAt"] }],
+            where: { userId: data.id } , raw: true });
+        
+        const bottom = await category.findAll({ 
+            include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
+            where: { userId: data.id }, raw: true });
+        
+        const categoryList = await category.findAll({
+            attributes: ["id", "categoryname"],
+            where: { userId: data.id }});
+
         let monthlyUsed = 0;
         let exMonthlyUsed = 0;
         let monthlyBudget = 0;
@@ -19,14 +26,22 @@ module.exports = async (req, res) => {
         if(!categoryInfos){
             return res.status(200).send({ 
                 data: { 
-                    top: [], 
+                    top: [],
                     bottom: [],
-                    categoryList: []
+                    categoryList
+                }});
+        }
+        if(!categoryInfos[0]["money.cost"]){
+            return res.status(200).send({ 
+                data: { 
+                    top: [],
+                    bottom: [],
+                    categoryList
                 }});
         }
         else{
-            const categorymonth = categoryInfos.filter(el => el.createdAt.getMonth() === month);
-            const categoryexmonth = categoryInfos.filter(el => el.createdAt.getMonth() === month - 1);
+            const categorymonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month);
+            const categoryexmonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month - 1);
 
             if(categorymonth.length !== 0){
                 if(categorymonth[0]["money.cost"] === undefined){
@@ -82,14 +97,6 @@ module.exports = async (req, res) => {
                 }
             }
         }
-        
-        const bottom = await category.findAll({ 
-            include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
-            where: { userId: data.id }, raw: true });
-    
-        const categoryList = await category.findAll({
-            attributes: ["id", "categoryname"],
-            where: { userId: data.id }});
     
         return res.status(200).send({ 
             data: { 

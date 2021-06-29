@@ -70,6 +70,14 @@ module.exports = {
   categoryId: "6",
   createdAt,
   updatedAt,
+},{
+  cost: "2000",
+  memo: "운동",
+  date: "2021-06-29",
+  userId: "2",
+  categoryId: "6",
+  createdAt,
+  updatedAt,
 }], {});
   },
 

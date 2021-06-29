@@ -15,10 +15,15 @@ module.exports = {
      * }], {});
     */
      await queryInterface.bulkInsert('achievements', [{
-      scrooge: "25",
+      scrooge: "26",
       userId: "1",
       createdAt,
       updatedAt,
+   },{
+    scrooge: "20",
+    userId: "2",
+    createdAt,
+    updatedAt,
    }], {});
   },
 

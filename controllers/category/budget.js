@@ -12,7 +12,8 @@ module.exports = async (req, res) => {
             attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
             include: [{model: category, attributes: ["id","categoryname","budget"]}],
             group:["category.id"],
-            where: { userId: data.id }})
+            where: { userId: data.id }
+        })
             
             let categories = [];
             for(let i = 0; i < categoryMoney.length; i++){

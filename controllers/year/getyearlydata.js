@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
             order: [[sequelize.col("date"), "DESC"]],
             where: { userId: data.id }
         })
-        console.log(allMoneyDate)
+
         let now = new Date();
 
         let longest = allMoneyDate[0].dataValues.date

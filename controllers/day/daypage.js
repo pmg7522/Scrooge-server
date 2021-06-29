@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
         const categoryInfos = await category.findAll({
             attributes: ["budget", "createdAt"],
             include: [{ model: money, attributes: ["cost"] }],
-            where: { userId: data.id} , raw: true });
+            where: { userId: data.id } , raw: true });
         console.log(categoryInfos)
     
         let monthlyUsed = 0;
@@ -82,7 +82,7 @@ module.exports = async (req, res) => {
                 }
             }
         }
-        
+
         const bottom = await category.findAll({ 
             include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
             where: { userId: data.id }, raw: true });

@@ -1,7 +1,5 @@
 const { category } = require('../../models');
 const { isAuthorized } = require("../functions");
-const dotenv = require("dotenv");
-dotenv.config();
 
 module.exports = async (req, res) => {
   const data = isAuthorized(req);

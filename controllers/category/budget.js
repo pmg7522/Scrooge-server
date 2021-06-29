@@ -1,8 +1,6 @@
 const { money, category } = require('../../models');
 const { isAuthorized } = require("../functions");
 const sequelize = require("sequelize");
-const dotenv = require("dotenv");
-dotenv.config();
 
 module.exports = async (req, res) => {
     const data = isAuthorized(req);

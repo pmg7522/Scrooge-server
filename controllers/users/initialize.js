@@ -1,7 +1,5 @@
 const { isAuthorized } = require("../functions")
 const { user } = require("../../models");
-const dotenv = require("dotenv");
-dotenv.config();
 const fs = require("fs");
 const imageDataUri = require("image-data-uri");
 

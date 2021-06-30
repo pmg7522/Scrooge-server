@@ -53,30 +53,51 @@ module.exports = async (req, res) => {
         }
 
         //매일 지출 횟수
+        let top = [];
+        let baseArr;
         const moneyDates = await money.findAll({
             attributes: ["date"],
             order: [sequelize.col("date")],
             where: { userId: data.id, date: { [Op.lt]: nextYear, [Op.gt]: exYear } },
             raw: true
         })
-        console.log(moneyDates)
-        moneyDates.push({ date: '0' })
-
-        let count = 1;
-        let top = [];
-
-        for(let i = 0; i < moneyDates.length; i++){
-            let nowDate = moneyDates[i].date
-            if(nowDate === moneyDates[count].date){
-                count++
-            }
-            else{
-                top.push({ day: nowDate, value: count })
-                count = 1
-                nowDate = moneyDates[i].date
+        let monthlyArr;
+        for(let i = 1; i <= 12; i++){
+            if(i < 10){
+                baseArr = new Array(32).fill(0)
+                monthlyArr = await money.findAll({
+                    attributes: ["date"],
+                    where: { userId: data.id, date: { [Op.like]: "%-0" + i + "-%"} },
+                    raw: true
+                })
+                for(let j = 0; j < monthlyArr.length; j++){
+                    let moneyDays = monthlyArr[j].date.split("-")[2]
+                    baseArr[moneyDays] = baseArr[moneyDays] + 1
+                }
+                for(let k = 0; k < baseArr.length; k++){
+                    if(baseArr[k] !== 0){
+                        top.push(`[new Date(${new Date().getFullYear()}, ${i - 1}, ${k + 1}), ${baseArr[k]}]`)
+                    }
+                }
+            }else{
+                baseArr = new Array(32).fill(0)
+                monthlyArr = await money.findAll({
+                    attributes: ["date"],
+                    where: { userId: data.id, date: { [Op.like]: "%-" + i + "-%"} },
+                    raw: true
+                })
+                for(let j = 0; j < monthlyArr.length; j++){
+                    let moneyDays = monthlyArr[j].date.split("-")[2]
+                    baseArr[moneyDays] = baseArr[moneyDays] + 1
+                }
+                for(let k = 0; k < baseArr.length; k++){
+                    if(baseArr[k] !== 0){
+                        top.push(`[new Date(${new Date().getFullYear()}, ${i - 1}, ${k + 1}), ${baseArr[k]}]`)
+                    }
+                }
             }
         }
-        top.pop();
+        top.unshift([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }])
         //가장 잘 지킨 예산
         let best = [];
         let bestBudget = [];
@@ -170,4 +191,4 @@ module.exports = async (req, res) => {
         console.log(err);
         return res.status(500).send({ message: "We Don't Know" });
     }
-}
+    }

@@ -1,4 +1,4 @@
-const { checkRefeshToken, generateAccessToken, resendAccessToken } = require('../functions');
+const { checkRefreshToken, generateAccessToken, resendAccessToken } = require('../functions');
 const { user } = require('../../models');
 
 module.exports = (req, res) => {
@@ -7,8 +7,7 @@ const refreshToken = req.cookies.refreshToken;
 if (!refreshToken) {
     return res.status(403).send({ message: 'refreshToken이 없습니다.' });
 }
-const refreshTokenData = checkRefeshToken(refreshToken);
-console.log(refreshTokenData)
+const refreshTokenData = checkRefreshToken(refreshToken);
   if (!refreshTokenData) {
     return res.status(400).json({
       message: 'invalid refresh token, please log in again',

@@ -6,7 +6,32 @@ const Op = sequelize.Op;
 module.exports = async (req, res) => {
     const data = isAuthorized(req);
 
-    const thisYear = String(new Date().getFullYear())
+    const test = new Date().getMonth()
+    let thisMonth = ""
+    let thisYear = ""
+
+    let exMonth = ""
+    let exYear = ""
+
+    let nextMonth = ""
+    let nextYear = ""
+
+    if(test > 8){
+        thisMonth = String(new Date().getMonth() + 1)
+        thisYear = String(new Date().getFullYear()) + "-" + thisMonth
+        exMonth = String(new Date().getMonth())
+        exYear = String(new Date().getFullYear()) + "-" + exMonth
+        nextMonth = String(new Date().getMonth() + 2)
+        nextYear = String(new Date().getFullYear()) + "-" + nextMonth
+    }
+    else{
+        thisMonth = String(new Date().getMonth() + 1)
+        thisYear = String(new Date().getFullYear()) + "-" + "0" + thisMonth
+        exMonth = String(new Date().getMonth())
+        exYear = String(new Date().getFullYear()) + "-" + "0" + exMonth
+        nextMonth = String(new Date().getMonth() + 2)
+        nextYear = String(new Date().getFullYear()) + "-" + "0" + nextMonth
+    }
 
     if(data){
         let month = new Date().getMonth()
@@ -109,24 +134,19 @@ module.exports = async (req, res) => {
         const moneyDates = await money.findAll({
             attributes: ["cost", "date"],
             order: [sequelize.col("date")],
-            where: { userId: data.id, date: { [Op.gt]: thisYear } },
+            where: { userId: data.id, date: { [Op.lt]: nextYear, [Op.gt]: exYear } },
             raw: true
         })
 
+        let baseArr = new Array(32).fill(0)
         let daily = [];
-        let count = 1;
-        let costSum = moneyDates[0].cost
-
         for(let i = 0; i < moneyDates.length; i++){
-            let nowDate = moneyDates[i].date
-            if(nowDate === moneyDates[count].date){
-                costSum = costSum + moneyDates[count].cost
-                count++
-            }
-            else{
-                daily.push({ day: nowDate, value: costSum })
-                count = 1
-                costSum = moneyDates[i].cost
+            let moneyDays = moneyDates[i].date.split("-")[2]
+            baseArr[moneyDays] = baseArr[moneyDays] + moneyDates[i].cost
+        }
+        for(let i = 0; i < baseArr.length; i++){
+            if(baseArr[i] !== 0){
+                daily.push({ date: thisYear +  "-" + String(i), value: baseArr[i] })
             }
         }
 

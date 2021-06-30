@@ -9,41 +9,59 @@ module.exports = {
     //  *
     //  * Example:
      await queryInterface.bulkInsert('categories', [{
-        categoryname: 'foods',
-        budget: "1",
+        categoryname: '식비',
+        budget: "1000000",
         userId: "1",
         createdAt,
         updatedAt,
      }, {
-        categoryname: 'play',
-        budget: "10",
+        categoryname: '여가비',
+        budget: "400000",
         userId: "1",
         createdAt,
         updatedAt,
      }, {
-      categoryname: 'life',
-      budget: "10",
+      categoryname: '생활비',
+      budget: "600000",
       userId: "1",
       createdAt,
       updatedAt,
    }, {
-    categoryname: 'clothes',
-    budget: "10",
-    userId: "1",
+    categoryname: '식비',
+    budget: "500000",
+    userId: "2",
     createdAt,
     updatedAt,
  }, {
-  categoryname: 'foods',
-  budget: "10",
+  categoryname: '여가비',
+  budget: "1000000",
   userId: "2",
   createdAt,
   updatedAt,
  }, {
-  categoryname: 'play',
-  budget: "100",
+  categoryname: '생활비',
+  budget: "200000",
   userId: "2",
   createdAt,
   updatedAt,
+}, {
+   categoryname: '식비',
+   budget: "100000",
+   userId: "3",
+   createdAt,
+   updatedAt,
+}, {
+ categoryname: '여가비',
+ budget: "500000",
+ userId: "3",
+ createdAt,
+ updatedAt,
+}, {
+ categoryname: '생활비',
+ budget: "1000000",
+ userId: "3",
+ createdAt,
+ updatedAt,
 }], {});
     
   },

@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
                     })
                     for(let j = 0; j < monthlyArr.length; j++){
                         let moneyDays = monthlyArr[j].date.split("-")[2]
-                        baseArr[moneyDays] = baseArr[moneyDays] + 1
+                        baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + 1
                     }
                     for(let k = 0; k < baseArr.length; k++){
                         if(baseArr[k] !== 0){
@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
                     })
                     for(let j = 0; j < monthlyArr.length; j++){
                         let moneyDays = monthlyArr[j].date.split("-")[2]
-                        baseArr[moneyDays] = baseArr[moneyDays] + 1
+                        baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + 1
                     }
                     for(let k = 0; k < baseArr.length; k++){
                         if(baseArr[k] !== 0){
@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
                 bestBudget.push({ date, categoryname, cost })
             }
             
-            bestBudget.sort((a,b) => (b.saveMoney-a.saveMoney));
+            bestBudget.sort((a,b) => (b.cost-a.cost));
             best.push(bestBudget[0], bestBudget[1], bestBudget[2])
             //가장 큰 지출
             const topthree = await money.findAll({
@@ -110,7 +110,6 @@ module.exports = async (req, res) => {
                 order: [[sequelize.col("date"), "DESC"]],
                 where: { userId: data.id }
             })
-    
             let now = new Date();
     
             let longest = allMoneyDate[0].dataValues.date

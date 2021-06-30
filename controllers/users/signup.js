@@ -8,23 +8,16 @@ module.exports = async (req, res) => {
         if (data) {
             return res.status(409).send({ message: "email exists" });
         }
-<<<<<<< HEAD
-        const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-        const userInfo = await user.create({ email, password: hash, username, photo: "/uploads/" + req.file.filename });
-        
-        await category.create({ categoryname: "지정되지 않은 카테고리", budget:0, userId: userInfo.dataValues.id });
-=======
         if(!req.file){
-            // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-            const userInfo = await user.create({ email, password, username });
+            const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
+            const userInfo = await user.create({ email, password: hash, username });
             await category.create({ categoryname: "지정되지 않은 카테고리", budget:0, userId: userInfo.dataValues.id });
         }
         else{
-            // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-            const userInfo = await user.create({ email, password, username, photo: "/uploads/" + req.file.filename });
+            const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
+            const userInfo = await user.create({ email, password: hash, username, photo: "/uploads/" + req.file.filename });
             await category.create({ categoryname: "지정되지 않은 카테고리", budget:0, userId: userInfo.dataValues.id });
         }
->>>>>>> ef94641d0622daccd81870b7a9d280fe58f2b7f9
         return res.status(201).send({ "message": "회원가입 완료" });
     })
     .catch(err => {

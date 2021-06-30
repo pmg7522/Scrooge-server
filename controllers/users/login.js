@@ -2,18 +2,6 @@ const { generateAccessToken, generateRefreshToken, sendToken } = require('../fun
 const { user } = require("../../models");
 const crypto = require("crypto");
 
-<<<<<<< HEAD
-module.exports = async (req, res) => {
-    const { email, password } = req.body;
-    const userInfo = await user.findOne({ where: { email } });
-
-    if (!userInfo) {
-        return res.status(400).send({ message: "찾을 수 없는 유저입니다." });
-    }
-    const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-    if (hash !== userInfo.dataValues.password) {
-      return res.status(409).send({ message: "정확한 정보를 입력해 주십시오." });
-=======
 module.exports = async (req, res) => {  
   try{
       const { email, password } = req.body;
@@ -32,7 +20,6 @@ module.exports = async (req, res) => {
   
         sendToken(res, accessToken, refreshToken);
       }
->>>>>>> ef94641d0622daccd81870b7a9d280fe58f2b7f9
     }
     catch(err){
       console.log(err)

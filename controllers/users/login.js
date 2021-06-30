@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     const userInfo = await user.findOne({ where: { email } });
 
     if (!userInfo) {
-        return res.status(409).send({ message: "찾을 수 없는 유저입니다." });
+        return res.status(400).send({ message: "찾을 수 없는 유저입니다." });
     }
 //    const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
     if (password !== userInfo.dataValues.password) {

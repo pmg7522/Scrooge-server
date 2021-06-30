@@ -6,7 +6,7 @@ const Op = sequelize.Op;
 module.exports = async (req, res) => {
     const data = isAuthorized(req);
 
-    
+    let thisYear = String(new Date().getFullYear())
 
     if(data){
         const noMoney = await money.findAll({ where: { userId: data.id } })
@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
                 }
                 for(let k = 0; k < baseArr.length; k++){
                     if(baseArr[k] !== 0){
-                        top.push(`[new Date(${new Date().getFullYear()}, ${i - 1}, ${k + 1}), ${baseArr[k]}]`)
+                        top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
                     }
                 }
             }else{
@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
                 }
                 for(let k = 0; k < baseArr.length; k++){
                     if(baseArr[k] !== 0){
-                        top.push(`[new Date(${new Date().getFullYear()}, ${i - 1}, ${k + 1}), ${baseArr[k]}]`)
+                        top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
                     }
                 }
             }

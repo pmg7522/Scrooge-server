@@ -53,11 +53,11 @@ module.exports = (req, res) => {
             .send({ data: realKakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
           }
           else{
-            return res.status(200).send({ data: kakaoUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." })
+            return res.status(202).send({ data: kakaoUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." })
           }
         }
         else{
-          return res.status(500).send({ message: "카카오톡 유저정보 없음" })
+          return res.status(400).send({ message: "카카오톡 유저정보 없음" })
         }
       })
     })

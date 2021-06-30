@@ -8,8 +8,8 @@ module.exports = async (req, res) => {
   const data = isAuthorized(req);
 
   if (data) {
-    // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-    await user.update({ username, password, photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
+    const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
+    await user.update({ username, password: hash, photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
 
     const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
 

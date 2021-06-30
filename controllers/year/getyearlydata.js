@@ -6,32 +6,7 @@ const Op = sequelize.Op;
 module.exports = async (req, res) => {
     const data = isAuthorized(req);
 
-    const test = new Date().getMonth()
-    let thisMonth = ""
-    let thisYear = ""
-
-    let exMonth = ""
-    let exYear = ""
-
-    let nextMonth = ""
-    let nextYear = ""
-
-    if(test > 8){
-        thisMonth = String(new Date().getMonth() + 1)
-        thisYear = String(new Date().getFullYear()) + "-" + thisMonth
-        exMonth = String(new Date().getMonth())
-        exYear = String(new Date().getFullYear()) + "-" + exMonth
-        nextMonth = String(new Date().getMonth() + 2)
-        nextYear = String(new Date().getFullYear()) + "-" + nextMonth
-    }
-    else{
-        thisMonth = String(new Date().getMonth() + 1)
-        thisYear = String(new Date().getFullYear()) + "-" + "0" + thisMonth
-        exMonth = String(new Date().getMonth())
-        exYear = String(new Date().getFullYear()) + "-" + "0" + exMonth
-        nextMonth = String(new Date().getMonth() + 2)
-        nextYear = String(new Date().getFullYear()) + "-" + "0" + nextMonth
-    }
+    
 
     if(data){
         const noMoney = await money.findAll({ where: { userId: data.id } })
@@ -55,13 +30,8 @@ module.exports = async (req, res) => {
         //매일 지출 횟수
         let top = [];
         let baseArr;
-        const moneyDates = await money.findAll({
-            attributes: ["date"],
-            order: [sequelize.col("date")],
-            where: { userId: data.id, date: { [Op.lt]: nextYear, [Op.gt]: exYear } },
-            raw: true
-        })
         let monthlyArr;
+
         for(let i = 1; i <= 12; i++){
             if(i < 10){
                 baseArr = new Array(32).fill(0)
@@ -187,8 +157,8 @@ module.exports = async (req, res) => {
         }
     })
     }
-    else{
-        console.log(err);
-        return res.status(500).send({ message: "We Don't Know" });
+    else {
+            console.log(err);
+            return res.status(500).send({ message: "We Don't Know" });
     }
     }

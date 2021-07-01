@@ -27,31 +27,6 @@ module.exports = async (req, res) => {
                 }
             })
             }
-<<<<<<< HEAD
-        })
-        }
-
-        //매일 지출 횟수
-        let top = [];
-        let baseArr;
-        let monthlyArr;
-
-        for(let i = 1; i <= 12; i++){
-            if(i < 10){
-                baseArr = new Array(32).fill(0)
-                monthlyArr = await money.findAll({
-                    attributes: ["date"],
-                    where: { userId: data.id, date: { [Op.like]: "%-0" + i + "-%"} },
-                    raw: true
-                })
-                for(let j = 0; j < monthlyArr.length; j++){
-                    let moneyDays = monthlyArr[j].date.split("-")[2]
-                    baseArr[moneyDays] = baseArr[moneyDays] + 1
-                }
-                for(let k = 0; k < baseArr.length; k++){
-                    if(baseArr[k] !== 0){
-                        top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
-=======
     
             //매일 지출 횟수
             let top = [];
@@ -73,7 +48,6 @@ module.exports = async (req, res) => {
                         if(baseArr[k] !== 0){
                             top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
                         }
->>>>>>> ef94641d0622daccd81870b7a9d280fe58f2b7f9
                     }
                 }
                 else{
@@ -188,13 +162,7 @@ module.exports = async (req, res) => {
             return res.status(500).send({ message: "We Don't Know" });
         }
     }
-<<<<<<< HEAD
-    else {
-            console.log(err);
-            return res.status(500).send({ message: "We Don't Know" });
-=======
     catch(err){
         console.log(err)
->>>>>>> ef94641d0622daccd81870b7a9d280fe58f2b7f9
     }
 }

@@ -15,6 +15,10 @@ module.exports = {
 
     googlelogin: require("./users/googlelogin"),
 
+    kakaosignup: require("./users/kakaosignup"),
+
+    googlesignup: require("./users/googlesignup"),
+
     checkemail: require("./users/checkemail"), 
 
     refreshTokenRequest: require("./users/refreshTokenRequest"),

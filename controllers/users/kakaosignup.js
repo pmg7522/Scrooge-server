@@ -1,9 +1,9 @@
-const { user } = require("../../models");
+const { user, category } = require("../../models");
 const axios = require("axios");
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     if (!req.body.authorizationCode) {
-      return res.status(401).send({ message: "Unauthorized" })
+      return res.status(401).send({ message: "Authorization Code가 없습니다." })
     }
     
     const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
@@ -26,7 +26,7 @@ module.exports = (req, res) => {
         }
       )
       .then((response) => {
-        const { access_token, refresh_token } = response.data;
+        const { access_token } = response.data;
         const KAKAO_USERINFO_URL = `https://kapi.kakao.com/v2/user/me`;
         return axios
         .get(KAKAO_USERINFO_URL, {
@@ -43,21 +43,16 @@ module.exports = (req, res) => {
           const realKakaoUserInfo = await user.findOne({ where: { email: kakaoUserInfo.email } })
 
           if (realKakaoUserInfo){              
-            return res.
-            status(200)
-            .cookie("refreshToken", refresh_token, {
-              sameSite: "none",
-              secure: true,
-              httpOnly: true
-            })
-            .send({ data: realKakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
+            res.status(409).send({ message: "이미 가입되어있는 유저입니다." })
           }
           else{
-            return res.status(200).send({ message: "회원가입을 해주세요." })
+            const userInfo = await user.create({ email: kakaoUserInfo.email, username: req.body.username, photo: "/uploads/" + req.file.filename })
+            await category.create({ categoryname: "지정되지 않은 카테고리", budget:0, userId: userInfo.dataValues.id });
+            res.status(200).send({ message: "회원가입 완료" })
           }
         }
         else{
-          return res.status(400).send({ message: "카카오톡 유저정보 없음" })
+          return res.status(500).send({ message: "카카오톡 유저정보 없음" })
         }
       })
     })

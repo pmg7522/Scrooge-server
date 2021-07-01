@@ -30,6 +30,8 @@ app.post("/fixuserinfo", upload.single('photo'), controllers.fixuserinfo);
 app.post("/login", controllers.login);
 app.post("/kakaologin", controllers.kakaologin);
 app.post("/googlelogin", controllers.googlelogin);
+app.post("/kakaosignup", upload.single('photo'), controllers.kakaosignup);
+app.post("/googlesignup", upload.single('photo'), controllers.googlesignup);
 app.post("/checkemail", controllers.checkemail);
 app.get("/refreshTokenRequest", controllers.refreshTokenRequest);
 app.get("/signout", controllers.signout);

@@ -14,16 +14,16 @@ const refreshTokenData = checkRefreshToken(refreshToken);
   });
 }
 
- const { id } = refreshTokenData;
+  const { id } = refreshTokenData;
     user.findOne({ where: { id } })
       .then((data) => {
         if (!data) {
-          return res.json({
+          return res.status(400).json({
             data: null,
             message: 'refresh token has been tempered',
           });
         }
-       delete data.dataValues.password;
+        delete data.dataValues.password;
 
         const newAccessToken = generateAccessToken(data.dataValues);
         resendAccessToken(res, newAccessToken, data.dataValues);
@@ -32,3 +32,4 @@ const refreshTokenData = checkRefreshToken(refreshToken);
         console.log(err);
       });
   };
+

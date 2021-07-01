@@ -10,12 +10,12 @@ module.exports = async (req, res) => {
     if(data){
       await user.findOne({ where: { id: data.id }, raw: true})
       .then((userData) => {
-        const { username, email, experience, darkmode } = userData;
+        const { username, email, experience, darkmode, redirect } = userData;
         let result = fs.readFileSync(`.${data.photo}`);
         let realphoto = imageDataUri.encode(result, "jpg");
       
         return res.status(200).send({ data: 
-          { userInfo: { username, email, photo: realphoto, level: 1, experience }, userset: { darkmode }}});
+          { userInfo: { username, email, photo: realphoto, level: 1, experience }, userset: { darkmode, redirect }}});
       })
       .catch(err => {
         console.log(err)

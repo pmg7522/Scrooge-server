@@ -14,12 +14,12 @@ module.exports = {
     return res.cookie("refreshToken", refreshToken, {
       sameSite: "none",
       secure: true,
-      httpOnly: true
+      httpOnly: false
     }).send({ data: { accessToken, refreshToken }, message: "로그인 완료" });
   },
 
   resendAccessToken: (res, accessToken, data) => {
-    return res.send({ data: { accessToken, user: data }, message: "Token 재발급 완료" });
+    return res.send({ data: { accessToken, user: data }, message: "accessToken 재발급 완료" });
   },
   isAuthorized: (req, res) => {
     const authorization = req.headers["authorization"];

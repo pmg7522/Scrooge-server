@@ -27,7 +27,7 @@ module.exports = {
       },
       redirect: {
         type: Sequelize.STRING,
-        defaultValue: "/"
+        defaultValue: "/daily"
       },
       experience: {
         type: Sequelize.INTEGER,

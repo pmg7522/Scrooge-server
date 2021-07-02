@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       const { cost, memo, date, categoryname } = req.body;
       const newCost = cost.split(",").join("")
   
-      const categoryInfo = await category.findOne({ where: { categoryname }, raw: true});
+      const categoryInfo = await category.findOne({ where: { categoryname, userId: data.id }, raw: true});
       const categoryId = categoryInfo.id;
     
       await money.findOne({ where: { userId: data.id } });

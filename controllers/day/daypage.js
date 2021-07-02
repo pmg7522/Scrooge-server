@@ -11,19 +11,19 @@ module.exports = async (req, res) => {
                 attributes: ["budget"],
                 include: [{ model: money, attributes: ["cost", "createdAt"] }],
                 where: { userId: data.id } , raw: true });
-            
+
             const bottom = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 where: { userId: data.id }, raw: true });
-            
+
             const categoryList = await category.findAll({
                 attributes: ["id", "categoryname"],
                 where: { userId: data.id }});
-    
+
             let monthlyUsed = 0;
             let exMonthlyUsed = 0;
             let monthlyBudget = 0;
-    
+
             if(!categoryInfos){
                 return res.status(200).send({ 
                     data: { 

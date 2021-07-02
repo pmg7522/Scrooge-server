@@ -23,7 +23,7 @@ module.exports = {
 
     findpassword: require("./users/findpassword"),
 
-    checkemail: require("./users/checkemail"), 
+    checkemail: require("./users/checkemail"),
 
     refreshTokenRequest: require("./users/refreshTokenRequest"),
 
@@ -40,6 +40,8 @@ module.exports = {
     deletecategory: require("./category/deletecategory"),
     
     getcategoryinfo: require("./category/getcategoryinfo"),
+
+    categorysort: require("./category/categorysort"),
 
     daypage: require("./day/daypage"),
 

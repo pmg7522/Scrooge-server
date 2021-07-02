@@ -8,7 +8,7 @@ module.exports = (req, res) => {
 
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-  const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
+  const GOOGLE_REDIRECT_URI = process.env.GOOGLE_SIGNUP_REDIRECT_URI;
   const AUTHORIZATION_CODE = req.body.authorizationCode;
   const GOOGLE_TOKEN_URL = `https://oauth2.googleapis.com/token?grant_type=authorization_code&client_id=${GOOGLE_CLIENT_ID}&client_secret=${GOOGLE_CLIENT_SECRET}&redirect_uri=${GOOGLE_REDIRECT_URI}&code=${AUTHORIZATION_CODE}`;
 

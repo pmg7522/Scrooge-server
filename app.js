@@ -38,6 +38,7 @@ app.post("/googlecheck", controllers.googlecheck);
 app.post("/checkemail", controllers.checkemail);
 app.post("/findpassword", controllers.findpassword);
 app.post("/socialsignup", controllers.socialsignup);
+app.post("/categorysort", controllers.categorysort);
 app.get("/refreshTokenRequest", controllers.refreshTokenRequest);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);

@@ -11,10 +11,22 @@ module.exports = async (req, res) => {
                 attributes: ["budget"],
                 include: [{ model: money, attributes: ["cost", "createdAt"] }],
                 where: { userId: data.id } , raw: true });
-
-            const bottom = await category.findAll({ 
+            
+            let bottom = [];    
+            const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 where: { userId: data.id }, raw: true });
+
+            for(let i = 0; i < categoryInfo.length; i++){
+                bottom.push({ 
+                    id: categoryInfo[i].id,
+                    emoji: null,
+                    moneyId: categoryInfo[i]['money.id'],
+                    cost: categoryInfo[i]['money.cost'],
+                    date: categoryInfo[i]['money.date'],
+                    memo: categoryInfo[i]['money.memo']
+                })
+            }
 
             const categoryList = await category.findAll({
                 attributes: ["id", "categoryname"],

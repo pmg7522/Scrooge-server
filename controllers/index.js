@@ -15,9 +15,11 @@ module.exports = {
 
     googlelogin: require("./users/googlelogin"),
 
-    kakaosignup: require("./users/kakaosignup"),
+    kakaocheck: require("./users/kakaocheck"),
 
-    googlesignup: require("./users/googlesignup"),
+    googlecheck: require("./users/googlecheck"),
+
+    socialsignup: require("./users/socialsignup"),
 
     findpassword: require("./users/findpassword"),
 

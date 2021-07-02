@@ -1,4 +1,4 @@
-const { user, category } = require("../../models");
+const { user } = require("../../models");
 const axios = require("axios");
 
 module.exports = (req, res) => {
@@ -26,7 +26,7 @@ module.exports = (req, res) => {
       }
     )
     .then((response) => {
-      const { access_token } = response.data;
+      const { access_token, refresh_token } = response.data;
       const GOOGLE_USERINFO_URL = `https://www.googleapis.com/oauth2/v2/userinfo`;
       return axios
       .get(GOOGLE_USERINFO_URL, {
@@ -43,12 +43,10 @@ module.exports = (req, res) => {
           const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } });
 
           if(realGoogleUser){
-            res.status(409).send({ message: "이미 가입되어있는 유저입니다." })
+            return res.status(200).send({ message: "이미 가입되어있는 이메일입니다." });
           }
           else{
-            const userInfo = await user.create({ email: googleUserInfo.email, username: req.body.username, photo: "/uploads/" + req.file.filename })
-            await category.create({ categoryname: "지정되지 않은 카테고리", budget:0, userId: userInfo.dataValues.id });
-            return res.status(200).send({ message: "회원가입 완료" })
+            return res.status(200).send({ data: googleUserInfo.email });
           }
         }
         else{

@@ -7,25 +7,35 @@ module.exports = async (req, res) => {
     
         if(data){
             let month = new Date().getMonth()
-            const categoryInfos = await category.findAll({ // 해당 유저의 카테고리 & 머니 정보를 가져옴
-                attributes: ["emoji", "id", "categoryname"],
-                include: [{ model: money, attributes: ["id", "cost", "date", "memo", "createdAt"] }],
-                where: { userId: data.id }, raw: true }
-            );
-
-            console.log(categoryInfos)
-            const bottom = await category.findAll({ // 해당 유저의 머니 테이블 정보를 가져옴 
-                include: [{ model: money, attributes: ["id", "cost", "date", "memo"] }],
-                where: { userId: data.id }, raw: true });
+            const categoryInfos = await category.findAll({
+                attributes: ["budget"],
+                include: [{ model: money, attributes: ["cost", "createdAt"] }],
+                where: { userId: data.id } , raw: true });
             
+            let bottom = [];    
+            const categoryInfo = await category.findAll({ 
+                include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
+                where: { userId: data.id }, raw: true });
+
+            for(let i = 0; i < categoryInfo.length; i++){
+                bottom.push({ 
+                    id: categoryInfo[i].id,
+                    emoji: null,
+                    moneyId: categoryInfo[i]['money.id'],
+                    cost: categoryInfo[i]['money.cost'],
+                    date: categoryInfo[i]['money.date'],
+                    memo: categoryInfo[i]['money.memo']
+                })
+            }
+
             const categoryList = await category.findAll({
                 attributes: ["id", "categoryname"],
                 where: { userId: data.id }});
-    
+
             let monthlyUsed = 0;
             let exMonthlyUsed = 0;
             let monthlyBudget = 0;
-    
+
             if(!categoryInfos){
                 return res.status(200).send({ 
                     data: { 

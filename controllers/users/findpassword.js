@@ -6,14 +6,15 @@ module.exports = async (req, res) => {
 
     let transporter = nodemailer.createTransport({
         service: "gmail",
-        host: process.env.MAIL_HOST,
-        port: process.env.MAIL_PORT,
+        host: "smtp.gmail.com",
+        port: 587,
         secure: false,
         auth: {
           user: process.env.MAIL_ID,
           pass: process.env.MAIL_SECRET
         },
     });
+    
     let randomPassword = Math.floor(Math.random() * 1000000)
     await user.update({ password: randomPassword }, { where: { email }})
     

@@ -50,7 +50,7 @@ module.exports = (req, res) => {
               secure: true,
               httpOnly: true
             })
-            .send({ data: realGoogleUser, accessToken: access_token, refreshToken: refresh_token });
+            .send({ data: { accessToken: access_token, refreshToken: refresh_token }, message: "로그인 완료"  });
           }
           else{
             return res.status(202).send({ data: googleUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." });

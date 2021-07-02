@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     
     const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
     const KAKAO_CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET;
-    const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
+    const KAKAO_REDIRECT_URI = process.env.KAKAO_SIGNUP_REDIRECT_URI;
     const AUTHORIZATION_CODE = req.body.authorizationCode;
     const KAKAO_TOKEN_URL = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${KAKAO_CLIENT_ID}&client_secret=${KAKAO_CLIENT_SECRET}&redirect_uri=${KAKAO_REDIRECT_URI}&code=${AUTHORIZATION_CODE}`;
 

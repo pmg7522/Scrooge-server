@@ -18,6 +18,7 @@ module.exports = async (req, res) => {
         const accessToken = generateAccessToken(userInfo.dataValues);
         const refreshToken = generateRefreshToken(userInfo.dataValues);
   
+        await user.update({ experience: userInfo.dataValues.experience + 7 },{ where: { id: userInfo.dataValues.id } })
         sendToken(res, accessToken, refreshToken);
       }
     }

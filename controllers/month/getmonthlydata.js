@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
             let month = new Date().getMonth()
     
             const categoryInfos = await category.findAll({
-                attributes: ["budget","createdAt"],
+                attributes: ["budget", "createdAt"],
                 include: [{ model: money, attributes: ["cost", "createdAt"] }],
                 where: { userId: data.id } , 
                 raw: true 

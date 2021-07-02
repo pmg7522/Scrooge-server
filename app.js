@@ -34,7 +34,8 @@ app.post("/kakaocheck", controllers.kakaocheck);
 app.post("/googlecheck", controllers.googlecheck);
 app.post("/checkemail", controllers.checkemail);
 app.post("/findpassword", controllers.findpassword);
-app.post("/socialsignup", controllers.socialsignup);
+app.post("/socialsignup", upload.single('photo'), controllers.socialsignup);
+app.post("/categorysort", controllers.categorysort);
 app.get("/refreshTokenRequest", controllers.refreshTokenRequest);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);
@@ -44,6 +45,7 @@ app.get("/initialize", controllers.initialize);
 app.post("/darkmode", controllers.darkmode);
 app.post("/changemainpage", controllers.changemainpage);
 app.get("/deletedata", controllers.deletedata);
+app.get("/importexcel", controllers.importexcel);
 
 // category
 app.post("/fixcategoryinfo", controllers.fixcategoryinfo);

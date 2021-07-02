@@ -43,17 +43,10 @@ module.exports = (req, res) => {
           const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } });
 
           if(realGoogleUser){
-            return res.
-            status(200)
-            .cookie("refreshToken", refresh_token, {
-              sameSite: "none",
-              secure: true,
-              httpOnly: true
-            })
-            .send({ data: { accessToken: access_token, refreshToken: refresh_token }, message: "로그인 완료"  });
+            return res.status(200).send({ message: "이미 가입되어있는 이메일입니다." });
           }
           else{
-            return res.status(200).send({ data: googleUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." });
+            return res.status(200).send({ data: googleUserInfo.email });
           }
         }
         else{

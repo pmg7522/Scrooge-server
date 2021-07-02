@@ -40,24 +40,17 @@ module.exports = (req, res) => {
         if (response.data.kakao_account){
           kakaoUserInfo.email = response.data.kakao_account.email;
 
-          const realKakaoUserInfo = await user.findOne({ where: { email: kakaoUserInfo.email } })
+          const realKakaoUserInfo = await user.findOne({ where: { email: kakaoUserInfo.email } });
 
           if (realKakaoUserInfo){              
-            return res.
-            status(200)
-            .cookie("refreshToken", refresh_token, {
-              sameSite: "none",
-              secure: true,
-              httpOnly: true
-            })
-            .send({ data: { accessToken: access_token, refreshToken: refresh_token }, message: "로그인 완료" })
+            return res.status(200).send({ message: "이미 가입되어있는 이메일입니다." });
           }
           else{
-            return res.status(200).send({ message: "회원가입을 해주세요." })
+            return res.status(200).send({ data: kakaoUserInfo.email });
           }
         }
         else{
-          return res.status(500).send({ message: "카카오톡 유저정보 없음" })
+          return res.status(500).send({ message: "카카오톡 유저정보 없음" });
         }
       })
     })

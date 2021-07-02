@@ -19,6 +19,8 @@ module.exports = {
 
     googlesignup: require("./users/googlesignup"),
 
+    findpassword: require("./users/findpassword"),
+
     checkemail: require("./users/checkemail"), 
 
     refreshTokenRequest: require("./users/refreshTokenRequest"),

@@ -50,7 +50,7 @@ module.exports = (req, res) => {
               secure: true,
               httpOnly: true
             })
-            .send({ data: realKakaoUserInfo, accessToken: access_token, refreshToken: refresh_token })
+            .send({ data: { accessToken: access_token, refreshToken: refresh_token }, message: "로그인 완료" })
           }
           else{
             return res.status(200).send({ message: "회원가입을 해주세요." })

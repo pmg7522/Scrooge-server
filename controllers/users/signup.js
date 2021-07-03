@@ -9,8 +9,8 @@ module.exports = async (req, res) => {
             return res.status(409).send({ message: "email exists" });
         }
         if(!req.file){
-            const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-            const userInfo = await user.create({ email, password: hash, username });
+            // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
+            const userInfo = await user.create({ email, password, username });
             await category.create({ categoryname: "지정되지 않은 카테고리", budget: 0, userId: userInfo.dataValues.id });
         }
         else{

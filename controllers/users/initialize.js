@@ -4,7 +4,6 @@ const fs = require("fs");
 const imageDataUri = require("image-data-uri");
 
 module.exports = async (req, res) => {
-//  try{
     const data = isAuthorized(req);
     
     if(data){
@@ -25,8 +24,4 @@ module.exports = async (req, res) => {
     else{
       return res.status(409).send({ message: "Invalid Data" });
     }
-  // }
-  // catch(err){
-  //   console.log(err)
-  // }
 }

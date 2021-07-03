@@ -16,7 +16,10 @@ module.exports = async (req, res) => {
         const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
 
         delete newUserInfo.password;
-
+          return res.status(200).send({ 
+            message: "수정 되었습니다", 
+            data: { user: newUserInfo }
+        });
       }
       else{
         // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
@@ -25,12 +28,11 @@ module.exports = async (req, res) => {
         const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
   
         delete newUserInfo.password;
+          return res.status(200).send({ 
+            message: "수정 되었습니다", 
+            data: { user: newUserInfo }
+        });
       }
-      
-        return res.status(200).send({ 
-          message: "수정 되었습니다", 
-          data: { user: newUserInfo }
-      });
     }
     else{
       console.log(err);

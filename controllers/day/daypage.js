@@ -53,15 +53,16 @@ module.exports = async (req, res) => {
                     }});
             }
             else{
+
             const categorymonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month);
             const categoryexmonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month - 1);
 
-                if(categorymonth.length !== 0){ // 이번 달 지출 정보가 하나라도 있으면
+                if(categorymonth.length !== 0){ 
                     if(categorymonth[0]["money.cost"] === undefined){
                         monthlyUsed = 0;
                         monthlyBudget = 0;
                     }
-                    else{ // 지출 정보가 없으면
+                    else{
                         const costs = categorymonth.map(el => el["money.cost"])
                         for(let i = 0; i < costs.length; i++){
                             monthlyUsed = monthlyUsed + costs[i]
@@ -74,7 +75,7 @@ module.exports = async (req, res) => {
                     }
                 }
 
-                if(categoryexmonth.length !== 0){ // 이전 달 지출 정보가 하나라도 있으면
+                if(categoryexmonth.length !== 0){ 
                     if(categoryexmonth[0]["money.cost"] === undefined){
                         exMonthlyUsed = 0;
                     }

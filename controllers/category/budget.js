@@ -41,13 +41,15 @@ module.exports = async (req, res) => {
                     budgetGraph.push(allBudgetData);
                 }
         
-                const usedAll = await money.sum("cost", { where: { userId: data.id } });
-                const budgetAll = await category.sum("budget", { where: { userId: data.id } });
+                const usedAllObj = { usedAll: await money.sum("cost", { where: { userId: data.id } })};
+                const budgetAllobj = { budgetAll: await category.sum("budget", { where: { userId: data.id } }) };
         
-                usedGraph.unshift(usedAll);
-                budgetGraph.unshift(budgetAll);
+                usedGraph.unshift(usedAllObj);
+                budgetGraph.unshift(budgetAllobj);
         
-                return res.status(200).send({ data: { categories, usedGraph, budgetGraph } });
+                return res.status(200).send({ 
+                    data: { categories, usedGraph, budgetGraph } 
+                });
         }
         else{
             console.log(err);

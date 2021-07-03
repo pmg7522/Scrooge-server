@@ -1,3 +1,4 @@
+const { generateAccessToken, generateRefreshToken } = require('../functions');
 const { user } = require("../../models");
 const axios = require("axios");
 
@@ -41,6 +42,8 @@ module.exports = (req, res) => {
           googleUserInfo.email = response.data.email;
 
           const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } });
+          const accessToken = generateAccessToken(realGoogleUser.dataValues);
+          const refreshToken = generateRefreshToken(realGoogleUser.dataValues);
 
           if(realGoogleUser){
             return res.
@@ -50,7 +53,7 @@ module.exports = (req, res) => {
               secure: true,
               httpOnly: true
             })
-            .send({ data: { accessToken: access_token, refreshToken: refresh_token }, message: "로그인 완료"  });
+            .send({ data: { accessToken, refreshToken }, message: "구글 로그인 완료"  });
           }
           else{
             return res.status(202).send({ data: googleUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." });

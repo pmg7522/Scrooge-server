@@ -1,3 +1,4 @@
+const { generateAccessToken, generateRefreshToken } = require('../functions');
 const { user } = require("../../models");
 const axios = require("axios");
 
@@ -26,7 +27,7 @@ module.exports = (req, res) => {
         }
       )
       .then((response) => {
-        const { access_token, refresh_token } = response.data;
+        const { access_token } = response.data;
         const KAKAO_USERINFO_URL = `https://kapi.kakao.com/v2/user/me`;
         return axios
         .get(KAKAO_USERINFO_URL, {
@@ -39,18 +40,20 @@ module.exports = (req, res) => {
       .then(async (response) => {
         if (response.data.kakao_account){
           kakaoUserInfo.email = response.data.kakao_account.email;
-
+          
           const realKakaoUserInfo = await user.findOne({ where: { email: kakaoUserInfo.email } })
+          const accessToken = generateAccessToken(realKakaoUserInfo.dataValues);
+          const refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);
 
           if (realKakaoUserInfo){              
             return res.
             status(200)
-            .cookie("refreshToken", refresh_token, {
+            .cookie("refreshToken", refreshToken, {
               sameSite: "none",
               secure: true,
               httpOnly: true
             })
-            .send({ data: { accessToken: access_token, refreshToken: refresh_token }, message: "로그인 완료" })
+            .send({ data: { accessToken, refreshToken }, message: "카카오 로그인 완료" })
           }
           else{
             return res.status(200).send({ message: "카카오 회원가입을 해주세요." })

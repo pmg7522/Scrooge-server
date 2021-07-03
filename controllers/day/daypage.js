@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
                 attributes: ["budget"],
                 include: [{ model: money, attributes: ["cost", "createdAt"] }],
                 where: { userId: data.id } , raw: true });
-            
+
             let bottom = [];    
             const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],

@@ -4,6 +4,11 @@ const controllers = require("./controllers");
 const cookieParser = require("cookie-parser");
 const models = require("./models");
 const express = require("express")
+<<<<<<< HEAD
+=======
+const fs = require("fs");
+const https = require("https");
+>>>>>>> 19104740efc0c7fcfc0d041e918d839c09ab03e0
 
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })

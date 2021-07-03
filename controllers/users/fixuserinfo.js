@@ -7,18 +7,34 @@ module.exports = async (req, res) => {
     const { username, password } = req.body;
 
     const data = isAuthorized(req);
-  
+    
     if (data) {
-      // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-      await user.update({ username, password, photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
+      if(!req.file){
+        // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
+        await user.update({ username, password }, { where: { id: data.id } });
 
-      const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
-      delete newUserInfo.password;
-      console.log(req.body)
-      return res.status(200).send({ 
-          message: "수정 되었습니다", 
-          data: { user: newUserInfo }
-      });
+        const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
+
+        delete newUserInfo.password;
+
+        return res.status(200).send({ 
+            message: "수정 되었습니다", 
+            data: { user: newUserInfo }
+        });
+      }
+      else{
+        // const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
+        await user.update({ username, password, photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
+  
+        const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
+  
+        delete newUserInfo.password;
+  
+        return res.status(200).send({ 
+            message: "수정 되었습니다", 
+            data: { user: newUserInfo }
+        });
+      }
     }
     else{
       console.log(err);

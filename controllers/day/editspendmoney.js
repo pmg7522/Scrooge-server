@@ -6,22 +6,15 @@ module.exports = async (req, res) => {
     const data = isAuthorized(req);
     
     const { moneyId, cost, memo, categoryname, date } = req.body;
-    // send할 때 , 찍기.
+
       if (data) {
       const newCost = cost.split(",").join("")
 
-      await money.update({ cost: newCost, memo, categoryId: newCategoryId, date }, { where: { id: moneyId } });
-
-      const categoryInfo = await category.findOne({ where: { id: categoryId }, raw: true});
-      const categoryName = categoryInfo.categoryname; 
-  
-      // const newMoneyInfo = await money.findOne({ where: { id: moneyId, categoryId , userId: data.id }, raw: true });
-      // const newMoneyCost = newMoneyInfo.cost;
-      // const newMoneyMemo = newMoneyInfo.memo;
-      // const newMoneyDate = newMoneyInfo.date;
+      const categoryInfo = await category.findOne({ where: { userId: data.id, categoryname: categoryname }, raw: true});
+      const newCategoryId = categoryInfo.id
+      await money.update({ cost: newCost, memo, date, categoryId: newCategoryId }, { where: { id: moneyId }});
   
       return res.status(200).send({ message: "수정 완료" });
-        // data: { categoryname: categoryName , cost: newMoneyCost, memo: newMoneyMemo, date: newMoneyDate }
       }
       else{
         console.log(err);

@@ -60,7 +60,7 @@ module.exports = (req, res) => {
           }
         }
         else{
-          return res.status(500).send({ message: "카카오톡 유저정보 없음" })
+          return res.status(400).send({ message: "카카오톡 유저정보 없음" })
         }
       })
     })

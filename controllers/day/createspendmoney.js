@@ -4,7 +4,7 @@ const { isAuthorized } = require("../functions");
 module.exports = async (req, res) => {
   try{
     const data = isAuthorized(req);
-  
+
     if(data){
       const { cost, memo, date, categoryname } = req.body;
       const newCost = cost.split(",").join("")

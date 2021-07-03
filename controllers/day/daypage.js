@@ -2,7 +2,7 @@ const { money, category } = require('../../models');
 const { isAuthorized } = require("../functions");
 
 module.exports = async (req, res) => {
-    try{
+
         const data = isAuthorized(req);
     
         if(data){
@@ -53,10 +53,11 @@ module.exports = async (req, res) => {
                     }});
             }
             else{
-                const categorymonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month);
-                const categoryexmonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month - 1);
-    
-                if(categorymonth.length !== 0){
+
+            const categorymonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month);
+            const categoryexmonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month - 1);
+
+                if(categorymonth.length !== 0){ 
                     if(categorymonth[0]["money.cost"] === undefined){
                         monthlyUsed = 0;
                         monthlyBudget = 0;
@@ -66,15 +67,15 @@ module.exports = async (req, res) => {
                         for(let i = 0; i < costs.length; i++){
                             monthlyUsed = monthlyUsed + costs[i]
                         }
-    
+
                         const budgets = categorymonth.map(el => el.budget)
                         for(let i = 0; i < budgets.length; i++){
                             monthlyBudget = monthlyBudget + budgets[i]
                         }
                     }
                 }
-    
-                if(categoryexmonth.length !== 0){
+
+                if(categoryexmonth.length !== 0){ 
                     if(categoryexmonth[0]["money.cost"] === undefined){
                         exMonthlyUsed = 0;
                     }
@@ -85,7 +86,7 @@ module.exports = async (req, res) => {
                         }
                     }
                 }
-    
+
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){
                     if(categorymonth[0].money.length === 0 && categoryexmonth[0].money.length === 0){
                         monthlyBudget = 0;
@@ -110,20 +111,18 @@ module.exports = async (req, res) => {
                     }
                 }
             }
-        
-            return res.status(200).send({ 
+            
+            res.status(200).send({ 
                 data: { 
-                    top: { monthlyBudget, monthlyUsed, exMonthlyUsed }, 
+                    top: { monthlyBudget, monthlyUsed, exMonthlyUsed },
                     bottom,
                     categoryList
                 }});
         }
+    
         else{
             console.log(err);
             return res.status(500).send({ message: "We Don't Know" });
         }
-    }
-    catch(err){
-        console.log(err)
-    }
+    
 }

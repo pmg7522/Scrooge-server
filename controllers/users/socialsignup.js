@@ -2,8 +2,6 @@ const { user, category } = require("../../models");
 
 module.exports = async (req, res) => {
     const { email, username } = req.body
-
-    console.log(req.body)
     try{
         if(!req.file){
             const userInfo = await user.create({ email, username })

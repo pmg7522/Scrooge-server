@@ -6,6 +6,7 @@ module.exports = {
   generateAccessToken: (data) => {
     return sign(data, process.env.ACCESS_SECRET, { expiresIn: "1h" });
   },
+
   generateRefreshToken: (data) => {
     return sign(data, process.env.REFRESH_SECRET, { expiresIn: "2h" });
   },
@@ -13,21 +14,22 @@ module.exports = {
     return res.cookie("refreshToken", refreshToken, {
       sameSite: "none",
       secure: true,
-      httpOnly: true
+      httpOnly: false
     }).send({ data: { accessToken, refreshToken }, message: "로그인 완료" });
   },
+
   resendAccessToken: (res, accessToken, data) => {
-    return res.send({ data: { accessToken, user: data }, message: "Token 재발급 완료" });
+    return res.send({ data: { accessToken, user: data }, message: "accessToken 재발급 완료" });
   },
   isAuthorized: (req, res) => {
     const authorization = req.headers["authorization"];
     if (!authorization) {
-      return res.status(401).send({ "message": 'invalid access token'})
+      return res.status(401).send({ message: "Unauthorized" })
     }
     const token = authorization.split(' ')[1];
     const data = jwt.verify(token, process.env.ACCESS_SECRET);
     if (!data) {
-        return res.status(404).send({ data: null, message: "토큰이 없는 잘못된 접근입니다." })
+      return res.status(400).send({ message: "토큰이 없는 잘못된 접근입니다." })
     }
     return data;
   },

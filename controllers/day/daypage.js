@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
                 where: { userId: data.id }, raw: true });
 
             for(let i = 0; i < categoryInfo.length; i++){
-                bottom.push({ 
+                bottom.unshift({ 
                     id: categoryInfo[i].id,
                     emoji: null,
                     moneyId: categoryInfo[i]['money.id'],

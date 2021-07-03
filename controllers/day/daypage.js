@@ -11,14 +11,14 @@ module.exports = async (req, res) => {
                 attributes: ["budget"],
                 include: [{ model: money, attributes: ["cost", "createdAt"] }],
                 where: { userId: data.id } , raw: true });
-            
+
             let bottom = [];    
             const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 where: { userId: data.id }, raw: true });
 
             for(let i = 0; i < categoryInfo.length; i++){
-                bottom.push({ 
+                bottom.unshift({ 
                     id: categoryInfo[i].id,
                     emoji: null,
                     moneyId: categoryInfo[i]['money.id'],

@@ -53,7 +53,7 @@ module.exports = (req, res) => {
               secure: true,
               httpOnly: true
             })
-            .send({ data: { accessToken, refreshToken }, message: "로그인 완료"  });
+            .send({ data: { accessToken, refreshToken }, message: "구글 로그인 완료"  });
           }
           else{
             return res.status(200).send({ data: googleUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." });

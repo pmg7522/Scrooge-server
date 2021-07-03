@@ -11,7 +11,8 @@ module.exports = async (req, res) => {
     
         const costArr = [];
         const budgetArr = [];
-        let moneyDate;
+        let moneyDate = [];
+        let thisMonth = new Date().getMonth();
 
         const moneyDates = await money.findAll({
             attributes: ["date"],
@@ -19,10 +20,30 @@ module.exports = async (req, res) => {
             where: { userId: data.id },
             raw: true
         })
-        // for(let i = 0; i < moneyDates.length; i++){
-        //     moneyDate = moneyDates[i].slice(0,7)
-        // }
-        // console.log(moneyDate)
+
+        for(let i = 0; i < moneyDates.length; i++){
+            moneyDate.push(moneyDates[i].date.slice(5,7))
+        }
+
+        for(let i = 1; i <= thisMonth; i++){
+            if(i < 10){
+                baseArr = new Array(32).fill(0)
+                monthlyArr = await money.findAll({
+                    attributes: ["date"],
+                    where: { userId: data.id, date: { [Op.like]: "%-0" + i + "-%"} },
+                    raw: true
+                })
+                for(let j = 0; j < monthlyArr.length; j++){
+                    let moneyDays = monthlyArr[j].date.split("-")[2]
+                    baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + 1
+                }
+                for(let k = 0; k < baseArr.length; k++){
+                    if(baseArr[k] !== 0){
+                        top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
+                    }
+                }
+            }
+        }
 
         const categoryInfo = await category.findAll({ 
             include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
@@ -54,7 +75,7 @@ module.exports = async (req, res) => {
 
         xlsx.utils.book_append_sheet( book, costList, "costList" );
 
-        return res.status(200).send({ message: "엑셀파일 다운로드 완료" })
+        return res.status(200).send({data:moneyDate , message: "엑셀파일 다운로드 완료" })
     }
     catch(err){
         console.log(err)

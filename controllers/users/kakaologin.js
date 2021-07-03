@@ -53,7 +53,7 @@ module.exports = (req, res) => {
               secure: true,
               httpOnly: true
             })
-            .send({ data: { accessToken, refreshToken }, message: "로그인 완료" })
+            .send({ data: { accessToken, refreshToken }, message: "카카오 로그인 완료" })
           }
           else{
             return res.status(200).send({ message: "카카오 회원가입을 해주세요." })

@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
                 raw: true
             })
             for(let i = 0; i < categoryInfo.length; i++){
-                bottom.push({ 
+                bottom.push({
                     id: categoryInfo[i].id,
                     emoji: null,
                     moneyId: categoryInfo[i]['money.id'],

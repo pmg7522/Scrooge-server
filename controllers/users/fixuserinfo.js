@@ -10,12 +10,24 @@ module.exports = async (req, res) => {
   
     if (data) {
 
-      const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-      await user.update({ username, password: hash, photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
+      if (!req.file) {
+        const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
 
-      const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
-      delete newUserInfo.password;
-      console.log(req.body)
+        await user.update({ username, password: hash }, { where: { id: data.id } });
+  
+        const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
+        delete newUserInfo.password;
+      }
+      else {
+        const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
+
+        await user.update({ username, password: hash, photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
+  
+        const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
+        delete newUserInfo.password;
+  
+      }
+      
       return res.status(200).send({ 
           message: "수정 되었습니다", 
           data: { user: newUserInfo }

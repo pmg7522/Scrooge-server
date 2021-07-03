@@ -1,4 +1,4 @@
-const { money, category, user } = require('../../models');
+const { money, category } = require('../../models');
 const { isAuthorized } = require("../functions");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
@@ -16,12 +16,12 @@ module.exports = async (req, res) => {
             order: [[ sequelize.col("date"), "ASC" ]],
             where: { userId: data.id },
             raw: true
-        })
+        });
 
-        const costArr = []; // 날자, 카이름, 비용, 메모
-        const budgetArr = []; // 년.월, 카이름, 예산, 예산 - 총지출()
+        const costArr = [];
+        const budgetArr = [];
 
-        for(let i = 0; i < userMoneyinfo.length; i++){             // 날자, 카이름, 비용, 메모
+        for(let i = 0; i < userMoneyinfo.length; i++){
             costArr.push([ 
                 userMoneyinfo[i]['date'],
                 userMoneyinfo[i]["category.categoryname"],
@@ -30,67 +30,53 @@ module.exports = async (req, res) => {
             ])
         }
 
-        // 년.월, 카이름, 예산, 예산 - 총지출(해당 월) => money + category
-        // 해당 유저의 1년 간 현재 월 까지의 각 카테고리 별 총 지출을 구한다.
-        // for => 12번 반복문을 돌린다.
-        //     i = 1인 경우, 해당 i 달을 가진 모든 지출 내역의 date값을 찾는다.
-        //     const categorynameArr = 해당 유저가 가진 카테고리 이름을 요소로 하는 배열을 만든다. findAll
-        //     if => 카테고리 이름을 가지고 있는 지출 내역 정보가 있다면, 지출값을 더한다. categorynameArr.length만큼 반복문을 돌린다. 
         const month = new Date().getMonth() + 1
-        let result = []
-        let baseArr;
+        const thisYear = new Date().getFullYear();
+
         let monthlyArr;
 
-        const dateInfo = await category.findAll({  // 해당 유저의 모든 지출 정보
-            attributes: ["id", "categoryname", "budget"],
-            include: [ { model: money, attributes: ["id", "date"]}],
-            where: { userId: data.id }
-        })
-
-
-        ////////////////////////////////// 해당 유저의 카테고리 이름 ///////////////////////////////
-        const categoryNameInfo = await category.findAll({ 
-            attributes: ["categoryname"],
-            where: { userId: data.id } 
-        })
-
-        const caname = [];
-        for (let i = 0; i < categoryNameInfo.length; i++) {
-            caname.push(categoryNameInfo[i].categoryname)
-        }
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-
         for(let i = 1; i <= month; i++){
-            console.log(i)
-            // baseArr = new Array(32).fill(0)
                 if(i < 10) {
                     monthlyArr = await money.findAll({
-                        attributes: ["date"],
+                        attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
+                        include: [{ model: category, attributes: ["categoryname", "budget"] }],
+                        group: "category.id",
                         where: { userId: data.id, date: { [Op.like]: "%-0" + i + "-%"} },
                         raw: true
                     })
+                    for(let j = 0; j < monthlyArr.length; j++){
+                        console.log(j)
+                        budgetArr.push([
+                            String(thisYear) + "-0" + String(i),
+                            monthlyArr[j]['category.categoryname'],
+                            monthlyArr[j]['category.budget'],
+                            monthlyArr[j]['category.budget'] - Number(monthlyArr[j].allCost)
+                        ])
+                    }
                 } else {
                     monthlyArr = await money.findAll({
-                        attributes: ["date"],
+                        attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
+                        include: [{ model: category, attributes: ["categoryname", "budget"] }],
+                        group: "category.id",
                         where: { userId: data.id, date: { [Op.like]: "%-" + i + "-%"} },
                         raw: true
                     })
                 }
-                // i 달
-        }
-
-        res.status(200).send({ userMoneyinfo, month, caname, dateInfo })
+            }
 
         const costList = xlsx.utils.aoa_to_sheet([
             [ "날짜", "카테고리", "지출 금액", "메모" ],
             ...costArr,
             [ "", "", "", "" ],
+            [ "날짜(달)", "카테고리", "예산", "남은 예산" ],
+            ...budgetArr
         ])
        
+        xlsx.utils.book_append_sheet( book, costList, "costList" );
 
-      //  xlsx.utils.book_append_sheet( book, costList, "costList" );
+        xlsx.writeFile( book, "costList.xlsx" ); 
 
-        return res.status(200).send({ data: costList, message: "엑셀 데이터 전송 완료" })
+        return res.status(200).send({ message: "엑셀 데이터 전송 완료" })
     }
     catch(err){
         console.log(err)

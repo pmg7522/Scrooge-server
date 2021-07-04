@@ -41,7 +41,7 @@ module.exports = {
 
     deletecategory: require("./category/deletecategory"),
     
-    getcategoryinfo: require("./category/getcategoryinfo"),
+    createcategoryinfo: require("./category/createcategoryinfo"),
 
     categorysort: require("./category/categorysort"),
 

@@ -8,7 +8,14 @@ module.exports = {
     //  * Add seed commands here.
     //  *
     //  * Example:
-     await queryInterface.bulkInsert('categories', [{
+     await queryInterface.bulkInsert('categories', [
+      {
+         categoryname: '지정되지 않은 카테고리',
+         budget: "0",
+         userId: "1",
+         createdAt,
+         updatedAt,
+      }, {
         categoryname: '식비',
         budget: "1000000",
         userId: "1",

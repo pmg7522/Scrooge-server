@@ -6,10 +6,10 @@ module.exports = async (req, res) => {
     const data = isAuthorized(req);
     
     if(data){
-        const{ categoryname, budget, emoji } = req.body;
+        const{ categoryname, budget } = req.body;
         const newBudget = budget.split(",").join("")
     
-        await category.create({ categoryname, budget: newBudget, emoji ,userId: data.id });
+        await category.create({ categoryname, budget: newBudget ,userId: data.id });
         
         return res.status(201).send({ "message": "생성 완료" });
     }

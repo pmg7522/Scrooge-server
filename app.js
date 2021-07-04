@@ -49,7 +49,7 @@ app.get("/importexcel", controllers.importexcel);
 
 // category
 app.post("/fixcategoryinfo", controllers.fixcategoryinfo);
-app.post("/getcategoryinfo", controllers.getcategoryinfo);
+app.post("/createcategoryinfo", controllers.createcategoryinfo);
 app.post("/deletecategory", controllers.deletecategory);
 app.get("/budget", controllers.budget);
 

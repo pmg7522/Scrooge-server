@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   achievement.init({
     scrooge: DataTypes.INTEGER,
+    leastspend: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   }, {
     sequelize,

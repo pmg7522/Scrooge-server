@@ -11,6 +11,10 @@ module.exports = {
       scrooge: {
         type: Sequelize.INTEGER
       },
+      leastspend: {
+        type: Sequelize.INTEGER,
+        defaultValue: null,
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {

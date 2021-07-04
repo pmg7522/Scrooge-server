@@ -33,49 +33,41 @@ module.exports = async (req, res) => {
             let baseArr;
             let monthlyArr;
             for(let i = 1; i <= 12; i++){
+                baseArr = new Array(32).fill(0)
                 if(i < 10){
-                    baseArr = new Array(32).fill(0)
                     monthlyArr = await money.findAll({
                         attributes: ["date"],
                         where: { userId: data.id, date: { [Op.like]: "%-0" + i + "-%"} },
                         raw: true
                     })
-                    for(let j = 0; j < monthlyArr.length; j++){
-                        let moneyDays = monthlyArr[j].date.split("-")[2]
-                        baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + 1
-                    }
-                    for(let k = 0; k < baseArr.length; k++){
-                        if(baseArr[k] !== 0){
-                            top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
-                        }
-                    }
                 }
                 else{
-                    baseArr = new Array(32).fill(0)
                     monthlyArr = await money.findAll({
                         attributes: ["date"],
                         where: { userId: data.id, date: { [Op.like]: "%-" + i + "-%"} },
                         raw: true
                     })
-                    for(let j = 0; j < monthlyArr.length; j++){
-                        let moneyDays = monthlyArr[j].date.split("-")[2]
-                        baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + 1
-                    }
-                    for(let k = 0; k < baseArr.length; k++){
-                        if(baseArr[k] !== 0){
-                            top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
-                        }
+                }
+                for(let j = 0; j < monthlyArr.length; j++){
+                    let moneyDays = monthlyArr[j].date.split("-")[2]
+                    baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + 1
+                }
+                for(let k = 0; k < baseArr.length; k++){
+                    if(baseArr[k] !== 0){
+                        top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
                     }
                 }
             }
             top.unshift([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }])
+
+
             //가장 잘 지킨 예산
             let best = [];
             let bestBudget = [];
             
             const categoryMoney = await money.findAll({ 
                 attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
-                include: [{ model: category, attributes: ["categoryname","budget"] }],
+                include: [{ model: category, attributes: ["categoryname", "budget"] }],
                 group: "category.id",
                 where: { userId: data.id, createdAt: { [Op.gt]: thisYear }}
             })
@@ -94,6 +86,8 @@ module.exports = async (req, res) => {
             
             bestBudget.sort((a,b) => (b.cost-a.cost));
             best.push(bestBudget[0], bestBudget[1], bestBudget[2])
+
+
             //가장 큰 지출
             const topthree = await money.findAll({
                 attributes: ["cost", "date", "memo"],
@@ -102,39 +96,39 @@ module.exports = async (req, res) => {
                 where:{ userId: data.id, createdAt: { [Op.gt]: thisYear }},
                 raw: true
             })
+
+
             //업적
             let achieve = [];
-    
+            let max = [];
+            
             const allMoneyDate = await money.findAll({
                 attributes: ["date"],
                 order: [[sequelize.col("date"), "DESC"]],
-                where: { userId: data.id }
+                where: { userId: data.id },
             })
-            let now = new Date();
-    
-            let longest = allMoneyDate[0].dataValues.date
-            let longestDate = longest.split("-")
-            let year = now.getFullYear()
-            let month = now.getMonth()+1
-            let day = now.getDate();
-    
-            let longDate = new Date(longestDate[0], longestDate[1], longestDate[2])
-            let shortDate = new Date(year, month, day)
-    
-            let difference = shortDate.getTime() - longDate.getTime()
-            let differenceDay = difference / (1000*60*60*24) + 1
-    
-            const scroogeDay = await achievement.findOne({ 
+
+            const dateinfo = allMoneyDate.map(el => new Date(el.dataValues.date).getTime())
+            dateinfo.unshift(new Date().getTime())
+
+            dateinfo.reduce((acc, cur) => {
+                max.push(acc - cur)
+                return cur
+            })
+            max.sort((a, b) => (b - a))
+            let ScroogeDay = max[0] / (1000*60*60*24) + 1
+
+            const scroogeDayinfo = await achievement.findOne({ 
                 attributes: ["scrooge"],
-                where: { userId: data.id } ,
+                where: { userId: data.id },
                 raw: true
             })
-    
-            if(scroogeDay.scrooge >= differenceDay){
-                differenceDay = scroogeDay.scrooge;
+
+            if(scroogeDayinfo.scrooge >= ScroogeDay){
+                ScroogeDay = scroogeDayinfo.scrooge;
             }
             else{
-                await achievement.update({ scrooge: differenceDay }, { where: { userId: data.id } })
+                await achievement.update({ scrooge: ScroogeDay }, { where: { userId: data.id } })
             }
     
             const leastspend = await money.findAll({
@@ -145,7 +139,7 @@ module.exports = async (req, res) => {
                 raw: true
             })
     
-            achieve.push({ scrooge: differenceDay, leastspend: leastspend[0].cost })
+            achieve.push({ scrooge: ScroogeDay, leastspend: leastspend[0].cost })
     
             return res.status(200).send({ data: {
                 top,

@@ -9,10 +9,8 @@ module.exports = async (req, res) => {
       const { categoryname } = req.body;
       const noneCategory = await category.findOne({ where: { categoryname: "지정되지 않은 카테고리", userId: data.id } });
       const noneCategoryId = noneCategory.dataValues.id;
-      const noneCategoryName = noneCategory.dataValues.categoryname;
   
       const categoryData = await category.findOne({ where: { categoryname, userId: data.id } });
-      
       const categoryDataId = categoryData.dataValues.id;
 
       await category.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", null);
@@ -20,7 +18,7 @@ module.exports = async (req, res) => {
       await category.sequelize.query("SET FOREIGN_KEY_CHECKS = 1", null);
 
       await money.update({ categoryId: noneCategoryId }, { where: { categoryId: categoryDataId } });
-      return res.status(205).send({ "message": `카테고리 삭제 완료, 삭제된 카테고리의 지출 정보의 카테고리는 ${noneCategoryName}로 변경됩니다.` });
+      return res.status(205).send({ "message": `카테고리 삭제 완료` });
     }
     else{
       console.log(err);

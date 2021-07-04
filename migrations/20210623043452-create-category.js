@@ -14,9 +14,9 @@ module.exports = {
       budget: {
         type: Sequelize.INTEGER
       },
-      // emoji: {
-      //   type: Sequelize.STRING
-      // },
+      emoji: {
+        type: Sequelize.STRING
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {

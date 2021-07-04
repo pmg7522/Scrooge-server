@@ -4,10 +4,12 @@ const { isAuthorized } = require("../functions")
 module.exports = async (req, res) => {
     try{
         const data = isAuthorized(req);
-    
-        if(data){
-            await category.destroy({ where: { userId: data.id } });
+
+        if(data) {
+            await category.destroy({ where: { userId: data.id } });            
+            
             await money.destroy({ where: { userId: data.id } });
+
             await achievement.destroy({ where: { userId: data.id } });
     
             await category.create({ categoryname: "지정되지 않은 카테고리", budget: 0, userId: data.id })

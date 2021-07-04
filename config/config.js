@@ -7,6 +7,7 @@ module.exports = {
     "database": "scrooge",
     "host": "127.0.0.1",
     "dialect": "mysql"
+
   },
   "test": {
     "username": "root",
@@ -22,5 +23,6 @@ module.exports = {
     "host": process.env.DATABASE_HOST,
     "port": process.env.DATABASE_PORT,
     "dialect": "mysql"
+
   }
 }

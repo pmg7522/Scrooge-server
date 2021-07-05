@@ -12,12 +12,12 @@ module.exports = async (req, res) => {
                 include: [{model: category, attributes: ["id","categoryname","budget"]}],
                 group: "category.id" ,
                 where: { userId: data.id }})
-                
+
                 let categories = [];
                 for(let i = 0; i < categoryMoney.length; i++){
                     let categoryname = categoryMoney[i].dataValues.category.categoryname;
                     let categorybudget = categoryMoney[i].dataValues.category.budget;
-                    let categoryused = categoryMoney[i].dataValues.allCost;
+                    let categoryused = Number(categoryMoney[i].dataValues.allCost);
                     let categoryrest = categoryMoney[i].dataValues.category.budget - categoryMoney[i].dataValues.allCost;
                     let allData = { categoryname, categorybudget, categoryused ,categoryrest };
                     categories.push(allData);
@@ -25,28 +25,21 @@ module.exports = async (req, res) => {
         
                 let usedGraph = [];
                 for(let i = 0; i < categoryMoney.length; i++){
-                    let id = categoryMoney[i].dataValues.category.id;
-                    let label = categoryMoney[i].dataValues.category.categoryname;
-                    let value = categoryMoney[i].dataValues.allCost;
-                    let allUsedData = { id, label, value };
-                    usedGraph.push(allUsedData);
+                    let categorynames = categoryMoney[i].dataValues.category.categoryname;
+                    let value = Number(categoryMoney[i].dataValues.allCost);
+                    usedGraph.push([categorynames, value]);
                 }
                 
                 let budgetGraph = [];
                 for(let i = 0; i < categoryMoney.length; i++){
-                    let id = categoryMoney[i].dataValues.category.id;
-                    let label = categoryMoney[i].dataValues.category.categoryname;
+                    let categorynames = categoryMoney[i].dataValues.category.categoryname;
                     let value = categoryMoney[i].dataValues.category.budget;
-                    let allBudgetData = { id, label, value };
-                    budgetGraph.push(allBudgetData);
+                    budgetGraph.push([categorynames, value]);
                 }
-        
-                const usedAllObj = { usedAll: await money.sum("cost", { where: { userId: data.id } })};
-                const budgetAllobj = { budgetAll: await category.sum("budget", { where: { userId: data.id } }) };
-        
-                usedGraph.unshift(usedAllObj);
-                budgetGraph.unshift(budgetAllobj);
-        
+
+                usedGraph.unshift(['Task', '총 지출 금액']);
+                budgetGraph.unshift(['Task', '총 예산 금액']);
+
                 return res.status(200).send({ 
                     data: { categories, usedGraph, budgetGraph } 
                 });

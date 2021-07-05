@@ -41,10 +41,17 @@ module.exports = (req, res) => {
         if (response.data) {
           googleUserInfo.email = response.data.email;
 
-          const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } });
-          const accessToken = generateAccessToken(realGoogleUser.dataValues);
-          const refreshToken = generateRefreshToken(realGoogleUser.dataValues);
+          let accessToken;
+          let refreshToken;
 
+          const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } });
+          if(!realGoogleUser){
+            return res.status(400).send({ message: "구글 회원가입을 해주세요." })
+          }
+          else{
+            accessToken = generateAccessToken(realGoogleUser.dataValues);
+            refreshToken = generateRefreshToken(realGoogleUser.dataValues);
+          }
           if(realGoogleUser){
             return res.
             status(200)

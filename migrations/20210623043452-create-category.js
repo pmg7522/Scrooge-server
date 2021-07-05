@@ -15,7 +15,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       emoji: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValues: "grey_question"
       },
       userId: {
         type: Sequelize.INTEGER,

@@ -19,7 +19,7 @@ module.exports = {
       },
       photo: {
         type: Sequelize.STRING,
-        defaultValue: "/uploads/c3195109635ceae9245b3e023ed673c8" || "디폴트 이미지.png"
+        defaultValue: "/uploads/c3195109635ceae9245b3e023ed673c8"
       },
       darkmode: {
         type: Sequelize.BOOLEAN,

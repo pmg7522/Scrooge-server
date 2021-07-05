@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   try{
     const data = isAuthorized(req);
     const{ categoryname, budget, emoji } = req.body;
-    
+
     const categoryinfo = await category.findOne({ where: { userId: data.id, categoryname } })
     if (categoryinfo) {
       return res.status(409).send({ message: "중복된 카테고리가 존재합니다" })

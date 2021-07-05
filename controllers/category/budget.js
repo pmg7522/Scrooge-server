@@ -5,23 +5,21 @@ const sequelize = require("sequelize");
 module.exports = async (req, res) => {
     try{
         const data = isAuthorized(req);
-    
         if(data){
             const categoryMoney = await money.findAll({ 
                 attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
-                include: [{model: category, attributes: ["id","categoryname","budget","emoji"]}],
+                include: [{model: category, attributes: ["id","categoryname","budget", "emoji"]}],
                 group: "category.id" ,
                 where: { userId: data.id }})
-                console.log(categoryMoney[0].dataValues.category.emoji)
-                
+
                 let categories = [];
                 for(let i = 0; i < categoryMoney.length; i++){
                     let categoryname = categoryMoney[i].dataValues.category.categoryname;
                     let categorybudget = categoryMoney[i].dataValues.category.budget;
                     let categoryused = Number(categoryMoney[i].dataValues.allCost);
-                    let categoryemoji = categoryMoney[i].dataValues.category.emoji
+                    let categoryemoji = categoryMoney[i].dataValues.category.emoji;
                     let categoryrest = categoryMoney[i].dataValues.category.budget - categoryMoney[i].dataValues.allCost;
-                    let allData = { categoryname, categorybudget, categoryused, categoryemoji, categoryrest };
+                    let allData = { categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
                     categories.push(allData);
                 }
         

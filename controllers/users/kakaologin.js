@@ -52,10 +52,6 @@ module.exports = (req, res) => {
             accessToken = generateAccessToken(realKakaoUserInfo.dataValues);
             refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);
           }
-<<<<<<< HEAD
-=======
-
->>>>>>> 6068279f0cbafc3b2da00de36fb0244bf5d1d29f
           if (realKakaoUserInfo){              
             return res.
             status(200)

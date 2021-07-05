@@ -15,5 +15,6 @@ module.exports = async (req, res) => {
     }
     catch(err){
         console.log(err)
+        return res.status(500).send({ message: "We Don't Know" })
     }
 }

@@ -56,7 +56,7 @@ module.exports = (req, res) => {
             .send({ data: { accessToken, refreshToken }, message: "구글 로그인 완료"  });
           }
           else{
-            return res.status(202).send({ data: googleUserInfo.email, message: "회원가입을 위해 이메일을 제외한 정보를 입력해주세요." });
+            return res.status(400).send({ message: "구글 회원가입을 해주세요." });
           }
         }
         else{

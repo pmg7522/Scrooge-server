@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
             console.log(err)
         }
     }
-    else if (message === "날짜순 정렬") {
+    else if (message === "dateSort") {
         try{
             if(data){
                 let bottom = [];

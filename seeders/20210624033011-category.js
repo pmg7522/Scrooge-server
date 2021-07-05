@@ -10,13 +10,6 @@ module.exports = {
     //  * Example:
      await queryInterface.bulkInsert('categories', [
       {
-         categoryname: '지정되지 않은 카테고리',
-         budget: "0",
-         userId: "1",
-         emoji: "",
-         createdAt,
-         updatedAt,
-      }, {
         categoryname: '식비',
         budget: "1000000",
         userId: "1",
@@ -79,7 +72,14 @@ module.exports = {
  emoji: "",
  createdAt,
  updatedAt,
-}], {});
+},{
+   categoryname: '지정되지 않은 카테고리',
+   budget: "0",
+   userId: "1",
+   emoji: "",
+   createdAt,
+   updatedAt,
+}, ], {});
     
   },
 

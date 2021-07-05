@@ -124,7 +124,7 @@ module.exports = async (req, res) => {
             else{
                 await achievement.update({ scrooge: ScroogeDay }, { where: { userId: data.id } })
             }
-    
+
             const leastspend = await money.findAll({
                 attributes: ["cost"],
                 order: [[sequelize.col("cost"), "ASC"]],
@@ -132,7 +132,7 @@ module.exports = async (req, res) => {
                 where:{ userId: data.id, createdAt: { [Op.gt]: thisYear }},
                 raw: true
             })
-    
+
             achieve.push({ scrooge: ScroogeDay, leastspend: leastspend[0].cost })
     
             return res.status(200).send({ data: {

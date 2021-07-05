@@ -12,6 +12,7 @@ module.exports = async (req, res) => {
                 include: [{model: category, attributes: ["id","categoryname","budget"]}],
                 group: "category.id" ,
                 where: { userId: data.id }})
+                console.log(categoryMoney)
                 
                 let categories = [];
                 for(let i = 0; i < categoryMoney.length; i++){

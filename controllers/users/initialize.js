@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
             } else {
               throw err;
             }
-            let defaultValue = "/uploads/7b358d3e62127cacc4a1340ea12869d4" // 디폴트 사진
+            let defaultValue = "/uploads/c3195109635ceae9245b3e023ed673c8" // 디폴트 사진
             photoinfo = fs.readFileSync(`.${defaultValue}`);
             let realphoto = imageDataUri.encode(photoinfo, "jpg");
 

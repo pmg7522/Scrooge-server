@@ -43,7 +43,7 @@ module.exports = (req, res) => {
           const realKakaoUserInfo = await user.findOne({ where: { email: kakaoUserInfo.email } });
 
           if (realKakaoUserInfo){              
-            return res.status(200).send({ message: "이미 가입되어있는 이메일입니다." });
+            return res.status(409).send({ message: "이미 가입되어있는 이메일입니다." });
           }
           else{
             return res.status(200).send({ data: kakaoUserInfo.email });

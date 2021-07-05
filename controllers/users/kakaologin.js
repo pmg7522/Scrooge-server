@@ -40,10 +40,18 @@ module.exports = (req, res) => {
       .then(async (response) => {
         if (response.data.kakao_account){
           kakaoUserInfo.email = response.data.kakao_account.email;
+
+          let accessToken;
+          let refreshToken;
           
           const realKakaoUserInfo = await user.findOne({ where: { email: kakaoUserInfo.email } })
-          const accessToken = generateAccessToken(realKakaoUserInfo.dataValues);
-          const refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);
+          if(!realKakaoUserInfo){
+            return res.status(400).send({ message: "카카오 회원가입을 해주세요." })
+          }
+          else{
+            accessToken = generateAccessToken(realKakaoUserInfo.dataValues);
+            refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);
+          }
 
           if (realKakaoUserInfo){              
             return res.

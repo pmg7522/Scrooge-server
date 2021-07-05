@@ -1,4 +1,4 @@
-const { money, category } = require('../../models');
+const { user, money, category } = require('../../models');
 const { isAuthorized } = require("../functions");
 
 module.exports = async (req, res) => {
@@ -14,6 +14,8 @@ module.exports = async (req, res) => {
     
       await money.findOne({ where: { userId: data.id } });
       await money.create({ cost: newCost, memo, date, userId: data.id, categoryId });
+      const userInfo = await user.findOne({ where: { id: data.id } })
+      await user.update({ experience: userInfo.dataValues.experience + 5 }, { where: { id: data.id }})
     
       return res.status(201).send({ "message": "생성 완료" });
     }

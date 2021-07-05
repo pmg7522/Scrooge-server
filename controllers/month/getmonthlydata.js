@@ -18,19 +18,19 @@ module.exports = async (req, res) => {
         let nextYear = ""
     
         if(test > 8){
-            thisMonth = String(new Date().getMonth())
+            thisMonth = String(new Date().getMonth() + 1)
             thisYear = String(new Date().getFullYear()) + "-" + thisMonth
-            exMonth = String(new Date().getMonth() - 1)
+            exMonth = String(new Date().getMonth())
             exYear = String(new Date().getFullYear()) + "-" + exMonth
-            nextMonth = String(new Date().getMonth() + 1)
+            nextMonth = String(new Date().getMonth() + 2)
             nextYear = String(new Date().getFullYear()) + "-" + nextMonth
         }
         else{
-            thisMonth = String(new Date().getMonth())
+            thisMonth = String(new Date().getMonth() + 1)
             thisYear = String(new Date().getFullYear()) + "-" + "0" + thisMonth
-            exMonth = String(new Date().getMonth() - 1)
+            exMonth = String(new Date().getMonth())
             exYear = String(new Date().getFullYear()) + "-" + "0" + exMonth
-            nextMonth = String(new Date().getMonth() + 1)
+            nextMonth = String(new Date().getMonth() + 2)
             nextYear = String(new Date().getFullYear()) + "-" + "0" + nextMonth
         }
     

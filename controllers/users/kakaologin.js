@@ -52,7 +52,10 @@ module.exports = (req, res) => {
             accessToken = generateAccessToken(realKakaoUserInfo.dataValues);
             refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);
           }
-          if (realKakaoUserInfo){              
+          if (realKakaoUserInfo){          
+            const userInfo = await user.findOne({ where: { email: kakaoUserInfo.email } })
+            await user.update({ experience: userInfo.dataValues.experience + 7 }, { where: { email: kakaoUserInfo.email }})
+
             return res.
             status(200)
             .cookie("refreshToken", refreshToken, {

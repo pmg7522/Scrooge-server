@@ -53,6 +53,9 @@ module.exports = (req, res) => {
             refreshToken = generateRefreshToken(realGoogleUser.dataValues);
           }
           if(realGoogleUser){
+            const userInfo = await user.findOne({ where: { email: googleUserInfo.email } })
+            await user.update({ experience: userInfo.dataValues.experience + 7 }, { where: { email: googleUserInfo.email }})
+
             return res.
             status(200)
             .cookie("refreshToken", refresh_token, {

@@ -82,7 +82,6 @@ module.exports = async (req, res) => {
             bestBudget.sort((a,b) => (b.cost-a.cost));
             best.push(bestBudget[0], bestBudget[1], bestBudget[2])
 
-
             //가장 큰 지출
             const topthree = await money.findAll({
                 attributes: ["cost", "date", "memo"],

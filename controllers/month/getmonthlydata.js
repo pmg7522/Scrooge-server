@@ -38,8 +38,8 @@ module.exports = async (req, res) => {
             let month = new Date().getMonth()
     
             const categoryInfos = await category.findAll({
-                attributes: ["budget", "createdAt"],
-                include: [{ model: money, attributes: ["cost", "createdAt"] }],
+                attributes: ["budget"],
+                include: [{ model: money, attributes: ["cost", "date"] }],
                 where: { userId: data.id } , 
                 raw: true 
             });
@@ -65,12 +65,26 @@ module.exports = async (req, res) => {
                     }});
             }
             else{
-                const categoryInfo = categoryInfos.filter(el => el["money.createdAt"])
-                const categorymonth = categoryInfo.filter(el => el["money.createdAt"].getMonth() === month);
-                const categoryexmonth = categoryInfo.filter(el => el["money.createdAt"].getMonth() === month - 1);
-    
-                const noCategoryMoney = categoryInfos.filter(el => !el["money.createdAt"])
-                const noCategorymonth = noCategoryMoney.filter(el => el.createdAt.getMonth() === month);
+                let categoryInfo;
+                let categorymonth;
+                let categoryexmonth;
+                let noCategoryMoney;
+                let noCategorymonth;
+
+                if(month < 10){
+                    categoryInfo = categoryInfos.filter(el => el["money.date"])
+                    categorymonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `0${month + 1}`);
+                    categoryexmonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `0${month}`);
+                    noCategoryMoney = categoryInfos.filter(el => !el["money.date"])
+                    noCategorymonth = noCategoryMoney.filter(el => el.date.getMonth() === month);
+                }
+                else{
+                    categoryInfo = categoryInfos.filter(el => el["money.date"])
+                    categorymonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `${month + 1}`);
+                    categoryexmonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `${month}`);
+                    noCategoryMoney = categoryInfos.filter(el => !el["money.date"])
+                    noCategorymonth = noCategoryMoney.filter(el => el.date.getMonth() === month);
+                }
                 
                 let noCategoryBudget = 0;
                 for(let i = 0; i < noCategorymonth.length; i++){
@@ -78,7 +92,7 @@ module.exports = async (req, res) => {
                 }
                 
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){ //이번달과 전달 둘 다 지출 내역이 있을 경우
-                    if(categorymonth[0].money.length === 0 && categoryexmonth[0].money.length === 0){
+                    if(categorymonth[0].length === 0 && categoryexmonth[0].length === 0){
                         monthlyBudget = 0;
                         monthlyUsed = 0;
                         exMonthlyUsed = 0;
@@ -100,8 +114,7 @@ module.exports = async (req, res) => {
                         }
                     }
                 }
-    
-                if(categorymonth.length !== 0){ //이번달 지출 내역이 있을 경우
+                else if(categorymonth.length !== 0){ //이번달 지출 내역이 있을 경우
                     if(categorymonth[0]["money.cost"] === undefined){
                         monthlyUsed = 0;
                     }
@@ -118,8 +131,7 @@ module.exports = async (req, res) => {
                         monthlyBudget = monthlyBudget + noCategoryBudget
                     }
                 }
-    
-                if(categoryexmonth.length !== 0){ //전달 지출 내역이 있을 경우
+                else if(categoryexmonth.length !== 0){ //전달 지출 내역이 있을 경우
                     if(categoryexmonth[0]["money.cost"] === undefined){
                         exMonthlyUsed = 0;
                     }
@@ -131,11 +143,10 @@ module.exports = async (req, res) => {
                     }
                 }
             }
-    
             const moneyDates = await money.findAll({
                 attributes: ["cost", "date"],
                 order: [sequelize.col("date")],
-                where: { userId: data.id, date: { [Op.lt]: nextYear, [Op.gt]: exYear } },
+                where: { userId: data.id, date: { [Op.lt]: nextYear, [Op.gt]: thisYear } },
                 raw: true
             })
     

@@ -18,19 +18,19 @@ module.exports = async (req, res) => {
         let nextYear = ""
     
         if(test > 8){
-            thisMonth = String(new Date().getMonth() + 1)
+            thisMonth = String(new Date().getMonth())
             thisYear = String(new Date().getFullYear()) + "-" + thisMonth
-            exMonth = String(new Date().getMonth())
+            exMonth = String(new Date().getMonth() - 1)
             exYear = String(new Date().getFullYear()) + "-" + exMonth
-            nextMonth = String(new Date().getMonth() + 2)
+            nextMonth = String(new Date().getMonth() + 1)
             nextYear = String(new Date().getFullYear()) + "-" + nextMonth
         }
         else{
-            thisMonth = String(new Date().getMonth() + 1)
+            thisMonth = String(new Date().getMonth())
             thisYear = String(new Date().getFullYear()) + "-" + "0" + thisMonth
-            exMonth = String(new Date().getMonth())
+            exMonth = String(new Date().getMonth() - 1)
             exYear = String(new Date().getFullYear()) + "-" + "0" + exMonth
-            nextMonth = String(new Date().getMonth() + 2)
+            nextMonth = String(new Date().getMonth() + 1)
             nextYear = String(new Date().getFullYear()) + "-" + "0" + nextMonth
         }
     
@@ -143,14 +143,26 @@ module.exports = async (req, res) => {
             let daily = [];
             for(let i = 0; i < moneyDates.length; i++){
                 let moneyDays = moneyDates[i].date.split("-")[2]
-                baseArr[moneyDays] = baseArr[moneyDays] + moneyDates[i].cost
-            }
-            for(let i = 0; i < baseArr.length; i++){
-                if(baseArr[i] !== 0){
-                    daily.push({ date: thisYear +  "-" + String(i), value: baseArr[i] })
+                if(moneyDays < 10){
+                    let newMoneyDays = moneyDays.slice(1,2)
+                    baseArr[newMoneyDays] = baseArr[newMoneyDays] + moneyDates[i].cost
+                }
+                else{
+                    baseArr[moneyDays] = baseArr[moneyDays] + moneyDates[i].cost
                 }
             }
-    
+            for(let i = 0; i < baseArr.length; i++){
+                if(i < 10){
+                    if(baseArr[i] !== 0){
+                        daily.push({ date: thisYear +  "-0" + String(i), value: baseArr[i] })
+                    }
+                }
+                else{
+                    if(baseArr[i] !== 0){
+                        daily.push({ date: thisYear +  "-" + String(i), value: baseArr[i] })
+                    }
+                }
+            }
             return res.status(200).send({
                 data: {
                     top: { monthlyBudget, monthlyUsed, exMonthlyUsed },

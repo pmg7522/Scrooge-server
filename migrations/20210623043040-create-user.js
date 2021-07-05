@@ -18,8 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       photo: {
-        type: Sequelize.STRING,
-        defaultValue: "/uploads/7b358d3e62127cacc4a1340ea12869d4"
+        type: Sequelize.STRING
       },
       darkmode: {
         type: Sequelize.BOOLEAN,

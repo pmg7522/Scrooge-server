@@ -4,9 +4,6 @@ const { user, money, category, achievement } = require("../../models");
 module.exports = async (req, res) => {
     try{
         const data = isAuthorized(req);
-    
-        // await category.truncate({ where: { userId: data.id } });
-        
         if(data){
             await category.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", null);
             await category.destroy({ where: { userId: data.id } })

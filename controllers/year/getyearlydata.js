@@ -124,7 +124,7 @@ module.exports = async (req, res) => {
             else{
                 await achievement.update({ scrooge: ScroogeDay }, { where: { userId: data.id } })
             }
-
+    
             const leastspend = await money.findAll({
                 attributes: ["cost"],
                 order: [[sequelize.col("cost"), "ASC"]],

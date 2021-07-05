@@ -17,12 +17,7 @@ module.exports = async (req, res) => {
                     bottom: {
                         best: [],
                         topthree: [],
-                        achievement: [
-                            {
-                                scrooge: null,
-                                leastspend: null
-                            }
-                        ]
+                        achievement: [ { scrooge: null, leastspend: null } ]
                     }
                 }
             })
@@ -97,11 +92,10 @@ module.exports = async (req, res) => {
                 raw: true
             })
 
-
             //업적
             let achieve = [];
             let max = [];
-            
+
             const allMoneyDate = await money.findAll({
                 attributes: ["date"],
                 order: [[sequelize.col("date"), "DESC"]],

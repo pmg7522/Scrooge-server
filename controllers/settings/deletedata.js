@@ -6,7 +6,9 @@ module.exports = async (req, res) => {
         const data = isAuthorized(req);
 
         if(data) {
-            // await category.destroy({ where: { userId: data.id } }); 
+            await category.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", null);
+            await category.destroy({ where: { userId: data.id } });
+            await category.sequelize.query("SET FOREIGN_KEY_CHECKS = 1", null);
 
             await money.destroy({ where: { userId: data.id } });
 

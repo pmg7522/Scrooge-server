@@ -6,10 +6,10 @@ module.exports = async (req, res) => {
     const data = isAuthorized(req);
 
     if(data){
-      const { cost, memo, date, categoryname } = req.body;
+      const { cost, memo, date, emoji } = req.body;
       const newCost = cost.split(",").join("")
   
-      const categoryInfo = await category.findOne({ where: { categoryname, userId: data.id }, raw: true});
+      const categoryInfo = await category.findOne({ where: { emoji, userId: data.id }, raw: true});
       const categoryId = categoryInfo.id;
     
       await money.findOne({ where: { userId: data.id } });

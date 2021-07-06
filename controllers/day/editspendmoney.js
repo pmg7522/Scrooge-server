@@ -5,12 +5,12 @@ module.exports = async (req, res) => {
   try{
     const data = isAuthorized(req);
     
-    const { moneyId, cost, memo, categoryname, date } = req.body;
+    const { moneyId, cost, memo, emoji, date } = req.body;
 
       if (data) {
       const newCost = cost.split(",").join("")
 
-      const categoryInfo = await category.findOne({ where: { userId: data.id, categoryname: categoryname }, raw: true});
+      const categoryInfo = await category.findOne({ where: { userId: data.id, emoji }, raw: true});
       const newCategoryId = categoryInfo.id
       await money.update({ cost: newCost, memo, date, categoryId: newCategoryId }, { where: { id: moneyId }});
   

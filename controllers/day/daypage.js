@@ -32,9 +32,19 @@ module.exports = async (req, res) => {
                 }
             }
 
-            const categoryList = await category.findAll({
+            const categoryLists = await category.findAll({
                 attributes: ["id", "categoryname", "emoji"],
                 where: { userId: data.id }});
+
+            let categoryList = [];    
+            for(let i = 0; i < categoryLists.length; i++){
+                if(categoryLists[i].categoryname === "지정되지 않은 카테고리"){
+                    continue;
+                }
+                else{
+                    categoryList.push(categoryLists[i])
+                }
+            }
 
             let monthlyUsed = 0;
             let exMonthlyUsed = 0;

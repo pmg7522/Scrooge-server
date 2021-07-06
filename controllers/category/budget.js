@@ -6,12 +6,6 @@ module.exports = async (req, res) => {
     try{
         const data = isAuthorized(req);
         if(data){
-            const categoryMoney = await money.findAll({ 
-                attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]],
-                include: [{model: category, attributes: ["id","categoryname","budget", "emoji"]}],
-                group: "category.id" ,
-                where: { userId: data.id }})
-
             const moneyCategory = await category.findAll({ 
                 attributes: ["id","categoryname", "budget", "emoji"],
                 include: [{model: money, attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]]}],
@@ -19,8 +13,6 @@ module.exports = async (req, res) => {
                 where: { userId: data.id },
                 raw: true
             })
-
-
                 let categories = [];
                 for(let i = 0; i < moneyCategory.length; i++){
                     if (moneyCategory[i]["money.allCost"]) {
@@ -42,19 +34,24 @@ module.exports = async (req, res) => {
                     }
                 }
 
-
                 let usedGraph = [];
-                for(let i = 0; i < categoryMoney.length; i++){
-                    let categorynames = categoryMoney[i].dataValues.category.categoryname;
-                    let value = Number(categoryMoney[i].dataValues.allCost);
-                    usedGraph.push([categorynames, value]);
+                for (let i = 0; i < moneyCategory.length; i++) {
+                    if (moneyCategory[i]["money.allCost"]) {
+                        usedGraph.push([ moneyCategory[i].categoryname, moneyCategory[i]["money.allCost"] ])
+                    }
+                    else {
+                        usedGraph.push([ moneyCategory[i].categoryname, 0 ])
+                    }
                 }
-                
+
                 let budgetGraph = [];
-                for(let i = 0; i < categoryMoney.length; i++){
-                    let categorynames = categoryMoney[i].dataValues.category.categoryname;
-                    let value = categoryMoney[i].dataValues.category.budget;
-                    budgetGraph.push([categorynames, value]);
+                for (let i = 0; i < moneyCategory.length; i++) {
+                    if (moneyCategory[i].budget) {
+                        budgetGraph.push([ moneyCategory[i].categoryname, moneyCategory[i].budget ])
+                    }
+                    else {
+                        budgetGraph.push([ moneyCategory[i].categoryname, 0 ])
+                    }
                 }
 
                 usedGraph.unshift(['Task', '총 지출 금액']);

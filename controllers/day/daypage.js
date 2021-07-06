@@ -33,7 +33,11 @@ module.exports = async (req, res) => {
                 }
             }
 
+<<<<<<< HEAD
             const categoryLists = await category.findAll({
+=======
+            const categoryList = await category.findAll({
+>>>>>>> dc8f2e0a1484c4fabefe5a7587126a434c43de1a
                 attributes: ["id", "categoryname", "emoji"],
                 where: { userId: data.id }});
 

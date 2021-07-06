@@ -76,19 +76,37 @@ module.exports = async (req, res) => {
                     categorymonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `0${month + 1}`);
                     categoryexmonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `0${month}`);
                     noCategoryMoney = categoryInfos.filter(el => !el["money.date"])
-                    noCategorymonth = noCategoryMoney.filter(el => el.date.getMonth() === month);
+                    if(noCategoryMoney){
+                        for(let i = 0; i < noCategoryMoney.length; i++){
+                            if(noCategoryMoney[i]["money.date"] === null){
+                                continue;
+                            }
+                            else{
+                                noCategorymonth = noCategoryMoney.filter(el => el["money.date"].split('-')[1] === `0${month}`);
+                            }
+                        }
+                    }
                 }
                 else{
                     categoryInfo = categoryInfos.filter(el => el["money.date"])
                     categorymonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `${month + 1}`);
                     categoryexmonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `${month}`);
-                    noCategoryMoney = categoryInfos.filter(el => !el["money.date"])
-                    noCategorymonth = noCategoryMoney.filter(el => el.date.getMonth() === month);
+                    if(noCategoryMoney){
+                        for(let i = 0; i < noCategoryMoney.length; i++){
+                            if(noCategoryMoney[i]["money.date"] === null){
+                                continue;
+                            }
+                            else{
+                                noCategorymonth = noCategoryMoney.filter(el => el["money.date"].split('-')[1] === `${month}`);
+                            }
+                        }
+                    }
                 }
-                
                 let noCategoryBudget = 0;
-                for(let i = 0; i < noCategorymonth.length; i++){
-                    noCategoryBudget = noCategoryBudget + noCategorymonth[i].budget
+                if(noCategorymonth){
+                    for(let i = 0; i < noCategorymonth.length; i++){
+                        noCategoryBudget = noCategoryBudget + noCategorymonth[i].budget
+                    }
                 }
                 
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){ //이번달과 전달 둘 다 지출 내역이 있을 경우

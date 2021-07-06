@@ -19,7 +19,6 @@ module.exports = async (req, res) => {
                 where: { userId: data.id },
                 raw: true
             })
-            console.log(moneyCategory)
 
 
                 let categories = [];

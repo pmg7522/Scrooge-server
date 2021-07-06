@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
             }
 
             const categoryList = await category.findAll({
-                attributes: ["id", "categoryname"],
+                attributes: ["id", "categoryname", "emoji"],
                 where: { userId: data.id }});
 
             let monthlyUsed = 0;

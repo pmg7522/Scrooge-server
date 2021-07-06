@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
             await achievement.destroy({ where: { userId: data.id } });
 
             await category.create({ categoryname: "지정되지 않은 카테고리", budget: 0, userId: data.id })
+            await achievement.create({ scrooge: 0, leastspend: 0, userId: data.id })
 
             return res.status(205).send({ message: "데이터 삭제 완료" });
         }

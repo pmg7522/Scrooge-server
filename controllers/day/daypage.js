@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
         const data = isAuthorized(req);
     
         if(data){
-            let month = new Date().getMonth()
+            let month = new Date().getMonth() + 1
             const categoryInfos = await category.findAll({
                 attributes: ["budget"],
                 include: [{ model: money, attributes: ["cost", "date"] }],
@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
                     bottom.unshift({ 
                         id: categoryInfo[i].id,
                         emoji: categoryInfo[i].emoji,
+                        categoryname: categoryInfo[i].categoryname,
                         moneyId: categoryInfo[i]['money.id'],
                         cost: categoryInfo[i]['money.cost'],
                         date: categoryInfo[i]['money.date'],
@@ -31,14 +32,34 @@ module.exports = async (req, res) => {
                     })
                 }
             }
-
-            const categoryList = await category.findAll({
-                attributes: ["id", "categoryname", "emoji"],
-                where: { userId: data.id }});
+            const categoryBudget = await category.findAll({
+                attributes: ["budget"],
+                where: { userId: data.id },
+                raw: true
+            })
 
             let monthlyUsed = 0;
             let exMonthlyUsed = 0;
             let monthlyBudget = 0;
+            
+            const budgets = categoryBudget.map(el => el.budget)
+            for(let i = 0; i < budgets.length; i++){
+                monthlyBudget = monthlyBudget + budgets[i]
+            }
+
+            const categoryLists = await category.findAll({
+                attributes: ["id", "categoryname", "emoji"],
+                where: { userId: data.id }});
+            
+            let categoryList = [];    
+            for(let i = 0; i < categoryLists.length; i++){
+                if(categoryLists[i].categoryname === "지정되지 않은 카테고리"){
+                    continue;
+                }
+                else{
+                    categoryList.push(categoryLists[i])
+                }
+            }
 
             if(!categoryInfos){
                 return res.status(200).send({ 
@@ -73,37 +94,6 @@ module.exports = async (req, res) => {
                     categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month}`);
                     categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month - 1}`);
                 }
-
-                if(categorymonth.length !== 0){ 
-                    if(categorymonth[0]["money.cost"] === undefined){
-                        monthlyUsed = 0;
-                        monthlyBudget = 0;
-                    }
-                    else{
-                        const costs = categorymonth.map(el => el["money.cost"])
-                        for(let i = 0; i < costs.length; i++){
-                            monthlyUsed = monthlyUsed + costs[i]
-                        }
-
-                        const budgets = categorymonth.map(el => el.budget)
-                        for(let i = 0; i < budgets.length; i++){
-                            monthlyBudget = monthlyBudget + budgets[i]
-                        }
-                    }
-                }
-
-                if(categoryexmonth.length !== 0){ 
-                    if(categoryexmonth[0]["money.cost"] === undefined){
-                        exMonthlyUsed = 0;
-                    }
-                    else{
-                        const exCosts = categoryexmonth.map(el => el["money.cost"])
-                        for(let i = 0; i < exCosts.length; i++){
-                            exMonthlyUsed = exMonthlyUsed + exCosts[i]
-                        }
-                    }
-                }
-
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){
                     if(categorymonth[0].length === 0 && categoryexmonth[0].length === 0){
                         monthlyBudget = 0;
@@ -115,12 +105,32 @@ module.exports = async (req, res) => {
                         for(let i = 0; i < costs.length; i++){
                             monthlyUsed = monthlyUsed + costs[i]
                         }
-    
-                        const budgets = categorymonth.map(el => el.budget)
-                        for(let i = 0; i < budgets.length; i++){
-                            monthlyBudget = monthlyBudget + budgets[i]
-                        }
                         
+                        const exCosts = categoryexmonth.map(el => el["money.cost"])
+                        for(let i = 0; i < exCosts.length; i++){
+                            exMonthlyUsed = exMonthlyUsed + exCosts[i]
+                        }
+                    }
+                }
+
+                else if(categorymonth.length !== 0){ 
+                    if(categorymonth[0]["money.cost"] === undefined){
+                        monthlyUsed = 0;
+                        monthlyBudget = 0;
+                    }
+                    else{
+                        const costs = categorymonth.map(el => el["money.cost"])
+                        for(let i = 0; i < costs.length; i++){
+                            monthlyUsed = monthlyUsed + costs[i]
+                        }
+                    }
+                }
+
+                else if(categoryexmonth.length !== 0){ 
+                    if(categoryexmonth[0]["money.cost"] === undefined){
+                        exMonthlyUsed = 0;
+                    }
+                    else{
                         const exCosts = categoryexmonth.map(el => el["money.cost"])
                         for(let i = 0; i < exCosts.length; i++){
                             exMonthlyUsed = exMonthlyUsed + exCosts[i]

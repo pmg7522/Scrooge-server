@@ -54,7 +54,6 @@ module.exports = async (req, res) => {
                     }
                 }
 
-
                 usedGraph.unshift(['Task', '총 지출 금액']);
                 budgetGraph.unshift(['Task', '총 예산 금액']);
 

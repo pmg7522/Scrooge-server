@@ -16,9 +16,9 @@ module.exports = {
     */
      await queryInterface.bulkInsert('users', [
       {
-        username: 'chanyang',
-        email: "1",
-        password: "1",
+        username: 'scrooge',
+        email: "scrooge@gmail.com",
+        password: "scrooge",
         photo: "/uploads/c3195109635ceae9245b3e023ed673c8",
         darkmode: false,
         redirect: "/daily",

@@ -6,13 +6,13 @@ module.exports = async (req, res) => {
         const data = isAuthorized(req);
     
         if(data){
-            let month = new Date().getMonth() + 1
+            let month = new Date().getMonth()
             const categoryInfos = await category.findAll({
                 attributes: ["budget"],
-                include: [{ model: money, attributes: ["cost", "date"] }],
+                include: [{ model: money, attributes: ["cost", "createdAt"] }],
                 where: { userId: data.id } , raw: true });
 
-            let bottom = [];
+            let bottom = [];    
             const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 where: { userId: data.id }, raw: true });
@@ -53,16 +53,9 @@ module.exports = async (req, res) => {
                     }});
             }
             else{
-            let categorymonth;
-            let categoryexmonth;
-            if(month < 10){
-                categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `0${month}`);
-                categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `0${month - 1}`);
-            }
-            else{
-                categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month}`);
-                categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month - 1}`);
-            }
+
+            const categorymonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month);
+            const categoryexmonth = categoryInfos.filter(el => el["money.createdAt"].getMonth() === month - 1);
 
                 if(categorymonth.length !== 0){ 
                     if(categorymonth[0]["money.cost"] === undefined){
@@ -95,7 +88,7 @@ module.exports = async (req, res) => {
                 }
 
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){
-                    if(categorymonth[0].length === 0 && categoryexmonth[0].length === 0){
+                    if(categorymonth[0].money.length === 0 && categoryexmonth[0].money.length === 0){
                         monthlyBudget = 0;
                         monthlyUsed = 0;
                         exMonthlyUsed = 0;

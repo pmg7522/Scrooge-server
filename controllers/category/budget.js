@@ -12,17 +12,38 @@ module.exports = async (req, res) => {
                 group: "category.id" ,
                 where: { userId: data.id }})
 
+            const moneyCategory = await category.findAll({ 
+                attributes: ["id","categoryname", "budget", "emoji"],
+                include: [{model: money, attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]]}],
+                group: "category.id" ,
+                where: { userId: data.id },
+                raw: true
+            })
+            console.log(moneyCategory)
+
+
                 let categories = [];
-                for(let i = 0; i < categoryMoney.length; i++){
-                    let categoryname = categoryMoney[i].dataValues.category.categoryname;
-                    let categorybudget = categoryMoney[i].dataValues.category.budget;
-                    let categoryused = Number(categoryMoney[i].dataValues.allCost);
-                    let categoryemoji = categoryMoney[i].dataValues.category.emoji;
-                    let categoryrest = categoryMoney[i].dataValues.category.budget - categoryMoney[i].dataValues.allCost;
-                    let allData = { categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
-                    categories.push(allData);
+                for(let i = 0; i < moneyCategory.length; i++){
+                    if (moneyCategory[i]["money.allCost"]) {
+                        let categoryname = moneyCategory[i].categoryname;
+                        let categorybudget = moneyCategory[i].budget;
+                        let categoryemoji = moneyCategory[i].emoji;
+                        let categoryused = Number(moneyCategory[i]["money.allCost"]);
+                        let categoryrest = moneyCategory[i].budget - moneyCategory[i]["money.allCost"];
+                        let allData = { categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
+                        categories.push(allData);
+                    } else {
+                        let categoryname = moneyCategory[i].categoryname;
+                        let categorybudget = moneyCategory[i].budget;
+                        let categoryemoji = moneyCategory[i].emoji;
+                        let categoryused = 0
+                        let categoryrest = moneyCategory[i].budget;
+                        let allData = { categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
+                        categories.push(allData);
+                    }
                 }
-        
+
+
                 let usedGraph = [];
                 for(let i = 0; i < categoryMoney.length; i++){
                     let categorynames = categoryMoney[i].dataValues.category.categoryname;

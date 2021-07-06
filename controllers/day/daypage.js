@@ -6,12 +6,12 @@ module.exports = async (req, res) => {
         const data = isAuthorized(req);
     
         if(data){
-            let month = new Date().getMonth() + 1
+            let month = new Date().getMonth()
             const categoryInfos = await category.findAll({
                 attributes: ["budget"],
-                include: [{ model: money, attributes: ["cost", "date"] }],
+                include: [{ model: money, attributes: ["cost", "createdAt"] }],
                 where: { userId: data.id } , raw: true });
-            console.log(categoryInfos)
+
             let bottom = [];
             const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
@@ -101,7 +101,7 @@ module.exports = async (req, res) => {
                 }
 
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){
-                    if(categorymonth[0].length === 0 && categoryexmonth[0].length === 0){
+                    if(categorymonth[0].money.length === 0 && categoryexmonth[0].money.length === 0){
                         monthlyBudget = 0;
                         monthlyUsed = 0;
                         exMonthlyUsed = 0;

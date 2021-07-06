@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
           sameSite: "none",
           secure: true,
           httpOnly: false
-        }).send({ data: { accessToken, refreshToken }, message: " Guest 로그인 완료" });
+        }).send({ data: { accessToken, refreshToken }, message: "Guest 로그인 완료" });
       }
 
       const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");

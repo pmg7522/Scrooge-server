@@ -9,23 +9,27 @@ module.exports = async (req, res) => {
             let month = new Date().getMonth()
             const categoryInfos = await category.findAll({
                 attributes: ["budget"],
-                include: [{ model: money, attributes: ["cost", "createdAt"] }],
+                include: [{ model: money, attributes: ["cost", "date"] }],
                 where: { userId: data.id } , raw: true });
 
             let bottom = [];
             const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 where: { userId: data.id }, raw: true });
-
             for(let i = 0; i < categoryInfo.length; i++){
-                bottom.unshift({ 
-                    id: categoryInfo[i].id,
-                    emoji: categoryInfo[i].emoji,
-                    moneyId: categoryInfo[i]['money.id'],
-                    cost: categoryInfo[i]['money.cost'],
-                    date: categoryInfo[i]['money.date'],
-                    memo: categoryInfo[i]['money.memo']
-                })
+                if(categoryInfo[i]['money.cost'] === null){
+                    continue;
+                }
+                else{
+                    bottom.unshift({ 
+                        id: categoryInfo[i].id,
+                        emoji: categoryInfo[i].emoji,
+                        moneyId: categoryInfo[i]['money.id'],
+                        cost: categoryInfo[i]['money.cost'],
+                        date: categoryInfo[i]['money.date'],
+                        memo: categoryInfo[i]['money.memo']
+                    })
+                }
             }
 
             const categoryList = await category.findAll({
@@ -54,21 +58,21 @@ module.exports = async (req, res) => {
                 })
             }
             else{
-            for(let i = 0; i < categoryInfos.length; i++){
-                if(categoryInfos[i]['money.cost'] === null){
-                    delete categoryInfos[i]
+                for(let i = 0; i < categoryInfos.length; i++){
+                    if(categoryInfos[i]['money.cost'] === null){
+                        delete categoryInfos[i]
+                    }
                 }
-            }
-            let categorymonth;
-            let categoryexmonth;
-            if(month < 10){
-                categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `0${month}`);
-                categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `0${month - 1}`);
-            }
-            else{
-                categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month}`);
-                categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month - 1}`);
-            }
+                let categorymonth;
+                let categoryexmonth;
+                if(month < 10){
+                    categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `0${month}`);
+                    categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `0${month - 1}`);
+                }
+                else{
+                    categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month}`);
+                    categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month - 1}`);
+                }
 
                 if(categorymonth.length !== 0){ 
                     if(categorymonth[0]["money.cost"] === undefined){
@@ -101,7 +105,7 @@ module.exports = async (req, res) => {
                 }
 
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){
-                    if(categorymonth[0].money.length === 0 && categoryexmonth[0].money.length === 0){
+                    if(categorymonth[0].length === 0 && categoryexmonth[0].length === 0){
                         monthlyBudget = 0;
                         monthlyUsed = 0;
                         exMonthlyUsed = 0;

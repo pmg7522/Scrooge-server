@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
                 attributes: ["budget"],
                 include: [{ model: money, attributes: ["cost", "date"] }],
                 where: { userId: data.id } , raw: true });
-
+            console.log(categoryInfos)
             let bottom = [];
             const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
@@ -50,9 +50,15 @@ module.exports = async (req, res) => {
                         top: [],
                         bottom: [],
                         categoryList
-                    }});
+                    }
+                })
             }
             else{
+            for(let i = 0; i < categoryInfos.length; i++){
+                if(categoryInfos[i]['money.cost'] === null){
+                    delete categoryInfos[i]
+                }
+            }
             let categorymonth;
             let categoryexmonth;
             if(month < 10){

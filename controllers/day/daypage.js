@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
                     bottom.unshift({ 
                         id: categoryInfo[i].id,
                         emoji: categoryInfo[i].emoji,
+                        categoryname: categoryInfo[i].categoryname,
                         moneyId: categoryInfo[i]['money.id'],
                         cost: categoryInfo[i]['money.cost'],
                         date: categoryInfo[i]['money.date'],
@@ -83,37 +84,6 @@ module.exports = async (req, res) => {
                     categorymonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month}`);
                     categoryexmonth = categoryInfos.filter(el => el["money.date"].split('-')[1] === `${month - 1}`);
                 }
-
-                if(categorymonth.length !== 0){ 
-                    if(categorymonth[0]["money.cost"] === undefined){
-                        monthlyUsed = 0;
-                        monthlyBudget = 0;
-                    }
-                    else{
-                        const costs = categorymonth.map(el => el["money.cost"])
-                        for(let i = 0; i < costs.length; i++){
-                            monthlyUsed = monthlyUsed + costs[i]
-                        }
-
-                        const budgets = categorymonth.map(el => el.budget)
-                        for(let i = 0; i < budgets.length; i++){
-                            monthlyBudget = monthlyBudget + budgets[i]
-                        }
-                    }
-                }
-
-                if(categoryexmonth.length !== 0){ 
-                    if(categoryexmonth[0]["money.cost"] === undefined){
-                        exMonthlyUsed = 0;
-                    }
-                    else{
-                        const exCosts = categoryexmonth.map(el => el["money.cost"])
-                        for(let i = 0; i < exCosts.length; i++){
-                            exMonthlyUsed = exMonthlyUsed + exCosts[i]
-                        }
-                    }
-                }
-
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){
                     if(categorymonth[0].length === 0 && categoryexmonth[0].length === 0){
                         monthlyBudget = 0;
@@ -131,6 +101,36 @@ module.exports = async (req, res) => {
                             monthlyBudget = monthlyBudget + budgets[i]
                         }
                         
+                        const exCosts = categoryexmonth.map(el => el["money.cost"])
+                        for(let i = 0; i < exCosts.length; i++){
+                            exMonthlyUsed = exMonthlyUsed + exCosts[i]
+                        }
+                    }
+                }
+
+                else if(categorymonth.length !== 0){ 
+                    if(categorymonth[0]["money.cost"] === undefined){
+                        monthlyUsed = 0;
+                        monthlyBudget = 0;
+                    }
+                    else{
+                        const costs = categorymonth.map(el => el["money.cost"])
+                        for(let i = 0; i < costs.length; i++){
+                            monthlyUsed = monthlyUsed + costs[i]
+                        }
+
+                        const budgets = categorymonth.map(el => el.budget)
+                        for(let i = 0; i < budgets.length; i++){
+                            monthlyBudget = monthlyBudget + budgets[i]
+                        }
+                    }
+                }
+
+                else if(categoryexmonth.length !== 0){ 
+                    if(categoryexmonth[0]["money.cost"] === undefined){
+                        exMonthlyUsed = 0;
+                    }
+                    else{
                         const exCosts = categoryexmonth.map(el => el["money.cost"])
                         for(let i = 0; i < exCosts.length; i++){
                             exMonthlyUsed = exMonthlyUsed + exCosts[i]

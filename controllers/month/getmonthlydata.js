@@ -46,9 +46,20 @@ module.exports = async (req, res) => {
     
             const moneyInfos = await money.findAll({ where: { userId: data.id } });
     
+            const categoryBudget = await category.findAll({
+                attributes: ["budget"],
+                where: { userId: data.id },
+                raw: true
+            })
+
             let monthlyUsed = 0;
             let exMonthlyUsed = 0;
             let monthlyBudget = 0;
+
+            const budgets = categoryBudget.map(el => el.budget)
+            for(let i = 0; i < budgets.length; i++){
+                monthlyBudget = monthlyBudget + budgets[i]
+            }
     
             if(categoryInfos.length === 0){
                 return res.status(200).send({ 
@@ -68,45 +79,16 @@ module.exports = async (req, res) => {
                 let categoryInfo;
                 let categorymonth;
                 let categoryexmonth;
-                let noCategoryMoney;
-                let noCategorymonth;
 
                 if(month < 10){
                     categoryInfo = categoryInfos.filter(el => el["money.date"])
                     categorymonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `0${month + 1}`);
                     categoryexmonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `0${month}`);
-                    noCategoryMoney = categoryInfos.filter(el => !el["money.date"])
-                    if(noCategoryMoney){
-                        for(let i = 0; i < noCategoryMoney.length; i++){
-                            if(noCategoryMoney[i]["money.date"] === null){
-                                continue;
-                            }
-                            else{
-                                noCategorymonth = noCategoryMoney.filter(el => el["money.date"].split('-')[1] === `0${month}`);
-                            }
-                        }
-                    }
                 }
                 else{
                     categoryInfo = categoryInfos.filter(el => el["money.date"])
                     categorymonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `${month + 1}`);
                     categoryexmonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `${month}`);
-                    if(noCategoryMoney){
-                        for(let i = 0; i < noCategoryMoney.length; i++){
-                            if(noCategoryMoney[i]["money.date"] === null){
-                                continue;
-                            }
-                            else{
-                                noCategorymonth = noCategoryMoney.filter(el => el["money.date"].split('-')[1] === `${month}`);
-                            }
-                        }
-                    }
-                }
-                let noCategoryBudget = 0;
-                if(noCategorymonth){
-                    for(let i = 0; i < noCategorymonth.length; i++){
-                        noCategoryBudget = noCategoryBudget + noCategorymonth[i].budget
-                    }
                 }
                 
                 if(categorymonth.length !== 0 && categoryexmonth.length !== 0){ //이번달과 전달 둘 다 지출 내역이 있을 경우
@@ -119,11 +101,6 @@ module.exports = async (req, res) => {
                         const costs = categorymonth.map(el => el["money.cost"])
                         for(let i = 0; i < costs.length; i++){
                             monthlyUsed = monthlyUsed + costs[i]
-                        }
-    
-                        const budgets = categorymonth.map(el => el.budget)
-                        for(let i = 0; i < budgets.length; i++){
-                            monthlyBudget = monthlyBudget + budgets[i]
                         }
                         
                         const exCosts = categoryexmonth.map(el => el["money.cost"])
@@ -141,12 +118,6 @@ module.exports = async (req, res) => {
                         for(let i = 0; i < costs.length; i++){
                             monthlyUsed = monthlyUsed + costs[i]
                         }
-    
-                        const budgets = categorymonth.map(el => el.budget)
-                        for(let i = 0; i < budgets.length; i++){
-                            monthlyBudget = monthlyBudget + budgets[i]
-                        }
-                        monthlyBudget = monthlyBudget + noCategoryBudget
                     }
                 }
                 else if(categoryexmonth.length !== 0){ //전달 지출 내역이 있을 경우

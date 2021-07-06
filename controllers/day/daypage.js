@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
         const data = isAuthorized(req);
     
         if(data){
-            let month = new Date().getMonth()
+            let month = new Date().getMonth() + 1
             const categoryInfos = await category.findAll({
                 attributes: ["budget"],
                 include: [{ model: money, attributes: ["cost", "date"] }],
@@ -32,15 +32,25 @@ module.exports = async (req, res) => {
                     })
                 }
             }
+            const categoryBudget = await category.findAll({
+                attributes: ["budget"],
+                where: { userId: data.id },
+                raw: true
+            })
 
-<<<<<<< HEAD
+            let monthlyUsed = 0;
+            let exMonthlyUsed = 0;
+            let monthlyBudget = 0;
+            
+            const budgets = categoryBudget.map(el => el.budget)
+            for(let i = 0; i < budgets.length; i++){
+                monthlyBudget = monthlyBudget + budgets[i]
+            }
+
             const categoryLists = await category.findAll({
-=======
-            const categoryList = await category.findAll({
->>>>>>> dc8f2e0a1484c4fabefe5a7587126a434c43de1a
                 attributes: ["id", "categoryname", "emoji"],
                 where: { userId: data.id }});
-
+            
             let categoryList = [];    
             for(let i = 0; i < categoryLists.length; i++){
                 if(categoryLists[i].categoryname === "지정되지 않은 카테고리"){
@@ -50,10 +60,6 @@ module.exports = async (req, res) => {
                     categoryList.push(categoryLists[i])
                 }
             }
-
-            let monthlyUsed = 0;
-            let exMonthlyUsed = 0;
-            let monthlyBudget = 0;
 
             if(!categoryInfos){
                 return res.status(200).send({ 
@@ -99,11 +105,6 @@ module.exports = async (req, res) => {
                         for(let i = 0; i < costs.length; i++){
                             monthlyUsed = monthlyUsed + costs[i]
                         }
-    
-                        const budgets = categorymonth.map(el => el.budget)
-                        for(let i = 0; i < budgets.length; i++){
-                            monthlyBudget = monthlyBudget + budgets[i]
-                        }
                         
                         const exCosts = categoryexmonth.map(el => el["money.cost"])
                         for(let i = 0; i < exCosts.length; i++){
@@ -121,11 +122,6 @@ module.exports = async (req, res) => {
                         const costs = categorymonth.map(el => el["money.cost"])
                         for(let i = 0; i < costs.length; i++){
                             monthlyUsed = monthlyUsed + costs[i]
-                        }
-
-                        const budgets = categorymonth.map(el => el.budget)
-                        for(let i = 0; i < budgets.length; i++){
-                            monthlyBudget = monthlyBudget + budgets[i]
                         }
                     }
                 }

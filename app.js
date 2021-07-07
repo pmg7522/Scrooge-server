@@ -18,7 +18,7 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
-const port = 80
+const port = 3000; // 배포환경: 80
 
 app.get("/", (req, res) => {
     res.status(200).json("Hello World")

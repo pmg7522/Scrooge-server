@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
             });
           }
       }
-      else { // username없고, 사진만 있는 고치고 싶은 경우
+      else { // username없고, 사진만 있는  고치고 싶은 경우
         if (req.file) {
           await user.update({ photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
     

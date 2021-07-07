@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
                 let usedGraph = [];
                 for (let i = 0; i < moneyCategory.length; i++) {
                     if (moneyCategory[i]["money.allCost"]) {
-                        usedGraph.push([ moneyCategory[i].categoryname, moneyCategory[i]["money.allCost"] ])
+                        usedGraph.push([ moneyCategory[i].categoryname, Number(moneyCategory[i]["money.allCost"]) ])
                     }
                     else {
                         usedGraph.push([ moneyCategory[i].categoryname, 0 ])
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
                 let budgetGraph = [];
                 for (let i = 0; i < moneyCategory.length; i++) {
                     if (moneyCategory[i].budget) {
-                        budgetGraph.push([ moneyCategory[i].categoryname, moneyCategory[i].budget ])
+                        budgetGraph.push([ moneyCategory[i].categoryname, Number(moneyCategory[i].budget) ])
                     }
                     else {
                         budgetGraph.push([ moneyCategory[i].categoryname, 0 ])

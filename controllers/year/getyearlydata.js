@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
                     bottom: {
                         best: [],
                         topthree: [],
-                        achievement: [ { scrooge: null, leastspend: null } ]
+                        achieve: [ { scrooge: 0, leastspend: 0 } ]
                     }
                 }
             })

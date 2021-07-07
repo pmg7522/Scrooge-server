@@ -36,6 +36,7 @@ app.post("/checkemail", controllers.checkemail);
 app.post("/findpassword", controllers.findpassword);
 app.post("/socialsignup", upload.single('photo'), controllers.socialsignup);
 app.post("/categorysort", controllers.categorysort);
+app.post("/changepassword", controllers.changepassword);
 app.get("/refreshTokenRequest", controllers.refreshTokenRequest);
 app.get("/signout", controllers.signout);
 app.get("/deleteuser", controllers.deleteuser);

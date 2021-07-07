@@ -1,5 +1,6 @@
 const { money, category } = require('../../models');
 const { isAuthorized } = require("../functions");
+const sequelize = require("sequelize");
 
 module.exports = async (req, res) => {
 
@@ -15,6 +16,7 @@ module.exports = async (req, res) => {
             let bottom = [];
             const categoryInfo = await category.findAll({ 
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
+                order: [sequelize.col("money.id")],
                 where: { userId: data.id }, raw: true });
             for(let i = 0; i < categoryInfo.length; i++){
                 if(categoryInfo[i]['money.cost'] === null){

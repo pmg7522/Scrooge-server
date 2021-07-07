@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
           });
         }
         else {
-          res.status(200).send({ message: "수정하고 싶은 정보를 입력해주세요" })
+          res.status(400).send({ message: "수정하고 싶은 정보를 입력해주세요" })
         }
       }
     }

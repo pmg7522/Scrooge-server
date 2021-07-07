@@ -154,15 +154,16 @@ module.exports = async (req, res) => {
             for(let i = 0; i < baseArr.length; i++){
                 if(i < 10){
                     if(baseArr[i] !== 0){
-                        daily.push({ date: thisYear +  "-0" + String(i), value: baseArr[i] })
+                        daily.push({ date: thisYear +  "-0" + String(i), title: baseArr[i] })
                     }
                 }
                 else{
                     if(baseArr[i] !== 0){
-                        daily.push({ date: thisYear +  "-" + String(i), value: baseArr[i] })
+                        daily.push({ date: thisYear +  "-" + String(i), title: baseArr[i] })
                     }
                 }
             }
+
             return res.status(200).send({
                 data: {
                     top: { monthlyBudget, monthlyUsed, exMonthlyUsed },

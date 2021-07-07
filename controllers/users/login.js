@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
       }
 
       const hash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
-      if (hash !== userInfo.dataValues.password) {
+      if (password !== userInfo.dataValues.password) {
         return res.status(409).send({ message: "정확한 정보를 입력해 주십시오." });
       }
       else {

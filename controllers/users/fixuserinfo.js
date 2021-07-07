@@ -33,16 +33,21 @@ module.exports = async (req, res) => {
             });
           }
       }
-      else { // username없고, 사진만 고치고 싶은 경우
-        await user.update({ photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
-  
-        const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
-  
-        delete newUserInfo.password;
-          return res.status(200).send({ 
-            data: { user: newUserInfo },
-            message: "수정 되었습니다"
-        });
+      else { // username없고, 사진만 있는 고치고 싶은 경우
+        if (req.file) {
+          await user.update({ photo: "/uploads/" + req.file.filename }, { where: { id: data.id } });
+    
+          const newUserInfo = await user.findOne({ where: { id: data.id }, raw: true });
+    
+          delete newUserInfo.password;
+            return res.status(200).send({ 
+              data: { user: newUserInfo },
+              message: "수정 되었습니다"
+          });
+        }
+        else {
+          res.status(200).send({ message: "수정하고 싶은 정보를 입력해주세요" })
+        }
       }
     }
     else{

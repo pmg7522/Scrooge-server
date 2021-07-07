@@ -18,6 +18,9 @@ module.exports = async (req, res) => {
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 order: [sequelize.col("money.id")],
                 where: { userId: data.id }, raw: true });
+
+            const noCategoryCost = categoryInfos.filter(el => el["money.cost"])
+            
             for(let i = 0; i < categoryInfo.length; i++){
                 if(categoryInfo[i]['money.cost'] === null){
                     continue;
@@ -71,7 +74,7 @@ module.exports = async (req, res) => {
                         categoryList
                     }});
             }
-            if(!categoryInfos[0]["money.cost"]){
+            if(noCategoryCost.length === 0){
                 return res.status(200).send({ 
                     data: { 
                         top: [],

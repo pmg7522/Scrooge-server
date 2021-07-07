@@ -2,7 +2,6 @@ const { money, category } = require('../../models');
 const { isAuthorized } = require("../functions");
 const sequelize = require("sequelize");
 
-
 module.exports = async (req, res) => {
 
         const data = isAuthorized(req);
@@ -18,12 +17,10 @@ module.exports = async (req, res) => {
             const categoryInfo = await category.findAll({
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 order: [sequelize.col("money.id")],
-                where: { userId: data.id },
-                raw: true
-            });
+                where: { userId: data.id }, raw: true });
 
             const noCategoryCost = categoryInfos.filter(el => el["money.cost"])
-
+            
             for(let i = 0; i < categoryInfo.length; i++){
                 if(categoryInfo[i]['money.cost'] === null){
                     continue;

@@ -16,20 +16,22 @@ module.exports = async (req, res) => {
                 let categories = [];
                 for(let i = 0; i < moneyCategory.length; i++){
                     if (moneyCategory[i]["money.allCost"]) {
+                        let categoryId = moneyCategory[i].id
                         let categoryname = moneyCategory[i].categoryname;
                         let categorybudget = moneyCategory[i].budget;
                         let categoryemoji = moneyCategory[i].emoji;
                         let categoryused = Number(moneyCategory[i]["money.allCost"]);
                         let categoryrest = moneyCategory[i].budget - moneyCategory[i]["money.allCost"];
-                        let allData = { categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
+                        let allData = { categoryId, categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
                         categories.push(allData);
                     } else {
+                        let categoryId = moneyCategory[i].id
                         let categoryname = moneyCategory[i].categoryname;
                         let categorybudget = moneyCategory[i].budget;
                         let categoryemoji = moneyCategory[i].emoji;
                         let categoryused = 0
                         let categoryrest = moneyCategory[i].budget;
-                        let allData = { categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
+                        let allData = { categoryId, categoryname, categorybudget, categoryused ,categoryrest, categoryemoji };
                         categories.push(allData);
                     }
                 }

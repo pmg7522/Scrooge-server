@@ -29,6 +29,8 @@ module.exports = {
 
     darkmode: require("./settings/darkmode"),
 
+    changepassword: require("./users/changepassword"),
+
     importexcel: require("./settings/importexcel"),
 
     changemainpage: require("./settings/changemainpage"),

@@ -7,6 +7,14 @@ module.exports = async (req, res) => {
 
   try{
     if(data){
+      const categoryinfo = await category.findOne({ where: { userId: data.id, categoryname } })
+      const categoryinfos = await category.findOne({ where: { userId: data.id, emoji } })
+      if (categoryinfo) {
+        return res.status(409).send({ message: "중복된 카테고리가 존재합니다" })
+      }
+      if (categoryinfos) {
+        return res.status(409).send({ message: "중복된 이모지가 존재합니다" })
+      }
       if (!budget) {
           if (!emoji) {
             await category.update({ categoryname }, { where: { id: categoryId } });
@@ -21,8 +29,7 @@ module.exports = async (req, res) => {
           const newBudget = budget.split(",").join("")
           await category.update({ categoryname, budget: newBudget }, { where: { id: categoryId } });
           return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-        } 
-
+        }
         const newBudget = budget.split(",").join("")
         await category.update({ categoryname, budget: newBudget, emoji }, { where: { id: categoryId } });
         return res.status(200).send({ "message": "카테고리 정보 수정 완료" });

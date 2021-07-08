@@ -7,23 +7,6 @@ module.exports = async (req, res) => {
 
   try{
     if(data){
-<<<<<<< HEAD
-      // if (!budget) {
-      //     if (!emoji) {
-      //       await category.update({ categoryname }, { where: { id: categoryId } });
-      //       return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-      //     } 
-          
-      //   await category.update({ categoryname, emoji }, { where: { id: categoryId } });
-      //   return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-      // } 
-      // else {
-      //   if (!emoji) {
-      //     const newBudget = budget.split(",").join("")
-      //     await category.update({ categoryname, budget: newBudget }, { where: { id: categoryId } });
-      //     return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-      //   } 
-=======
       const categoryinfo = await category.findOne({ where: { userId: data.id, categoryname } })
       const categoryinfos = await category.findOne({ where: { userId: data.id, emoji } })
       if (categoryinfo) {
@@ -47,11 +30,10 @@ module.exports = async (req, res) => {
           await category.update({ categoryname, budget: newBudget }, { where: { id: categoryId } });
           return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
         }
->>>>>>> e00ecb8dbb18e70a3c71d3464e97f4e2d7b4ecbc
         const newBudget = budget.split(",").join("")
         await category.update({ categoryname, budget: newBudget, emoji }, { where: { id: categoryId } });
         return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-      // }
+      }
     }
     else{
       console.log(err);

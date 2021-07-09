@@ -49,11 +49,11 @@ module.exports = async (req, res) => {
                 }
                 for(let k = 0; k < baseArr.length; k++){
                     if(baseArr[k] !== 0){
-                        top.push(`[new Date(${new Date().getFullYear()}, ${i}, ${k}), ${baseArr[k]}]`)
+                        top.push([new Date().getFullYear(), i, k, baseArr[k]])
                     }
                 }
             }
-            top.unshift([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }])
+            // top.unshift([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }])
 
 
             //가장 잘 지킨 예산
@@ -109,7 +109,7 @@ module.exports = async (req, res) => {
                 return cur
             })
             max.sort((a, b) => (b - a))
-            let ScroogeDay = Math.floor((max[0] / (1000*60*60*24) + 1))
+            let ScroogeDay = Math.floor((max[0] / (1000*60*60*24)))
 
             const scroogeDayinfo = await achievement.findOne({ 
                 attributes: ["scrooge"],

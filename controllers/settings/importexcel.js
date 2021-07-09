@@ -71,11 +71,6 @@ module.exports = async (req, res) => {
             [ "날짜(달)", "카테고리", "예산", "남은 예산" ],
             ...budgetArr
         ])
-       
-        ///  클라이언트에서 실행  ///  
-        xlsx.utils.book_append_sheet( book, costList, "costList" );
-        xlsx.writeFile( book, "costList.xlsx" ); 
-        ////////////////////////
 
         return res.status(200).send({ data: { costList }, message: "엑셀 데이터 전송 완료" })
     }

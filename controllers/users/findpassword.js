@@ -8,8 +8,8 @@ module.exports = async (req, res) => {
     if(userInfo){
         let transporter = nodemailer.createTransport({
             service: "gmail",
-            host: process.env.MAIL_HOST,
-            port: process.env.MAIL_PORT,
+            host: "smtp.gmail.com",
+            port: 587,
             secure: false,
             auth: {
               user: process.env.MAIL_ID,

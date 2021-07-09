@@ -53,9 +53,7 @@ module.exports = async (req, res) => {
                     }
                 }
             }
-            // top.unshift([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }])
-
-
+            
             //가장 잘 지킨 예산
             let best = [];
             let bestBudget = [];

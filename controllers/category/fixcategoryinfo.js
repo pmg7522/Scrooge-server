@@ -7,7 +7,6 @@ module.exports = async (req, res) => {
 
   try{
     if(data){
-      
       const categoryInfo = await category.findAll({ where: { userId: data.id }, raw: true })
       const categoryInfos = categoryInfo.filter(el => el.id !== Number(categoryId))
       const newBudget = budget.split(",").join("")
@@ -18,7 +17,6 @@ module.exports = async (req, res) => {
       }
       await category.update({ categoryname, emoji, budget: newBudget }, { where: { id: categoryId } })
       return res.status(200).send({ message: "카테고리 정보 수정 완료" })
-
     }
     else{
       console.log(err);

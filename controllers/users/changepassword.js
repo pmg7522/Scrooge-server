@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
         const originHash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
         const authUser = await user.findOne({ where: { id: data.id }, raw: true })
 
-        if (String(password).length === 6) {
+        if(String(password).length === 6) {
           originHash = password
         }
 

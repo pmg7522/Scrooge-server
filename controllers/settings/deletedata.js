@@ -12,13 +12,7 @@ module.exports = async (req, res) => {
             await money.destroy({ where: { userId: data.id } });
 
             await category.create({ categoryname: "지정되지 않은 카테고리", emoji: "grey_question", budget: 0, userId: data.id })
-            await achievement.update({ scrooge: 0, leastspend: 0 }, { where: { userId: data.id } })
-
-<<<<<<< HEAD
-=======
-            await category.create({ categoryname: "지정되지 않은 카테고리", emoji: "grey_question", budget: 0, userId: data.id })
             await achievement.create({ scrooge: 0, leastspend: 0, userId: data.id })
->>>>>>> fe1f17b2ca9f776fb2bb118fbf3fd2f0f12fac8a
 
             return res.status(205).send({ message: "데이터 삭제 완료" });
         }

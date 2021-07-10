@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
       if (categoryinfo) {
         return res.status(409).send({ message: "중복된 카테고리가 존재합니다" })
       }
-      if (categoryinfos) {
+      else if (categoryinfos) {
         return res.status(409).send({ message: "중복된 이모지가 존재합니다" })
       }
       if(!budget) {

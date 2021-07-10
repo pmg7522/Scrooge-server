@@ -4,16 +4,16 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
 module.exports = async (req, res) => {
-    const { id, message, memo } = req.body
+    const { emoji, message, memo } = req.body
     const data = isAuthorized(req);
-    if (id) {
+    if (emoji) {
         try{
             if(data){
                 let bottom = [];
                 const categoryInfo = await category.findAll({
                     attributes:["id", "emoji"],
                     include: [{ model: money, attributes: ["id", "cost", "date", "memo"] }],
-                    where: { id, userId: data.id },
+                    where: { emoji, userId: data.id },
                     raw: true
                 })
                 for(let i = 0; i < categoryInfo.length; i++){

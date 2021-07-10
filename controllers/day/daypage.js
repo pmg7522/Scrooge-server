@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
                 where: { userId: data.id } , raw: true });
 
             let bottom = [];
-            const categoryInfo = await category.findAll({ 
+            const categoryInfo = await category.findAll({
                 include: [{ model: money, attributes: ["id", "cost", "date", "memo"]}],
                 order: [sequelize.col("money.id")],
                 where: { userId: data.id }, raw: true });

@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
               pass: process.env.MAIL_SECRET
             },
         });
-    
+
         let randomPassword = Math.floor(Math.random() * 1000000)
         await user.update({ password: randomPassword }, { where: { email }})
         

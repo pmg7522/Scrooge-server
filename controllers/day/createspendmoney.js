@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
     if(data){
       const { cost, memo, date, categoryname } = req.body;
       const newCost = cost.split(",").join("")
-  
       const categoryInfo = await category.findOne({ where: { emoji: categoryname, userId: data.id }, raw: true});
       const categoryId = categoryInfo.id;
     

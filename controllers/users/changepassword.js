@@ -12,6 +12,10 @@ module.exports = async (req, res) => {
         const originHash = crypto.createHmac("sha256", process.env.SALT).update(password).digest("hex");
         const authUser = await user.findOne({ where: { id: data.id }, raw: true })
 
+        if(String(password).length === 6) {
+          originHash = password
+        }
+
         if (authUser.password !== originHash) {
             return res.status(400).send({ message: "기존 비밀번호를 정확하게 입력해주세요" })
         }

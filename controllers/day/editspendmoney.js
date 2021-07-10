@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   try{
     const data = isAuthorized(req);
     
-    const { moneyId, cost, memo, emoji, date } = req.body;
+    const { moneyId, cost, memo, categoryname, date } = req.body;
 
       if (data) {
       const newCost = cost.split(",").join("")

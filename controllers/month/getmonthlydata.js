@@ -154,12 +154,12 @@ module.exports = async (req, res) => {
             for(let i = 0; i < baseArr.length; i++){
                 if(i < 10){
                     if(baseArr[i] !== 0){
-                        daily.push({ date: thisYear +  "-0" + String(i), title: baseArr[i] })
+                        daily.push({ date: thisYear +  "-0" + String(i), title: `${baseArr[i]}` })
                     }
                 }
                 else{
                     if(baseArr[i] !== 0){
-                        daily.push({ date: thisYear +  "-" + String(i), title: baseArr[i] })
+                        daily.push({ date: thisYear +  "-" + String(i), title: `${baseArr[i]}` })
                     }
                 }
             }
@@ -178,5 +178,6 @@ module.exports = async (req, res) => {
     }
     catch(err){
         console.log(err)
+        return res.status(500).send({ message: "We Don't Know" });
     }
 }

@@ -7,39 +7,16 @@ module.exports = async (req, res) => {
 
   try{
     if(data){
-      if (!budget) {
-          if (!emoji) {
-            const categoryinfo = await category.findOne({ where: { id: categoryId }, raw: true })
-            console.log(categoryinfo)
-            if (categoryinfo.categoryname === categoryname) {
-              return res.status(409).send({ "message": "중복된 카테고리가 존재합니다" });
-            }
-            else {
-              await category.update({ categoryname }, { where: { id: categoryId } });
-              return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-            }
-          }
-          else if (!categoryname) {
-            await category.update({ emoji }, { where: { id: categoryId } });
-            return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-          }
-        await category.update({ categoryname, emoji }, { where: { id: categoryId } });
-        return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-      }
-      else if (!categoryname) {
-        if (!emoji) {
-          const newBudget = budget.split(",").join("")
-          await category.update({ budget: newBudget }, { where: { id: categoryId } });
-          return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
+      const categoryInfo = await category.findAll({ where: { userId: data.id }, raw: true })
+      const categoryInfos = categoryInfo.filter(el => el.id !== Number(categoryId))
+      const newBudget = budget.split(",").join("")
+      for(let i = 0; i < categoryInfos.length; i++) {
+        if(categoryInfos[i].categoryname === categoryname || categoryInfos[i].emoji === emoji) {
+          return res.status(409).send({ message: "중복된 카테고리나 이모지가 존재합니다" })
         }
-        else if (!budget) {
-          await category.update({ emoji }, { where: { id: categoryId } });
-          return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
-        }
-        const newBudget = budget.split(",").join("")
-        await category.update({ budget: newBudget, emoji }, { where: { id: categoryId } });
-        return res.status(200).send({ "message": "카테고리 정보 수정 완료" });
       }
+      await category.update({ categoryname, emoji, budget: newBudget }, { where: { id: categoryId } })
+      return res.status(200).send({ message: "카테고리 정보 수정 완료" })
     }
     else{
       console.log(err);

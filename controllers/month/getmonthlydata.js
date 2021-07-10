@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     
         if(test > 8){
             thisMonth = String(new Date().getMonth() + 1)
-            thisYear = String(new Date().getFullYear()) + "-" + thisMonth
+            thisYear = String(new Date().getFullYear())
             exMonth = String(new Date().getMonth())
             exYear = String(new Date().getFullYear()) + "-" + exMonth
             nextMonth = String(new Date().getMonth() + 2)
@@ -27,13 +27,14 @@ module.exports = async (req, res) => {
         }
         else{
             thisMonth = String(new Date().getMonth() + 1)
-            thisYear = String(new Date().getFullYear()) + "-" + "0" + thisMonth
+            thisYear = String(new Date().getFullYear())
             exMonth = String(new Date().getMonth())
             exYear = String(new Date().getFullYear()) + "-" + "0" + exMonth
             nextMonth = String(new Date().getMonth() + 2)
             nextYear = String(new Date().getFullYear()) + "-" + "0" + nextMonth
         }
-    
+
+
         if(data){
             let month = new Date().getMonth()
     
@@ -91,7 +92,7 @@ module.exports = async (req, res) => {
                     categoryexmonth = categoryInfo.filter(el => el["money.date"].split('-')[1] === `${month}`);
                 }
                 
-                if(categorymonth.length !== 0 && categoryexmonth.length !== 0){ //이번달과 전달 둘 다 지출 내역이 있을 경우
+                if(categorymonth.length !== 0 && categoryexmonth.length !== 0){  //이번달과 전달 둘 다 지출 내역이 있을 경우
                     if(categorymonth[0].length === 0 && categoryexmonth[0].length === 0){
                         monthlyBudget = 0;
                         monthlyUsed = 0;
@@ -132,34 +133,88 @@ module.exports = async (req, res) => {
                     }
                 }
             }
+
+
             const moneyDates = await money.findAll({
                 attributes: ["cost", "date"],
                 order: [sequelize.col("date")],
-                where: { userId: data.id, date: { [Op.lt]: nextYear, [Op.gt]: thisYear } },
+                // where: { userId: data.id, date: { [Op.lt]: nextYear, [Op.gt]: thisYear } },
+                where: { userId: data.id, date: { [Op.gt]: thisYear } },
                 raw: true
             })
-    
-            let baseArr = new Array(32).fill(0)
+            
+            
+
+            // let baseArr = new Array(32).fill(0)
+            // let daily = [];
+
+            // for(let i = 0; i < moneyDates.length; i++){
+            //     let moneyDays = moneyDates[i].date.split("-")[2]
+            //     if(moneyDays < 10){
+            //         let newMoneyDays = moneyDays.slice(1,2)
+            //         baseArr[newMoneyDays] = baseArr[newMoneyDays] + moneyDates[i].cost
+            //     }
+            //     else{
+            //         baseArr[moneyDays] = baseArr[moneyDays] + moneyDates[i].cost
+            //     }
+            // }
+            // for(let i = 0; i < baseArr.length; i++){
+            //     console.log(i)
+            //     if(i < 10){
+            //         if(baseArr[i] !== 0){
+            //             daily.push({ date: thisYear +  "-0" + String(i), title: `${baseArr[i]}` })
+            //         }
+            //     }
+            //     else{
+            //         if(baseArr[i] !== 0){
+            //             daily.push({ date: thisYear +  "-" + String(i), title: `${baseArr[i]}` })
+            //         }
+            //     }
+            // }
+            
+
             let daily = [];
-            for(let i = 0; i < moneyDates.length; i++){
-                let moneyDays = moneyDates[i].date.split("-")[2]
-                if(moneyDays < 10){
-                    let newMoneyDays = moneyDays.slice(1,2)
-                    baseArr[newMoneyDays] = baseArr[newMoneyDays] + moneyDates[i].cost
-                }
-                else{
-                    baseArr[moneyDays] = baseArr[moneyDays] + moneyDates[i].cost
-                }
-            }
-            for(let i = 0; i < baseArr.length; i++){
+            let baseArr;
+            let monthlyArr;
+            for(let i = 1; i <= 12; i++){
+                baseArr = new Array(32).fill(0)
                 if(i < 10){
-                    if(baseArr[i] !== 0){
-                        daily.push({ date: thisYear +  "-0" + String(i), title: `${baseArr[i]}` })
-                    }
+                    monthlyArr = await money.findAll({
+                        attributes: ["date", "cost"],
+                        where: { userId: data.id, date: { [Op.like]: "%-0" + i + "-%"} },
+                        raw: true
+                    })
                 }
                 else{
-                    if(baseArr[i] !== 0){
-                        daily.push({ date: thisYear +  "-" + String(i), title: `${baseArr[i]}` })
+                    monthlyArr = await money.findAll({
+                        attributes: ["date", "cost"],
+                        where: { userId: data.id, date: { [Op.like]: "%-" + i + "-%"} },
+                        raw: true
+                    })
+                }
+                for(let j = 0; j < monthlyArr.length; j++){
+                    let moneyDays = monthlyArr[j].date.split("-")[2]
+                    baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + monthlyArr[j].cost
+                }
+
+                for(let k = 0; k < baseArr.length; k++){
+                    if(i < 10){
+                        if(baseArr[k] !== 0){
+                            if (k < 10) {
+                                daily.push({ date: thisYear +  "-0" + String(i) + "-0" + k, title: `${baseArr[k]}` })
+                            } else {
+                                daily.push({ date: thisYear +  "-0" + String(i) + "-" + k, title: `${baseArr[k]}` })
+                            }
+                        }
+                    }
+                    else{
+                        if(baseArr[k] !== 0) {
+                            if (k < 10) {
+                                daily.push({ date: thisYear +  "-" + String(i) + "-0" + k, title: `${baseArr[k]}` })
+                            } else {
+                                daily.push({ date: thisYear +  "-" + String(i) + "-" + k, title: `${baseArr[k]}` })
+                            }
+                        }
                     }
                 }
             }
@@ -167,7 +222,7 @@ module.exports = async (req, res) => {
             return res.status(200).send({
                 data: {
                     top: { monthlyBudget, monthlyUsed, exMonthlyUsed },
-                    daily
+                    daily,
                 }
             })
         }

@@ -152,7 +152,7 @@ module.exports = {
          ////////////////// user 2 End ///////////////////
       }, {
          ////////////////// user 3 Start /////////////////
-         categoryname: '지정되지 않은 카테고리',
+         categoryname: '지정되지 않은 카테고리',  
          budget: "0",
          userId: "3",
          emoji: "grey_question",
@@ -224,77 +224,77 @@ module.exports = {
          ////////////////// user 3 End ///////////////////
       }, {
          ////////////////// user 4 Start /////////////////
-         categoryname: '지정되지 않은 카테고리',
+         categoryname: '지정되지 않은 카테고리', // 1
          budget: "0",
          userId: "4",
          emoji: "grey_question",
          createdAt,
          updatedAt,
       }, {  
-         categoryname: '식비',
+         categoryname: '식비', // 2
          budget: "750000",
          userId: "4",
          emoji: "rice",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '통신비',
+         categoryname: '통신비', // 3 
          budget: "50000",
          userId: "4",
          emoji: "iphone",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '교통비',
+         categoryname: '교통비', // 4 
          budget: "45000",
          userId: "4",
          emoji: "bus",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '육아비',
+         categoryname: '육아비', // 5
          budget: "500000",
          userId: "4",
          emoji: "baby",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '학원비',
+         categoryname: '학원비', // 6
          budget: "1000000",
          userId: "4",
          emoji: "school_satchel",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '외식',
+         categoryname: '외식', // 7
          budget: "400000",
          userId: "4",
          emoji: "fork_and_knife",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '하이패스',
-         budget: "36000",
+         categoryname: '하이패스', // 8
+         budget: "50000",
          userId: "4",
          emoji: "car",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '카드값',
+         categoryname: '카드값', // 9
          budget: "895000",
          userId: "4",
          emoji: "credit_card",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '여행',
+         categoryname: '여행', // 10
          budget: "1500000",
          userId: "4",
          emoji: "airplane",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '관리비',
+         categoryname: '출혈', // 11
          budget: "65000",
          userId: "4",
          emoji: "house",
@@ -303,77 +303,77 @@ module.exports = {
          ////////////////// user 4 End ///////////////////
       }, {
          ////////////////// user 5 Start /////////////////
-         categoryname: '지정되지 않은 카테고리',
+         categoryname: '지정되지 않은 카테고리', // 1
          budget: "0",
          userId: "5",
          emoji: "grey_question",
          createdAt,
          updatedAt,
       }, {  
-         categoryname: '식비',
+         categoryname: '식비', // 2
          budget: "750000",
          userId: "5",
          emoji: "rice",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '통신비',
+         categoryname: '통신비', // 3 
          budget: "36000",
          userId: "5",
          emoji: "iphone",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '교통비',
+         categoryname: '교통비', // 4
          budget: "48000",
          userId: "5",
          emoji: "bus",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '육아비',
+         categoryname: '육아비', // 5
          budget: "450000",
          userId: "5",
          emoji: "baby",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '학원비',
+         categoryname: '학원비', // 6
          budget: "860000",
          userId: "5",
          emoji: "school_satchel",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '외식',
+         categoryname: '외식', // 7 
          budget: "350000",
          userId: "5",
          emoji: "fork_and_knife",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '하이패스',
+         categoryname: '하이패스', // 8
          budget: "25600",
          userId: "5",
          emoji: "car",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '카드값',
+         categoryname: '카드값', // 9 
          budget: "784000",
          userId: "5",
          emoji: "credit_card",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '여행',
+         categoryname: '여행', // 10
          budget: "1600000",
          userId: "5",
          emoji: "airplane",
          createdAt,
          updatedAt,
       }, {
-         categoryname: '관리비',
+         categoryname: '관리비', // 11
          budget: "48000",
          userId: "5",
          emoji: "house",

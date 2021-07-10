@@ -136,14 +136,7 @@ module.exports = {
          createdAt,
          updatedAt,
       }, {
-         categoryname: '해외 숙박비',
-         budget: "450000",
-         userId: "2",
-         emoji: "hotel",
-         createdAt,
-         updatedAt,
-      }, {
-         categoryname: '교제비',
+         categoryname: '교재비',
          budget: "350000",
          userId: "2",
          emoji: "books",
@@ -186,14 +179,7 @@ module.exports = {
          emoji: "bus",
          createdAt,
          updatedAt,
-      }, {
-         categoryname: '육아비',
-         budget: "340000",
-         userId: "3",
-         emoji: "baby",
-         createdAt,
-         updatedAt,
-      }, {
+      },{
          categoryname: '학원비',
          budget: "900000",
          userId: "3",

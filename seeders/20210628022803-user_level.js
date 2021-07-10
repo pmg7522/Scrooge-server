@@ -19,17 +19,17 @@ module.exports = {
       levelId: "1",
       createdAt,
       updatedAt,
-   },{
-    userId: "2",
-    levelId: "1",
-    createdAt,
-    updatedAt,
- },{
-  userId: "3",
-  levelId: "1",
-  createdAt,
-  updatedAt,
-}], {});
+    },{
+      userId: "2",
+      levelId: "1",
+      createdAt,
+      updatedAt,
+    },{
+      userId: "3",
+      levelId: "1",
+      createdAt,
+      updatedAt,
+    }], {});
   },
 
   down: async (queryInterface, Sequelize) => {

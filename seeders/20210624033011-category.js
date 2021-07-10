@@ -38,7 +38,7 @@ module.exports = {
       }, {
          categoryname: '고정 지출',
          budget: "500000",
-         userId: "2",
+         userId: "1",
          emoji: "",
          createdAt,
          updatedAt,

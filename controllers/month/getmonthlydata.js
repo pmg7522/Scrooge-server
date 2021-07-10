@@ -197,27 +197,27 @@ module.exports = async (req, res) => {
                     baseArr[Number(moneyDays)] = baseArr[Number(moneyDays)] + monthlyArr[j].cost
                 }
 
-                for(let k = 0; k < baseArr.length; k++){
-                    if(i < 10){
-                        if(baseArr[k] !== 0){
-                            if (k < 10) {
-                                daily.push({ date: thisYear +  "-0" + String(i) + "-0" + k, title: `${baseArr[k]}` })
-                            } else {
-                                daily.push({ date: thisYear +  "-0" + String(i) + "-" + k, title: `${baseArr[k]}` })
-                            }
+            for(let k = 0; k < baseArr.length; k++){
+                if(i < 10){
+                    if(baseArr[k] !== 0){
+                        if (k < 10) {
+                            daily.push({ date: thisYear +  "-0" + String(i) + "-0" + k, title: `${baseArr[k]}` })
+                        } else {
+                            daily.push({ date: thisYear +  "-0" + String(i) + "-" + k, title: `${baseArr[k]}` })
                         }
                     }
-                    else{
-                        if(baseArr[k] !== 0) {
-                            if (k < 10) {
-                                daily.push({ date: thisYear +  "-" + String(i) + "-0" + k, title: `${baseArr[k]}` })
-                            } else {
-                                daily.push({ date: thisYear +  "-" + String(i) + "-" + k, title: `${baseArr[k]}` })
-                            }
+                }
+                else{
+                    if(baseArr[k] !== 0) {
+                        if (k < 10) {
+                            daily.push({ date: thisYear +  "-" + String(i) + "-0" + k, title: `${baseArr[k]}` })
+                        } else {
+                            daily.push({ date: thisYear +  "-" + String(i) + "-" + k, title: `${baseArr[k]}` })
                         }
                     }
                 }
             }
+        }
 
             return res.status(200).send({
                 data: {

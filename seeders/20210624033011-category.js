@@ -179,14 +179,7 @@ module.exports = {
          emoji: "bus",
          createdAt,
          updatedAt,
-      }, {
-         categoryname: '육아비',
-         budget: "340000",
-         userId: "3",
-         emoji: "baby",
-         createdAt,
-         updatedAt,
-      }, {
+      },{
          categoryname: '학원비',
          budget: "900000",
          userId: "3",

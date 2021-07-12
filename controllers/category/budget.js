@@ -7,9 +7,9 @@ module.exports = async (req, res) => {
         const data = isAuthorized(req);
         if(data){
             const moneyCategory = await category.findAll({ 
-                attributes: ["id","categoryname", "budget", "emoji"],
+                attributes: ["id", "categoryname", "budget", "emoji"],
                 include: [{model: money, attributes: [[ sequelize.fn("sum", sequelize.col("cost")), "allCost" ]]}],
-                group: "category.id" ,
+                group: "category.id",
                 where: { userId: data.id },
                 raw: true
             })

@@ -4,6 +4,9 @@ const controllers = require("./controllers");
 const cookieParser = require("cookie-parser");
 const models = require("./models");
 const express = require("express")
+const fs = require("fs");
+const imageDataUri = require("image-data-uri");
+
 
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
@@ -21,7 +24,11 @@ app.use(cookieParser());
 const port = 3000; // 배포환경: 80
 
 app.get("/", (req, res) => {
-    res.status(200).json("Hello World")
+    let signupPhotoOne = fs.readFileSync("./uploads/f02d50ca5222a7cda46266ecd1ade34c");
+    let signupPhotoTwo = fs.readFileSync("./uploads/1dd16f2b6cc5c530f28025a8f79db6b8");
+    let macbook = imageDataUri.encode(signupPhotoOne, "jpg");
+    let iphone = imageDataUri.encode(signupPhotoTwo, "jpg");
+    res.status(200).send({ data: { photos: { macbook, iphone } } })
 })
 
 // users

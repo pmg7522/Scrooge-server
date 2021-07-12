@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         username: 'pmg7522',
-        email: "pmg7522@gmail.com",
+        email: "alsrbsms567@naver.com",
         password: "123456",
         photo: "/upload/c3195109635ceae9245b3e023ed673c8",
         darkmode: false,

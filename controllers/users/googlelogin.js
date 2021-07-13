@@ -1,4 +1,4 @@
-const { generateAccessToken, generateRefreshToken } = require('../functions');
+const { generateAccessToken, generateRefreshToken } = require("../functions");
 const { user } = require("../../models");
 const axios = require("axios");
 
@@ -30,48 +30,58 @@ module.exports = (req, res) => {
       const { access_token } = response.data;
       const GOOGLE_USERINFO_URL = `https://www.googleapis.com/oauth2/v2/userinfo`;
       return axios
-      .get(GOOGLE_USERINFO_URL, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-          accept: "application/json",
-        },
-      })
-      .then(async (response) => {
-        if (response.data) {
-          googleUserInfo.email = response.data.email;
+        .get(GOOGLE_USERINFO_URL, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            accept: "application/json",
+          },
+        })
+        .then(async (response) => {
+          if (response.data) {
+            googleUserInfo.email = response.data.email;
 
-          let accessToken;
-          let refreshToken;
+            let accessToken;
+            let refreshToken;
 
-          const realGoogleUser = await user.findOne({ where: { email: googleUserInfo.email } });
-          if(!realGoogleUser){
-            return res.status(400).send({ message: "구글 회원가입을 해주세요." })
+            const realGoogleUser = await user.findOne({
+              where: { email: googleUserInfo.email },
+            });
+            if (!realGoogleUser) {
+              return res
+                .status(400)
+                .send({ message: "구글 회원가입을 해주세요." });
+            } else if (realGoogleUser) {
+              accessToken = generateAccessToken(realGoogleUser.dataValues);
+              refreshToken = generateRefreshToken(realGoogleUser.dataValues);
+              const userInfo = await user.findOne({
+                where: { email: googleUserInfo.email },
+              });
+              await user.update(
+                { experience: userInfo.dataValues.experience + 7 },
+                { where: { email: googleUserInfo.email } }
+              );
+
+              return res
+                .status(200)
+                .cookie("refreshToken", refreshToken, {
+                  sameSite: "none",
+                  secure: true,
+                  httpOnly: false,
+                })
+                .send({
+                  data: { accessToken, refreshToken },
+                  message: "구글 로그인 완료",
+                });
+            } else {
+              return res
+                .status(400)
+                .send({ message: "구글 회원가입을 해주세요." });
+            }
+          } else {
+            return res.status(400).send({ message: "구글 유저정보 없음" });
           }
-
-          else if(realGoogleUser){
-            accessToken = generateAccessToken(realGoogleUser.dataValues);
-            refreshToken = generateRefreshToken(realGoogleUser.dataValues);
-            const userInfo = await user.findOne({ where: { email: googleUserInfo.email } })
-            await user.update({ experience: userInfo.dataValues.experience + 7 }, { where: { email: googleUserInfo.email }})
-
-            return res.
-            status(200)
-            .cookie("refreshToken", refreshToken, {
-              sameSite: "none",
-              secure: true,
-              httpOnly: false
-            })
-            .send({ data: { accessToken, refreshToken }, message: "구글 로그인 완료"  });
-          }
-          else{
-            return res.status(400).send({ message: "구글 회원가입을 해주세요." });
-          }
-        }
-        else{
-          return res.status(400).send({ message: "구글 유저정보 없음" });
-        }
-      })
-  })
-  .catch((e) => console.log(e));
+        });
+    })
+    .catch((e) => console.log(e));
 };

@@ -26,9 +26,11 @@ const port = 3000; // 배포환경: 80
 app.get("/", (req, res) => {
     let signupPhotoOne = fs.readFileSync("./uploads/f02d50ca5222a7cda46266ecd1ade34c");
     let signupPhotoTwo = fs.readFileSync("./uploads/1dd16f2b6cc5c530f28025a8f79db6b8");
+    let randingPhoto = fs.readFileSync("./uploads/a222b36b2c238da368ddef6e6eec3e98");
     let macbook = imageDataUri.encode(signupPhotoOne, "jpg");
     let iphone = imageDataUri.encode(signupPhotoTwo, "jpg");
-    res.status(200).send({ data: { photos: { macbook, iphone } } })
+    let notebook = imageDataUri.encode(randingPhoto, "jpg");
+    res.status(200).send({ data: { photos: { macbook, iphone, notebook } } })
 })
 
 // users

@@ -111,7 +111,6 @@ module.exports = async (req, res) => {
         return cur;
       });
       max.sort((a, b) => b - a);
-
       let ScroogeDay = Math.floor(max[0] / (1000 * 60 * 60 * 24));
 
       const scroogeDayinfo = await achievement.findOne({

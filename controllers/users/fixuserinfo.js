@@ -52,7 +52,6 @@ module.exports = async (req, res) => {
           });
 
           delete newUserInfo.password;
-
           return res.status(200).send({
             data: { user: newUserInfo },
             message: "수정 되었습니다",

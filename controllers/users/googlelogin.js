@@ -29,7 +29,6 @@ module.exports = (req, res) => {
     .then((response) => {
       const { access_token } = response.data;
       const GOOGLE_USERINFO_URL = `https://www.googleapis.com/oauth2/v2/userinfo`;
-
       return axios
         .get(GOOGLE_USERINFO_URL, {
           headers: {
@@ -55,7 +54,6 @@ module.exports = (req, res) => {
             } else if (realGoogleUser) {
               accessToken = generateAccessToken(realGoogleUser.dataValues);
               refreshToken = generateRefreshToken(realGoogleUser.dataValues);
-
               const userInfo = await user.findOne({
                 where: { email: googleUserInfo.email },
               });
@@ -65,6 +63,7 @@ module.exports = (req, res) => {
               );
 
               return res
+                .status(200)
                 .cookie("refreshToken", refreshToken, {
                   sameSite: "none",
                   secure: true,

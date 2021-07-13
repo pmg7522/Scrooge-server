@@ -29,7 +29,6 @@ module.exports = (req, res) => {
     .then((response) => {
       const { access_token } = response.data;
       const KAKAO_USERINFO_URL = `https://kapi.kakao.com/v2/user/me`;
-
       return axios
         .get(KAKAO_USERINFO_URL, {
           headers: {
@@ -63,12 +62,12 @@ module.exports = (req, res) => {
                 { experience: userInfo.dataValues.experience + 7 },
                 { where: { email: kakaoUserInfo.email } }
               );
-
               return res
+                .status(200)
                 .cookie("refreshToken", refreshToken, {
                   sameSite: "none",
                   secure: true,
-                  httpOnly: false,
+                  httpOnly: true,
                 })
                 .send({
                   data: { accessToken, refreshToken },

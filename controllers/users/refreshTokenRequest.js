@@ -20,7 +20,6 @@ module.exports = (req, res) => {
   }
 
   const { id } = refreshTokenData;
-
   user
     .findOne({ where: { id } })
     .then((data) => {

@@ -3,6 +3,8 @@ const models = require("./models");
 const express = require("express");
 const fs = require("fs");
 const imageDataUri = require("image-data-uri");
+const cors = require("cors");
+const controllers = require("./controllers");
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });

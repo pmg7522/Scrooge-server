@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
         } else {
           throw err;
         }
-        let defaultValue = "/uploads/c3195109635ceae9245b3e023ed673c8";
+        let defaultValue = "/uploads/ecca8bef873c9965e91f57fa103abbae";
 
         photoinfo = fs.readFileSync(`.${defaultValue}`);
 

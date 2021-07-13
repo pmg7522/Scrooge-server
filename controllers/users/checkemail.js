@@ -13,8 +13,6 @@ module.exports = async (req, res) => {
     } else {
       return res.status(409).send({ message: "가입 정보가 있습니다" });
     }
-    console.log(err);
-    return res.status(500).send({ message: "We Don't Know" });
   } catch (err) {
     console.log(err);
   }

@@ -10,21 +10,26 @@ module.exports = async (req, res) => {
   try {
     const { email, password } = req.body;
     const userInfo = await user.findOne({ where: { email } });
+
     if (!userInfo) {
       return res.status(400).send({ message: "찾을 수 없는 유저입니다." });
     }
+
     if (password === "scrooge" && email === "scrooge@gmail.com") {
       let accessToken = generateAccessToken(userInfo.dataValues);
       let refreshToken = generateRefreshToken(userInfo.dataValues);
+
       await user.update(
         { experience: userInfo.dataValues.experience + 1 },
         { where: { id: userInfo.dataValues.id } }
       );
-      res
+
+      return res
+        .status(200)
         .cookie("refreshToken", refreshToken, {
           sameSite: "none",
           secure: true,
-          httpOnly: false,
+          httpOnly: true,
         })
         .send({
           data: { accessToken, refreshToken },
@@ -39,6 +44,7 @@ module.exports = async (req, res) => {
           .send({ message: "정확한 정보를 입력해 주십시오." });
       } else {
         delete userInfo.dataValues.password;
+
         const accessToken = generateAccessToken(userInfo.dataValues);
         const refreshToken = generateRefreshToken(userInfo.dataValues);
 
@@ -69,7 +75,7 @@ module.exports = async (req, res) => {
         sendToken(res, accessToken, refreshToken);
       }
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 };

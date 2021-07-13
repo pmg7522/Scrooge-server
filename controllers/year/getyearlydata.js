@@ -24,10 +24,10 @@ module.exports = async (req, res) => {
         });
       }
 
-      //매일 지출 횟수
       let top = [];
       let baseArr;
       let monthlyArr;
+
       for (let i = 1; i <= 12; i++) {
         baseArr = new Array(32).fill(0);
         if (i < 10) {

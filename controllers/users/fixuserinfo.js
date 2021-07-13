@@ -1,6 +1,5 @@
 const { isAuthorized } = require("../functions");
 const { user } = require("../../models");
-const crypto = require("crypto");
 
 module.exports = async (req, res) => {
   try {
@@ -10,9 +9,7 @@ module.exports = async (req, res) => {
 
     if (data) {
       if (username) {
-        // username이 있을때
         if (!req.file) {
-          // username있고 포토 없을떄
           await user.update({ username }, { where: { id: data.id } });
 
           const newUserInfo = await user.findOne({
@@ -43,7 +40,6 @@ module.exports = async (req, res) => {
           });
         }
       } else {
-        // username없고, 사진만 있는  고치고 싶은 경우
         if (req.file) {
           await user.update(
             { photo: "/uploads/" + req.file.filename },

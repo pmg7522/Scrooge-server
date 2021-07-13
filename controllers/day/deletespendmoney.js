@@ -1,23 +1,21 @@
-const { money } = require('../../models');
+const { money } = require("../../models");
 const { isAuthorized } = require("../functions");
 
 module.exports = async (req, res) => {
-  try{
+  try {
     const data = isAuthorized(req);
-    
-    if(data){
+
+    if (data) {
       const { moneyId } = req.body;
-    
+
       await money.destroy({ where: { id: moneyId } });
-    
+
       res.status(200).send({ message: "삭제 완료" });
-    }
-    else{
+    } else {
       console.log(err);
       return res.status(500).send({ message: "We Don't Know" });
     }
+  } catch (err) {
+    console.log(err);
   }
-  catch(err){
-    console.log(err)
-  }
-}
+};

@@ -7,33 +7,8 @@ module.exports = async (req, res) => {
   try {
     const data = isAuthorized(req);
 
-    const test = new Date().getMonth();
-    let thisMonth = "";
-    let thisYear = "";
-
-    let exMonth = "";
-    let exYear = "";
-
-    let nextMonth = "";
-    let nextYear = "";
-
-    if (test > 8) {
-      thisMonth = String(new Date().getMonth() + 1);
-      thisYear = String(new Date().getFullYear());
-      exMonth = String(new Date().getMonth());
-      exYear = String(new Date().getFullYear()) + "-" + exMonth;
-      nextMonth = String(new Date().getMonth() + 2);
-      nextYear = String(new Date().getFullYear()) + "-" + nextMonth;
-    } else {
-      thisMonth = String(new Date().getMonth() + 1);
-      thisYear = String(new Date().getFullYear());
-      exMonth = String(new Date().getMonth());
-      exYear = String(new Date().getFullYear()) + "-" + "0" + exMonth;
-      nextMonth = String(new Date().getMonth() + 2);
-      nextYear = String(new Date().getFullYear()) + "-" + "0" + nextMonth;
-    }
-
     if (data) {
+      let thisYear = String(new Date().getFullYear());
       let month = new Date().getMonth();
 
       const categoryInfos = await category.findAll({
@@ -99,7 +74,6 @@ module.exports = async (req, res) => {
         }
 
         if (categorymonth.length !== 0 && categoryexmonth.length !== 0) {
-          //이번달과 전달 둘 다 지출 내역이 있을 경우
           if (
             categorymonth[0].length === 0 &&
             categoryexmonth[0].length === 0

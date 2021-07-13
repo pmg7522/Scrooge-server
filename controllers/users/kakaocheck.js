@@ -26,8 +26,9 @@ module.exports = (req, res) => {
       }
     )
     .then((response) => {
-      const { access_token, refresh_token } = response.data;
+      const { access_token } = response.data;
       const KAKAO_USERINFO_URL = `https://kapi.kakao.com/v2/user/me`;
+
       return axios
         .get(KAKAO_USERINFO_URL, {
           headers: {

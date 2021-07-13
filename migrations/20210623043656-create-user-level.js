@@ -1,34 +1,34 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('user_levels', {
+    await queryInterface.createTable("user_levels", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       userId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'users'
+            tableName: "users",
           },
-          key: 'id'
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: "CASCADE",
       },
       levelId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'levels'
+            tableName: "levels",
           },
-          key: 'id'
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -39,10 +39,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         createdAt: Sequelize.DATE,
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('user_levels');
-  }
+    await queryInterface.dropTable("user_levels");
+  },
 };

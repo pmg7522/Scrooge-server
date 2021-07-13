@@ -1,61 +1,61 @@
 module.exports = {
-    signup: require("./users/signup"),
+  refreshTokenRequest: require("./users/refreshTokenRequest"),
 
-    login: require("./users/login"),
+  changepassword: require("./users/changepassword"),
 
-    fixuserinfo: require("./users/fixuserinfo"),
+  socialsignup: require("./users/socialsignup"),
 
-    signout: require("./users/signout"),
+  findpassword: require("./users/findpassword"),
 
-    deleteuser: require("./users/deleteuser"),
+  fixuserinfo: require("./users/fixuserinfo"),
 
-    initialize: require("./users/initialize"),
+  googlelogin: require("./users/googlelogin"),
 
-    kakaologin: require("./users/kakaologin"),
+  googlecheck: require("./users/googlecheck"),
 
-    googlelogin: require("./users/googlelogin"),
+  deleteuser: require("./users/deleteuser"),
 
-    kakaocheck: require("./users/kakaocheck"),
+  initialize: require("./users/initialize"),
 
-    googlecheck: require("./users/googlecheck"),
+  kakaologin: require("./users/kakaologin"),
 
-    socialsignup: require("./users/socialsignup"),
+  kakaocheck: require("./users/kakaocheck"),
 
-    findpassword: require("./users/findpassword"),
+  checkemail: require("./users/checkemail"),
 
-    checkemail: require("./users/checkemail"),
+  signout: require("./users/signout"),
 
-    refreshTokenRequest: require("./users/refreshTokenRequest"),
+  signup: require("./users/signup"),
 
-    darkmode: require("./settings/darkmode"),
+  login: require("./users/login"),
 
-    changepassword: require("./users/changepassword"),
+  changemainpage: require("./settings/changemainpage"),
 
-    importexcel: require("./settings/importexcel"),
+  importexcel: require("./settings/importexcel"),
 
-    changemainpage: require("./settings/changemainpage"),
+  deletedata: require("./settings/deletedata"),
 
-    deletedata: require("./settings/deletedata"),
+  darkmode: require("./settings/darkmode"),
 
-    fixcategoryinfo: require("./category/fixcategoryinfo"),
-    
-    budget: require("./category/budget"),
+  createcategoryinfo: require("./category/createcategoryinfo"),
 
-    deletecategory: require("./category/deletecategory"),
-    
-    createcategoryinfo: require("./category/createcategoryinfo"),
+  fixcategoryinfo: require("./category/fixcategoryinfo"),
 
-    categorysort: require("./category/categorysort"),
+  deletecategory: require("./category/deletecategory"),
 
-    daypage: require("./day/daypage"),
+  categorysort: require("./category/categorysort"),
 
-    editspendmoney: require("./day/editspendmoney"),
+  budget: require("./category/budget"),
 
-    createspendmoney: require("./day/createspendmoney"),
+  createspendmoney: require("./day/createspendmoney"),
 
-    deletespendmoney: require("./day/deletespendmoney"),
+  deletespendmoney: require("./day/deletespendmoney"),
 
-    getmonthlydata: require("./month/getmonthlydata"),
-    
-    getyearlydata: require("./year/getyearlydata"),
-}
+  editspendmoney: require("./day/editspendmoney"),
+
+  daypage: require("./day/daypage"),
+
+  getmonthlydata: require("./month/getmonthlydata"),
+
+  getyearlydata: require("./year/getyearlydata"),
+};

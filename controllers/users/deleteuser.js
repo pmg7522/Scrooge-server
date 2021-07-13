@@ -1,5 +1,5 @@
-const { isAuthorized } = require("../functions");
 const { user, money, category, achievement } = require("../../models");
+const { isAuthorized } = require("../functions");
 
 module.exports = async (req, res) => {
   try {

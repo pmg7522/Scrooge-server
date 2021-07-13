@@ -1,8 +1,4 @@
-const {
-  generateAccessToken,
-  generateRefreshToken,
-  sendToken,
-} = require("../functions");
+const { generateAccessToken, generateRefreshToken } = require("../functions");
 const { user } = require("../../models");
 const axios = require("axios");
 

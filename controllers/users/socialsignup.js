@@ -2,6 +2,10 @@ const { user, category, achievement } = require("../../models");
 
 module.exports = async (req, res) => {
   const { email, username } = req.body;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8eb32175a1d12e019a8e6c54bff4a414cfa0778b
   try {
     if (!req.file) {
       const userInfo = await user.create({ email, username });
@@ -34,6 +38,10 @@ module.exports = async (req, res) => {
         userId: userInfo.dataValues.id,
       });
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8eb32175a1d12e019a8e6c54bff4a414cfa0778b
     return res.status(201).send({ message: "회원가입 완료" });
   } catch (err) {
     console.log(err);

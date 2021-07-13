@@ -27,7 +27,7 @@ module.exports = (req, res) => {
       }
     )
     .then((response) => {
-      const { access_token, refresh_token } = response.data;
+      const { access_token } = response.data;
       const GOOGLE_USERINFO_URL = `https://www.googleapis.com/oauth2/v2/userinfo`;
       return axios
       .get(GOOGLE_USERINFO_URL, {

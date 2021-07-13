@@ -1,4 +1,4 @@
-const { generateAccessToken, generateRefreshToken } = require('../functions');
+const { generateAccessToken, generateRefreshToken, sendToken } = require('../functions');
 const { user } = require("../../models");
 const axios = require("axios");
 
@@ -48,16 +48,14 @@ module.exports = (req, res) => {
           if(!realKakaoUserInfo){
             return res.status(400).send({ message: "카카오 회원가입을 해주세요." })
           }
-          else{
+          else if (realKakaoUserInfo){      
             accessToken = generateAccessToken(realKakaoUserInfo.dataValues);
-            refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);
-          }
-          if (realKakaoUserInfo){          
+            refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);   
+            
             const userInfo = await user.findOne({ where: { email: kakaoUserInfo.email } })
             await user.update({ experience: userInfo.dataValues.experience + 7 }, { where: { email: kakaoUserInfo.email }})
-
-            return res.
-            status(200)
+            return res
+            .status(200)
             .cookie("refreshToken", refreshToken, {
               sameSite: "none",
               secure: true,

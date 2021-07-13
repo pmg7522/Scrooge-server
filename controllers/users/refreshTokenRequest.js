@@ -8,6 +8,7 @@ if (!refreshToken) {
     return res.status(403).send({ message: 'refreshToken이 없습니다.' });
 }
 const refreshTokenData = checkRefreshToken(refreshToken);
+
   if (!refreshTokenData) {
     return res.status(400).json({
       message: 'invalid refresh token, please log in again',

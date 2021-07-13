@@ -48,20 +48,19 @@ module.exports = (req, res) => {
           if(!realGoogleUser){
             return res.status(400).send({ message: "구글 회원가입을 해주세요." })
           }
-          else{
+
+          else if(realGoogleUser){
             accessToken = generateAccessToken(realGoogleUser.dataValues);
             refreshToken = generateRefreshToken(realGoogleUser.dataValues);
-          }
-          if(realGoogleUser){
             const userInfo = await user.findOne({ where: { email: googleUserInfo.email } })
             await user.update({ experience: userInfo.dataValues.experience + 7 }, { where: { email: googleUserInfo.email }})
 
             return res.
             status(200)
-            .cookie("refreshToken", refresh_token, {
+            .cookie("refreshToken", refreshToken, {
               sameSite: "none",
               secure: true,
-              httpOnly: true
+              httpOnly: false
             })
             .send({ data: { accessToken, refreshToken }, message: "구글 로그인 완료"  });
           }

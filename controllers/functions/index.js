@@ -14,7 +14,7 @@ module.exports = {
     return res.cookie("refreshToken", refreshToken, {
       sameSite: "none",
       secure: true,
-      httpOnly: false
+      httpOnly: true
     }).send({ data: { accessToken, refreshToken }, message: "로그인 완료" });
   },
 

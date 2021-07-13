@@ -1,21 +1,21 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('levels', {
+    await queryInterface.createTable("levels", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       level: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       theme: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       dataexplore: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -26,10 +26,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         createdAt: Sequelize.DATE,
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('levels');
-  }
+    await queryInterface.dropTable("levels");
+  },
 };

@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('achievements', {
+    await queryInterface.createTable("achievements", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       scrooge: {
         type: Sequelize.INTEGER,
@@ -18,12 +18,12 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'users'
+            tableName: "users",
           },
-          key: 'id'
+          key: "id",
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -34,10 +34,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         createdAt: Sequelize.DATE,
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('achievements');
-  }
+    await queryInterface.dropTable("achievements");
+  },
 };

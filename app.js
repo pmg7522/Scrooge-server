@@ -48,7 +48,6 @@ app.get("/", (req, res) => {
   let landingDaily = fs.readFileSync(
     "./uploads/2cb21d1644686da9ac6d429f58c8e26c"
   ); // daily
-
   let landingIconImac = fs.readFileSync(
     "./uploads/83c9525c89d6b9aa4651b65766dc3559"
   ); // 3dIconImac
@@ -61,6 +60,18 @@ app.get("/", (req, res) => {
   let landingIconPhone = fs.readFileSync(
     "./uploads/42de8817686327b5b04ef87b5cf0c908"
   ); // 3dIconPhone
+  let landingTopper = fs.readFileSync(
+    "./uploads/003fe7241b264157ecb91120e474ff93"
+  ); // Topper
+  let landingDailyPage = fs.readFileSync(
+    "./uploads/360bac7ac283e00d1cf2724778b8a0b8"
+  ); // DailyPage
+  let landingMonthlyPage = fs.readFileSync(
+    "./uploads/bbdd69662d35de7c1620abdd4409e6b8"
+  ); // MonthlyPage
+  let landingYearlyPage = fs.readFileSync(
+    "./uploads/d434f8bcb72a3c0e915730f24683d2ef"
+  ); // YearlyPage
 
   let notebook = imageDataUri.encode(landingNotebook, "jpg");
   let ChromeBrower = imageDataUri.encode(landingChromeBrower, "jpg");
@@ -70,6 +81,11 @@ app.get("/", (req, res) => {
   let IconMacbook = imageDataUri.encode(landingIconMacbook, "jpg");
   let IconTablet = imageDataUri.encode(landingIconTablet, "jpg");
   let IconPhone = imageDataUri.encode(landingIconPhone, "jpg");
+  let Topper = imageDataUri.encode(landingTopper, "jpg");
+  let DailyPage = imageDataUri.encode(landingDailyPage, "jpg");
+  let MonthlyPage = imageDataUri.encode(landingMonthlyPage, "jpg");
+  let YearlyPage = imageDataUri.encode(landingYearlyPage, "jpg");
+
   res.status(200).send({
     data: {
       signupPhotos: { macbook, iphone },
@@ -82,6 +98,10 @@ app.get("/", (req, res) => {
         IconMacbook,
         IconTablet,
         IconPhone,
+        Topper,
+        DailyPage,
+        MonthlyPage,
+        YearlyPage,
       },
     },
   });

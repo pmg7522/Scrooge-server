@@ -12,6 +12,7 @@ module.exports = {
   },
   sendToken: (res, accessToken, refreshToken) => {
     return res
+      .status(200)
       .cookie("refreshToken", refreshToken, {
         sameSite: "none",
         secure: true,

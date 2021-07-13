@@ -52,8 +52,7 @@ module.exports = (req, res) => {
               return res
                 .status(400)
                 .send({ message: "카카오 회원가입을 해주세요." });
-            }
-            if (realKakaoUserInfo) {
+            } else if (realKakaoUserInfo) {
               accessToken = generateAccessToken(realKakaoUserInfo.dataValues);
               refreshToken = generateRefreshToken(realKakaoUserInfo.dataValues);
 

@@ -20,7 +20,7 @@ module.exports = {
         },
         {
           cost: "100000",
-          memo: "큰아빠가 준 용돈",
+          memo: "아빠 용돈",
           date: "2021-07-18",
           userId: "1",
           categoryId: "1",
@@ -172,7 +172,7 @@ module.exports = {
           updatedAt,
         },
         {
-          cost: "50000",
+          cost: "100000",
           memo: "친구 결혼",
           date: "2021-07-19",
           userId: "1",

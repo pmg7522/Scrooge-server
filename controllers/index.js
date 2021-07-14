@@ -58,4 +58,6 @@ module.exports = {
   getmonthlydata: require("./month/getmonthlydata"),
 
   getyearlydata: require("./year/getyearlydata"),
+
+  getPhoto: require("./settings/getPhoto"),
 };

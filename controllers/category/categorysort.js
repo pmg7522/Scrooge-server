@@ -9,28 +9,31 @@ module.exports = async (req, res) => {
 
   try {
     if (data) {
-      if (memo.length === 0) {
-        let bottom = [];
-        const categoryInfo = await category.findAll({
-          attributes: ["id", "emoji"],
-          include: [
-            { model: money, attributes: ["id", "cost", "date", "memo"] },
-          ],
-          where: { userId: data.id },
-          raw: true,
-        });
+      if (memo) {
+        if (memo.length === 0) {
+          let bottom = [];
 
-        for (let i = 0; i < categoryInfo.length; i++) {
-          bottom.push({
-            id: categoryInfo[i].id,
-            emoji: categoryInfo[i].emoji,
-            moneyId: categoryInfo[i]["money.id"],
-            cost: categoryInfo[i]["money.cost"],
-            date: categoryInfo[i]["money.date"],
-            memo: categoryInfo[i]["money.memo"],
+          const categoryInfo = await category.findAll({
+            attributes: ["id", "emoji"],
+            include: [
+              { model: money, attributes: ["id", "cost", "date", "memo"] },
+            ],
+            where: { userId: data.id },
+            raw: true,
           });
+
+          for (let i = 0; i < categoryInfo.length; i++) {
+            bottom.push({
+              id: categoryInfo[i].id,
+              emoji: categoryInfo[i].emoji,
+              moneyId: categoryInfo[i]["money.id"],
+              cost: categoryInfo[i]["money.cost"],
+              date: categoryInfo[i]["money.date"],
+              memo: categoryInfo[i]["money.memo"],
+            });
+          }
+          return res.status(200).send({ data: bottom, message: "메모 정렬" });
         }
-        return res.status(200).send({ data: bottom, message: "메모 정렬" });
       }
     }
     if (emoji) {

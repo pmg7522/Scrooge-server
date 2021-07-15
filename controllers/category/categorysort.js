@@ -8,34 +8,34 @@ module.exports = async (req, res) => {
   const data = isAuthorized(req);
 
   try {
-    if (data) {
-      if (memo) {
-        if (memo.length === 0) {
-          let bottom = [];
+    // if (data) {
+    //   if (memo) {
+    //     if (memo.length === 0) {
+    //       let bottom = [];
 
-          const categoryInfo = await category.findAll({
-            attributes: ["id", "emoji"],
-            include: [
-              { model: money, attributes: ["id", "cost", "date", "memo"] },
-            ],
-            where: { userId: data.id },
-            raw: true,
-          });
+    //       const categoryInfo = await category.findAll({
+    //         attributes: ["id", "emoji"],
+    //         include: [
+    //           { model: money, attributes: ["id", "cost", "date", "memo"] },
+    //         ],
+    //         where: { userId: data.id },
+    //         raw: true,
+    //       });
 
-          for (let i = 0; i < categoryInfo.length; i++) {
-            bottom.push({
-              id: categoryInfo[i].id,
-              emoji: categoryInfo[i].emoji,
-              moneyId: categoryInfo[i]["money.id"],
-              cost: categoryInfo[i]["money.cost"],
-              date: categoryInfo[i]["money.date"],
-              memo: categoryInfo[i]["money.memo"],
-            });
-          }
-          return res.status(200).send({ data: bottom, message: "메모 정렬" });
-        }
-      }
-    }
+    //       for (let i = 0; i < categoryInfo.length; i++) {
+    //         bottom.push({
+    //           id: categoryInfo[i].id,
+    //           emoji: categoryInfo[i].emoji,
+    //           moneyId: categoryInfo[i]["money.id"],
+    //           cost: categoryInfo[i]["money.cost"],
+    //           date: categoryInfo[i]["money.date"],
+    //           memo: categoryInfo[i]["money.memo"],
+    //         });
+    //       }
+    //       return res.status(200).send({ data: bottom, message: "메모 정렬" });
+    //     }
+    //   }
+    // }
     if (emoji) {
       if (data) {
         let bottom = [];

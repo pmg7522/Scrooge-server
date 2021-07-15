@@ -37,6 +37,8 @@ module.exports = {
 
   darkmode: require("./settings/darkmode"),
 
+  getPhoto: require("./settings/getPhoto"),
+
   createcategoryinfo: require("./category/createcategoryinfo"),
 
   fixcategoryinfo: require("./category/fixcategoryinfo"),

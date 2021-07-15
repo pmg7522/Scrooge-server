@@ -53,7 +53,7 @@ module.exports = {
           updatedAt,
         },
         {
-          username: "김코딩",
+          username: "scrooge",
           email: "scrooge@gmail.com",
           password: "123456",
           photo: "/upload/ecca8bef873c9965e91f57fa103abbae",
